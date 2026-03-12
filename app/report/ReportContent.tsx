@@ -54,12 +54,12 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
   const topStrength = report.strengths[0]?.name ?? 'Identified'
 
   return (
-    <main style={{ backgroundColor: '#ffffff', minHeight: '100vh', color: '#0f172a' }}>
+    <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', color: 'var(--brand-text)' }}>
 
       {/* ─── HEADER ─────────────────────────────────────── */}
       <section style={{
         position: 'relative', padding: '5rem 2rem 4.5rem', textAlign: 'center',
-        background: '#ffffff', borderBottom: '1px solid #e2e8f0', overflow: 'hidden'
+        background: 'var(--brand-bg)', borderBottom: '1px solid var(--brand-border)', overflow: 'hidden'
       }}>
         {/* Dot grid */}
         <div style={{
@@ -80,9 +80,9 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
           onClick={handleLogout}
           style={{
             position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10,
-            background: '#ffffff', border: '1px solid #e2e8f0',
+            background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
             borderRadius: '100px', padding: '7px 18px',
-            fontSize: '0.8rem', color: '#64748b', cursor: 'pointer',
+            fontSize: '0.8rem', color: 'var(--brand-text-mid)', cursor: 'pointer',
             fontFamily: 'inherit', fontWeight: 500,
             boxShadow: '0 1px 4px rgba(0,0,0,0.06)'
           }}
@@ -103,14 +103,14 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
           </div>
 
           {/* Generated date */}
-          <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>
+          <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>
             Generated {new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
 
           {/* Name */}
           <h1 style={{
             fontSize: 'clamp(3rem, 8vw, 6rem)', fontWeight: 900, lineHeight: 1.0,
-            letterSpacing: '-0.03em', color: '#0f172a', marginBottom: '1.25rem'
+            letterSpacing: '-0.03em', color: 'var(--brand-text)', marginBottom: '1.25rem'
           }}>
             {firstName}&apos;s Report
           </h1>
@@ -125,8 +125,8 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
               {report.archetype.primary.name}
             </span>
             <span style={{
-              fontSize: '0.68rem', fontWeight: 700, color: '#64748b',
-              background: '#f1f5f9', borderRadius: '100px', padding: '2px 8px'
+              fontSize: '0.68rem', fontWeight: 700, color: 'var(--brand-text-mid)',
+              background: 'var(--brand-track)', borderRadius: '100px', padding: '2px 8px'
             }}>
               {archetypeMatch}% match
             </span>
@@ -134,7 +134,7 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 
           {/* Headline */}
           <p style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.15rem)', color: '#475569', lineHeight: 1.7,
+            fontSize: 'clamp(1rem, 2.5vw, 1.15rem)', color: 'var(--brand-text-muted)', lineHeight: 1.7,
             fontStyle: 'italic', maxWidth: '580px', margin: '0 auto 2.5rem'
           }}>
             &ldquo;{report.identity_profile.headline}&rdquo;
@@ -149,15 +149,15 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
               { label: 'Sections', value: '12 insights' },
             ].map(({ label, value }) => (
               <div key={label} style={{
-                background: '#f8faff', border: '1px solid #e2e8f0',
+                background: 'var(--brand-bg-subtle)', border: '1px solid var(--brand-border)',
                 borderRadius: '14px', padding: '0.875rem 1.25rem',
                 textAlign: 'center', minWidth: '120px',
                 boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
               }}>
-                <p style={{ fontSize: '0.63rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', fontWeight: 600 }}>
+                <p style={{ fontSize: '0.63rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', fontWeight: 600 }}>
                   {label}
                 </p>
-                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0 }}>
                   {value}
                 </p>
               </div>
@@ -176,10 +176,10 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
           <div style={{ marginBottom: '3rem' }}>
             <SectionHeader label="01" title="Identity Profile" />
             <div style={{
-              background: '#ffffff', borderRadius: '20px', padding: '2rem',
-              border: '1px solid #e2e8f0', boxShadow: CARD_FEATURE
+              background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem',
+              border: '1px solid var(--brand-border)', boxShadow: CARD_FEATURE
             }}>
-              <p style={{ fontSize: 'clamp(0.95rem, 2.5vw, 1.05rem)', lineHeight: 1.9, color: '#334155', marginBottom: '1.5rem' }}>
+              <p style={{ fontSize: 'clamp(0.95rem, 2.5vw, 1.05rem)', lineHeight: 1.9, color: 'var(--brand-text-strong)', marginBottom: '1.5rem' }}>
                 {report.identity_profile.summary}
               </p>
               <div style={{
@@ -208,14 +208,14 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
             <SectionHeader label="02" title="Your Archetype" />
             {/* Primary */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(37,99,235,0.04) 0%, #ffffff 100%)',
+              background: 'linear-gradient(135deg, rgba(37,99,235,0.04) 0%, var(--brand-card) 100%)',
               borderRadius: '20px', padding: '1.75rem',
               border: '1px solid rgba(37,99,235,0.2)', marginBottom: '1rem',
               boxShadow: CARD_FEATURE
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                 <div>
-                  <p style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>
                     Primary Archetype
                   </p>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 0 }}>
@@ -231,7 +231,7 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
                   {archetypeMatch}%
                 </div>
               </div>
-              <p style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.7, marginBottom: '1rem' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>
                 {report.archetype.primary.description}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '1rem' }}>
@@ -244,11 +244,11 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
                   </span>
                 ))}
               </div>
-              <div style={{ background: '#f8faff', borderRadius: '10px', padding: '1rem', border: '1px solid #e2e8f0' }}>
-                <p style={{ fontSize: '0.72rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>
+              <div style={{ background: 'var(--brand-bg-subtle)', borderRadius: '10px', padding: '1rem', border: '1px solid var(--brand-border)' }}>
+                <p style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>
                   Shadow Side
                 </p>
-                <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-mid)', lineHeight: 1.6, margin: 0 }}>
                   {report.archetype.primary.shadow}
                 </p>
               </div>
@@ -256,16 +256,16 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 
             {/* Secondary */}
             <div style={{
-              background: '#ffffff', borderRadius: '16px', padding: '1.25rem',
-              border: '1px solid #e2e8f0', boxShadow: CARD
+              background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem',
+              border: '1px solid var(--brand-border)', boxShadow: CARD
             }}>
-              <p style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>
+              <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>
                 Secondary Archetype · {Math.round(report.archetype.secondary.score * 100)}%
               </p>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem', color: '#0f172a' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--brand-text)' }}>
                 {report.archetype.secondary.name}
               </h4>
-              <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.65, margin: 0 }}>
+              <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-mid)', lineHeight: 1.65, margin: 0 }}>
                 {report.archetype.secondary.description}
               </p>
             </div>
@@ -282,13 +282,13 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
         <div className="report-card-grid" style={{ marginBottom: '3rem' }}>
           {report.hidden_dynamics.map((d, i) => (
             <div key={i} style={{
-              background: '#ffffff', borderRadius: '16px', padding: '1.5rem',
-              border: '1px solid #e2e8f0', boxShadow: CARD
+              background: 'var(--brand-card)', borderRadius: '16px', padding: '1.5rem',
+              border: '1px solid var(--brand-border)', boxShadow: CARD
             }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.75rem' }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.75rem' }}>
                 {d.name}
               </h4>
-              <p style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.7, marginBottom: '1rem' }}>
+              <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>
                 {d.description}
               </p>
               <div style={{
@@ -298,7 +298,7 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
                 <p style={{ fontSize: '0.72rem', fontWeight: 600, color: '#0891b2', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Implication
                 </p>
-                <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-mid)', lineHeight: 1.6, margin: 0 }}>
                   {d.implication}
                 </p>
               </div>
@@ -332,7 +332,7 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
       <section style={{
         background: 'linear-gradient(135deg, rgba(37,99,235,0.03) 0%, rgba(6,182,212,0.03) 100%)',
         padding: '5rem 2rem',
-        borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0',
+        borderTop: '1px solid var(--brand-border)', borderBottom: '1px solid var(--brand-border)',
         position: 'relative', overflow: 'hidden'
       }}>
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -344,17 +344,17 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
           }} />
         </div>
         <div style={{ maxWidth: '700px', margin: '0 auto', position: 'relative', textAlign: 'center' }}>
-          <p style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '0.75rem' }}>
+          <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '0.75rem' }}>
             07 · The Mirror
           </p>
-          <h2 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', fontWeight: 800, marginBottom: '2.5rem', lineHeight: 1.2, color: '#0f172a' }}>
+          <h2 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', fontWeight: 800, marginBottom: '2.5rem', lineHeight: 1.2, color: 'var(--brand-text)' }}>
             {report.the_mirror.headline}
           </h2>
           <div style={{ textAlign: 'left' }}>
             {report.the_mirror.body.map((para, i) => (
               <p key={i} style={{
                 fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', lineHeight: 1.9,
-                color: '#334155', marginBottom: i < report.the_mirror.body.length - 1 ? '1.5rem' : 0
+                color: 'var(--brand-text-strong)', marginBottom: i < report.the_mirror.body.length - 1 ? '1.5rem' : 0
               }}>
                 {para}
               </p>
@@ -385,16 +385,16 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
         {/* 10 · DREAM DAY — full width */}
         <SectionHeader label="10" title="Your Dream Day" />
         <div style={{
-          background: '#ffffff', borderRadius: '20px', padding: '2.5rem',
-          border: '1px solid #e2e8f0', marginBottom: '3rem',
+          background: 'var(--brand-card)', borderRadius: '20px', padding: '2.5rem',
+          border: '1px solid var(--brand-border)', marginBottom: '3rem',
           boxShadow: CARD_FEATURE,
           maxWidth: '760px', margin: '0 auto 3rem'
         }}>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0f172a', marginBottom: '1.25rem', fontStyle: 'italic' }}>
+          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1.25rem', fontStyle: 'italic' }}>
             &ldquo;{report.dream_day.headline}&rdquo;
           </h3>
           {report.dream_day.body.split('\n\n').filter(p => p.trim()).map((para, i) => (
-            <p key={i} style={{ fontSize: '0.95rem', lineHeight: 1.9, color: '#475569', marginBottom: '1.25rem' }}>
+            <p key={i} style={{ fontSize: '0.95rem', lineHeight: 1.9, color: 'var(--brand-text-muted)', marginBottom: '1.25rem' }}>
               {para}
             </p>
           ))}
@@ -411,13 +411,13 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 
         {/* Strategy Call CTA */}
         <div style={{
-          background: '#ffffff', borderRadius: '20px',
+          background: 'var(--brand-card)', borderRadius: '20px',
           border: '1px solid rgba(37,99,235,0.2)', marginBottom: '3rem',
           boxShadow: '0 4px 24px rgba(37,99,235,0.06)',
           overflow: 'hidden'
         }}>
           {/* Header */}
-          <div style={{ padding: '2rem 2rem 1.5rem', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>
+          <div style={{ padding: '2rem 2rem 1.5rem', textAlign: 'center', borderBottom: '1px solid var(--brand-border)' }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '6px',
               background: 'rgba(37,99,235,0.07)', border: '1px solid rgba(37,99,235,0.2)',
@@ -427,10 +427,10 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
             }}>
               Work with Sam
             </div>
-            <h3 style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', fontWeight: 800, color: '#0f172a', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
+            <h3 style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
               Book a MyTwenties Strategy Call
             </h3>
-            <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.7, maxWidth: '440px', margin: '0 auto' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '440px', margin: '0 auto' }}>
               A free 30-minute call with Sam. We take what&apos;s in your report and map out exactly what to do next — specific to you.
             </p>
           </div>
@@ -459,9 +459,9 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
       {/* Footer */}
       <footer style={{
         padding: '2rem 1.5rem', textAlign: 'center',
-        borderTop: '1px solid #e2e8f0', background: '#ffffff'
+        borderTop: '1px solid var(--brand-border)', background: 'var(--brand-card)'
       }}>
-        <p style={{ color: '#94a3b8', fontSize: '0.8rem' }}>
+        <p style={{ color: 'var(--brand-text-subtle)', fontSize: '0.8rem' }}>
           © 2026 MyTwenties · Your data is private.
         </p>
       </footer>
@@ -472,14 +472,14 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 function SectionHeader({ label, title }: { label: string, title: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.25rem' }}>
-      <span style={{ fontSize: '0.68rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.1em', flexShrink: 0 }}>
+      <span style={{ fontSize: '0.68rem', color: 'var(--brand-text-subtle)', fontWeight: 600, letterSpacing: '0.1em', flexShrink: 0 }}>
         {label}
       </span>
-      <div style={{ height: '1px', background: '#e2e8f0', flex: 1 }} />
-      <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0f172a', flexShrink: 0, margin: 0 }}>
+      <div style={{ height: '1px', background: 'var(--brand-border)', flex: 1 }} />
+      <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--brand-text)', flexShrink: 0, margin: 0 }}>
         {title}
       </h2>
-      <div style={{ height: '1px', background: '#e2e8f0', flex: 1 }} />
+      <div style={{ height: '1px', background: 'var(--brand-border)', flex: 1 }} />
     </div>
   )
 }
@@ -598,20 +598,20 @@ function PremiumSections({ report }: { report: MockReport }) {
       {/* Business Blueprint */}
       {report.business_blueprint && (
         <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>Business Blueprint</h3>
-          <div style={{ background: '#ffffff', borderRadius: '20px', padding: '2rem', border: '1px solid #e2e8f0', boxShadow: CARD_FEATURE, marginBottom: '1rem' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1rem' }}>Business Blueprint</h3>
+          <div style={{ background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem', border: '1px solid var(--brand-border)', boxShadow: CARD_FEATURE, marginBottom: '1rem' }}>
             <p style={{ fontSize: '0.72rem', color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: '4px' }}>Model</p>
-            <p style={{ fontSize: '1rem', fontWeight: 600, color: '#0f172a', marginBottom: '1rem' }}>{report.business_blueprint.model}</p>
-            <p style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.75, marginBottom: '1.5rem' }}>{report.business_blueprint.why_it_fits}</p>
-            <p style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: '0.75rem' }}>Your First Steps</p>
+            <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--brand-text)', marginBottom: '1rem' }}>{report.business_blueprint.model}</p>
+            <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '1.5rem' }}>{report.business_blueprint.why_it_fits}</p>
+            <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: '0.75rem' }}>Your First Steps</p>
             <ol style={{ paddingLeft: '1.25rem', margin: 0 }}>
               {report.business_blueprint.first_steps.map((step, i) => (
-                <li key={i} style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.7, marginBottom: '0.5rem' }}>{step}</li>
+                <li key={i} style={{ fontSize: '0.875rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, marginBottom: '0.5rem' }}>{step}</li>
               ))}
             </ol>
             <div style={{ marginTop: '1.5rem', background: 'rgba(37,99,235,0.05)', borderRadius: '10px', padding: '1rem', border: '1px solid rgba(37,99,235,0.12)' }}>
               <p style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>Timeline</p>
-              <p style={{ fontSize: '0.875rem', color: '#334155', lineHeight: 1.7, margin: 0 }}>{report.business_blueprint.realistic_timeline}</p>
+              <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, margin: 0 }}>{report.business_blueprint.realistic_timeline}</p>
             </div>
           </div>
         </div>
@@ -620,14 +620,14 @@ function PremiumSections({ report }: { report: MockReport }) {
       {/* Career Map */}
       {report.career_map && (
         <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem' }}>Career Direction Map</h3>
-          <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.7, marginBottom: '1rem' }}>{report.career_map.headline}</p>
-          <p style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.75, marginBottom: '1.25rem' }}>{report.career_map.why}</p>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.5rem' }}>Career Direction Map</h3>
+          <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, marginBottom: '1rem' }}>{report.career_map.headline}</p>
+          <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '1.25rem' }}>{report.career_map.why}</p>
           <div className="report-card-grid">
             {report.career_map.roles.map((role, i) => (
-              <div key={i} style={{ background: '#ffffff', borderRadius: '16px', padding: '1.5rem', border: '1px solid #e2e8f0', boxShadow: CARD }}>
-                <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem' }}>{role.title}</h4>
-                <p style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.7, marginBottom: '0.75rem' }}>{role.description}</p>
+              <div key={i} style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.5rem', border: '1px solid var(--brand-border)', boxShadow: CARD }}>
+                <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.5rem' }}>{role.title}</h4>
+                <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, marginBottom: '0.75rem' }}>{role.description}</p>
                 <p style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: 600 }}>{role.income}</p>
               </div>
             ))}
@@ -638,13 +638,13 @@ function PremiumSections({ report }: { report: MockReport }) {
       {/* Highest Leverage Move */}
       {report.highest_leverage_move && (
         <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>Highest Leverage Move</h3>
-          <div style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.04) 0%, #ffffff 100%)', borderRadius: '20px', padding: '2rem', border: '1px solid rgba(37,99,235,0.18)', boxShadow: CARD_FEATURE }}>
-            <p style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.5, marginBottom: '1rem' }}>{report.highest_leverage_move.move}</p>
-            <p style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.75, marginBottom: '1rem' }}>{report.highest_leverage_move.why_now}</p>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1rem' }}>Highest Leverage Move</h3>
+          <div style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.04) 0%, var(--brand-card) 100%)', borderRadius: '20px', padding: '2rem', border: '1px solid rgba(37,99,235,0.18)', boxShadow: CARD_FEATURE }}>
+            <p style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--brand-text)', lineHeight: 1.5, marginBottom: '1rem' }}>{report.highest_leverage_move.move}</p>
+            <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '1rem' }}>{report.highest_leverage_move.why_now}</p>
             <div style={{ background: 'rgba(37,99,235,0.05)', borderRadius: '10px', padding: '1rem', border: '1px solid rgba(37,99,235,0.12)' }}>
               <p style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>How to Start</p>
-              <p style={{ fontSize: '0.875rem', color: '#334155', lineHeight: 1.7, margin: 0 }}>{report.highest_leverage_move.how_to_start}</p>
+              <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, margin: 0 }}>{report.highest_leverage_move.how_to_start}</p>
             </div>
           </div>
         </div>
@@ -653,17 +653,17 @@ function PremiumSections({ report }: { report: MockReport }) {
       {/* Reading List */}
       {report.reading_list && (
         <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>Reading List</h3>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1rem' }}>Reading List</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {report.reading_list.map((book, i) => (
-              <div key={i} style={{ background: '#ffffff', borderRadius: '14px', padding: '1.25rem 1.5rem', border: '1px solid #e2e8f0', boxShadow: CARD, display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+              <div key={i} style={{ background: 'var(--brand-card)', borderRadius: '14px', padding: '1.25rem 1.5rem', border: '1px solid var(--brand-border)', boxShadow: CARD, display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                 <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.7rem', color: '#2563eb', fontWeight: 800 }}>
                   {i + 1}
                 </div>
                 <div>
-                  <p style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', marginBottom: '2px' }}>{book.title}</p>
-                  <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '6px' }}>{book.author}</p>
-                  <p style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.65, margin: 0 }}>{book.why}</p>
+                  <p style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '2px' }}>{book.title}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginBottom: '6px' }}>{book.author}</p>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-muted)', lineHeight: 1.65, margin: 0 }}>{book.why}</p>
                 </div>
               </div>
             ))}
@@ -674,9 +674,9 @@ function PremiumSections({ report }: { report: MockReport }) {
       {/* AI Mentor Prompt */}
       {report.ai_mentor_prompt && (
         <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem' }}>Your AI Mentor Prompt</h3>
-          <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '1rem' }}>Paste this into Claude or ChatGPT to create a personalised AI mentor who knows everything about you.</p>
-          <div style={{ background: '#f8faff', borderRadius: '14px', padding: '1.5rem', border: '1px solid #e2e8f0', fontFamily: 'monospace', fontSize: '0.78rem', color: '#334155', lineHeight: 1.75, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.5rem' }}>Your AI Mentor Prompt</h3>
+          <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-subtle)', marginBottom: '1rem' }}>Paste this into Claude or ChatGPT to create a personalised AI mentor who knows everything about you.</p>
+          <div style={{ background: 'var(--brand-bg-subtle)', borderRadius: '14px', padding: '1.5rem', border: '1px solid var(--brand-border)', fontFamily: 'monospace', fontSize: '0.78rem', color: 'var(--brand-text-strong)', lineHeight: 1.75, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
             {report.ai_mentor_prompt}
           </div>
         </div>
@@ -685,10 +685,10 @@ function PremiumSections({ report }: { report: MockReport }) {
       {/* The Letter */}
       {report.the_letter && (
         <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>A Letter To You</h3>
-          <div style={{ background: '#ffffff', borderRadius: '20px', padding: '2.5rem', border: '1px solid #e2e8f0', boxShadow: CARD_FEATURE, maxWidth: '680px' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1rem' }}>A Letter To You</h3>
+          <div style={{ background: 'var(--brand-card)', borderRadius: '20px', padding: '2.5rem', border: '1px solid var(--brand-border)', boxShadow: CARD_FEATURE, maxWidth: '680px' }}>
             {report.the_letter.map((para, i) => (
-              <p key={i} style={{ fontSize: 'clamp(0.95rem, 2vw, 1.05rem)', lineHeight: 1.9, color: '#334155', marginBottom: i < report.the_letter!.length - 1 ? '1.5rem' : 0 }}>
+              <p key={i} style={{ fontSize: 'clamp(0.95rem, 2vw, 1.05rem)', lineHeight: 1.9, color: 'var(--brand-text-strong)', marginBottom: i < report.the_letter!.length - 1 ? '1.5rem' : 0 }}>
                 {para}
               </p>
             ))}

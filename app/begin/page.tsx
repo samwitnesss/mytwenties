@@ -9,7 +9,7 @@ export default function BeginPage() {
 
   return (
     <main style={{
-      backgroundColor: '#ffffff', minHeight: '100vh',
+      backgroundColor: 'var(--brand-bg)', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem 1.5rem', position: 'relative', overflow: 'hidden'
     }}>
@@ -39,14 +39,14 @@ export default function BeginPage() {
         {/* Heading */}
         <h1 style={{
           fontSize: 'clamp(1.8rem, 5vw, 2.4rem)', fontWeight: 900, lineHeight: 1.1,
-          letterSpacing: '-0.03em', color: '#0f172a', textAlign: 'center', marginBottom: '0.75rem'
+          letterSpacing: '-0.03em', color: 'var(--brand-text)', textAlign: 'center', marginBottom: '0.75rem'
         }}>
           Find somewhere quiet.<br />
           <span className="gradient-text">This is worth your full attention.</span>
         </h1>
 
         <p style={{
-          textAlign: 'center', color: '#64748b', fontSize: '1rem',
+          textAlign: 'center', color: 'var(--brand-text-mid)', fontSize: '1rem',
           lineHeight: 1.7, marginBottom: '2.5rem', maxWidth: '400px', margin: '0 auto 2.5rem'
         }}>
           The more honestly you answer, the more accurately your report will reflect who you actually are.
@@ -61,13 +61,13 @@ export default function BeginPage() {
           ].map(({ icon, label, sub }) => (
             <div key={label} style={{
               display: 'flex', alignItems: 'flex-start', gap: '1rem',
-              background: '#f8fafc', borderRadius: '14px', padding: '1rem 1.25rem',
-              border: '1px solid #e2e8f0'
+              background: 'var(--brand-bg-subtle)', borderRadius: '14px', padding: '1rem 1.25rem',
+              border: '1px solid var(--brand-border)'
             }}>
               <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: '1px' }}>{icon}</span>
               <div>
-                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', margin: '0 0 2px' }}>{label}</p>
-                <p style={{ fontSize: '0.82rem', color: '#64748b', margin: 0, lineHeight: 1.5 }}>{sub}</p>
+                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--brand-text)', margin: '0 0 2px' }}>{label}</p>
+                <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-mid)', margin: 0, lineHeight: 1.5 }}>{sub}</p>
               </div>
             </div>
           ))}
@@ -77,16 +77,16 @@ export default function BeginPage() {
         <label style={{
           display: 'flex', alignItems: 'center', gap: '12px',
           cursor: 'pointer', marginBottom: '1.75rem',
-          background: '#f8fafc', borderRadius: '12px', padding: '0.875rem 1.25rem',
-          border: `1px solid ${ageConfirmed ? 'rgba(37,99,235,0.3)' : '#e2e8f0'}`,
+          background: 'var(--brand-bg-subtle)', borderRadius: '12px', padding: '0.875rem 1.25rem',
+          border: `1px solid ${ageConfirmed ? 'rgba(37,99,235,0.3)' : 'var(--brand-border)'}`,
           transition: 'border-color 0.2s'
         }}>
           <div
             onClick={() => setAgeConfirmed(v => !v)}
             style={{
               width: '20px', height: '20px', borderRadius: '6px', flexShrink: 0,
-              background: ageConfirmed ? 'linear-gradient(135deg, #2563eb, #06b6d4)' : '#ffffff',
-              border: ageConfirmed ? 'none' : '2px solid #cbd5e1',
+              background: ageConfirmed ? 'linear-gradient(135deg, #2563eb, #06b6d4)' : 'var(--brand-card)',
+              border: ageConfirmed ? 'none' : '2px solid var(--brand-border)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.15s ease', cursor: 'pointer'
             }}
@@ -97,7 +97,7 @@ export default function BeginPage() {
               </svg>
             )}
           </div>
-          <span style={{ fontSize: '0.9rem', color: '#334155', fontWeight: 500, userSelect: 'none' }}
+          <span style={{ fontSize: '0.9rem', color: 'var(--brand-text-strong)', fontWeight: 500, userSelect: 'none' }}
             onClick={() => setAgeConfirmed(v => !v)}>
             I confirm I am 18 years or older
           </span>
@@ -120,7 +120,7 @@ export default function BeginPage() {
           I&apos;m ready — let&apos;s begin →
         </button>
 
-        <p style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.75rem', color: '#94a3b8', lineHeight: 1.6 }}>
+        <p style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', lineHeight: 1.6 }}>
           By continuing you agree to our{' '}
           <a href="/privacy" style={{ color: '#2563eb', textDecoration: 'none' }}>Privacy Policy</a>
           {' '}and{' '}

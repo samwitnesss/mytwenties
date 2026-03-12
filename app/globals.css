@@ -3,15 +3,34 @@
 
 :root {
   --brand-bg: #ffffff;
+  --brand-bg-subtle: #f8faff;
   --brand-card: #ffffff;
   --brand-border: #e2e8f0;
+  --brand-text: #0f172a;
+  --brand-text-strong: #334155;
+  --brand-text-muted: #475569;
+  --brand-text-mid: #64748b;
+  --brand-text-subtle: #94a3b8;
+  --brand-track: #f1f5f9;
   --brand-teal: #06b6d4;
   --brand-teal-dark: #0891b2;
   --brand-blue: #3b82f6;
   --brand-blue-dark: #2563eb;
-  --brand-text: #0f172a;
-  --brand-text-muted: #64748b;
-  --brand-text-subtle: #94a3b8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand-bg: #0c1222;
+    --brand-bg-subtle: #111827;
+    --brand-card: #141f35;
+    --brand-border: #1e2d45;
+    --brand-text: #f1f5f9;
+    --brand-text-strong: #e2e8f0;
+    --brand-text-muted: #94a3b8;
+    --brand-text-mid: #94a3b8;
+    --brand-text-subtle: #64748b;
+    --brand-track: #1e293b;
+  }
 }
 
 @theme inline {
@@ -29,14 +48,14 @@
 }
 
 html {
-  background-color: #ffffff;
+  background-color: var(--brand-bg);
   color: var(--brand-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background-color: #ffffff;
+  background-color: var(--brand-bg);
   color: var(--brand-text);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
@@ -79,10 +98,10 @@ body {
 
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, var(--brand-card) 90%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid color-mix(in srgb, var(--brand-border) 80%, transparent);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
@@ -95,6 +114,10 @@ body {
   opacity: 0.92;
   transform: translateY(-1px);
   box-shadow: 0 8px 30px rgba(59, 130, 246, 0.35);
+}
+
+.fade-to-bottom {
+  background: linear-gradient(to bottom, transparent 0%, var(--brand-bg) 75%);
 }
 
 /* Report card grid — inner 2-col within a section */
@@ -240,7 +263,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--brand-track);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -261,7 +284,7 @@ input[type="range"] {
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  background: #e2e8f0;
+  background: var(--brand-border);
   height: 6px;
   border-radius: 3px;
 }
@@ -279,7 +302,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-track {
-  background: #e2e8f0;
+  background: var(--brand-border);
   height: 6px;
   border-radius: 3px;
 }

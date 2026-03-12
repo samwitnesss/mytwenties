@@ -54,7 +54,7 @@ export default function LoginPage() {
 
   return (
     <main style={{
-      backgroundColor: '#ffffff', minHeight: '100vh',
+      backgroundColor: 'var(--brand-bg)', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem 1.5rem', position: 'relative', overflow: 'hidden'
     }}>
@@ -76,7 +76,7 @@ export default function LoginPage() {
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '420px' }}>
         <Link href="/" style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
-          color: '#64748b', fontSize: '0.85rem', textDecoration: 'none',
+          color: 'var(--brand-text-mid)', fontSize: '0.85rem', textDecoration: 'none',
           marginBottom: '2rem'
         }}>
           ← Back
@@ -91,18 +91,18 @@ export default function LoginPage() {
           }}>
             Welcome back
           </div>
-          <h1 style={{ fontSize: '1.9rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '0.75rem', color: '#0f172a' }}>
+          <h1 style={{ fontSize: '1.9rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>
             Access your{' '}
             <span className="gradient-text">report</span>
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--brand-text-mid)', fontSize: '0.95rem', lineHeight: 1.6 }}>
             Enter the email you used when you took the assessment.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: '#475569', marginBottom: '8px' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: 'var(--brand-text-muted)', marginBottom: '8px' }}>
               Email Address
             </label>
             <input
@@ -114,12 +114,12 @@ export default function LoginPage() {
               autoFocus
               style={{
                 width: '100%', padding: '14px 16px',
-                background: '#ffffff', border: '1px solid #e2e8f0',
-                borderRadius: '12px', color: '#0f172a', fontSize: '1rem',
+                background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                borderRadius: '12px', color: 'var(--brand-text)', fontSize: '1rem',
                 outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit'
               }}
               onFocus={e => e.target.style.borderColor = '#3b82f6'}
-              onBlur={e => e.target.style.borderColor = '#e2e8f0'}
+              onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
             />
           </div>
 
@@ -151,7 +151,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.82rem', color: '#94a3b8' }}>
+        <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.82rem', color: 'var(--brand-text-subtle)' }}>
           Never taken the assessment?{' '}
           <Link href="/start" style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'none' }}>
             Start here →

@@ -17,7 +17,7 @@ export default function ReportReadyPage() {
 
   return (
     <main style={{
-      backgroundColor: '#ffffff', minHeight: '100vh',
+      backgroundColor: 'var(--brand-bg)', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem 1.5rem', position: 'relative', overflow: 'hidden'
     }}>
@@ -64,7 +64,7 @@ export default function ReportReadyPage() {
         {/* Heading */}
         <h1 style={{
           fontSize: 'clamp(1.7rem, 5vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1,
-          letterSpacing: '-0.03em', color: '#0f172a', marginBottom: '1rem'
+          letterSpacing: '-0.03em', color: 'var(--brand-text)', marginBottom: '1rem'
         }}>
           Your MyTwenties Report{' '}
           <span className="gradient-text">Is Ready</span>
@@ -72,7 +72,7 @@ export default function ReportReadyPage() {
 
         {/* Sub */}
         <p style={{
-          fontSize: '1rem', color: '#64748b', lineHeight: 1.7,
+          fontSize: '1rem', color: 'var(--brand-text-mid)', lineHeight: 1.7,
           maxWidth: '380px', margin: '0 auto 2.5rem'
         }}>
           Your personalised profile has been built. Take your time with what&apos;s inside — it was written specifically for you.
@@ -92,9 +92,9 @@ export default function ReportReadyPage() {
         {/* Secondary CTA */}
         <Link href="/assessment" style={{ textDecoration: 'none', display: 'block', marginBottom: '2.5rem' }}>
           <button style={{
-            width: '100%', fontSize: '0.9rem', fontWeight: 600, color: '#64748b',
-            padding: '0.875rem', borderRadius: '14px', border: '1px solid #e2e8f0',
-            background: '#ffffff', cursor: 'pointer', fontFamily: 'inherit',
+            width: '100%', fontSize: '0.9rem', fontWeight: 600, color: 'var(--brand-text-mid)',
+            padding: '0.875rem', borderRadius: '14px', border: '1px solid var(--brand-border)',
+            background: 'var(--brand-card)', cursor: 'pointer', fontFamily: 'inherit',
             boxShadow: '0 1px 4px rgba(0,0,0,0.05)'
           }}>
             Retake Assessment
@@ -105,7 +105,7 @@ export default function ReportReadyPage() {
         {firstName && (
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '10px',
-            background: '#f8faff', border: '1px solid #e2e8f0',
+            background: 'var(--brand-bg-subtle)', border: '1px solid var(--brand-border)',
             borderRadius: '100px', padding: '8px 16px',
             boxShadow: '0 1px 4px rgba(0,0,0,0.05)'
           }}>
@@ -117,7 +117,7 @@ export default function ReportReadyPage() {
             }}>
               {firstName[0].toUpperCase()}
             </div>
-            <span style={{ fontSize: '0.82rem', color: '#475569', fontWeight: 500 }}>
+            <span style={{ fontSize: '0.82rem', color: 'var(--brand-text-muted)', fontWeight: 500 }}>
               {firstName} &middot; Assessment Complete
             </span>
           </div>

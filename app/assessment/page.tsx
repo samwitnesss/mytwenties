@@ -227,12 +227,12 @@ export default function AssessmentPage() {
   const currentQuestion = currentStep?.type === 'single' ? currentStep.question : null
 
   return (
-    <div style={{ backgroundColor: '#f8faff', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ backgroundColor: 'var(--brand-bg-subtle)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Fixed header */}
       <header style={{
         position: 'sticky', top: 0, zIndex: 50,
-        backgroundColor: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid #e2e8f0', padding: '0.75rem 1rem'
+        backgroundColor: 'color-mix(in srgb, var(--brand-card) 97%, transparent)', backdropFilter: 'blur(12px)',
+        borderBottom: '1px solid var(--brand-border)', padding: '0.75rem 1rem'
       }}>
         {/* Row: back + section icons + time + % */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem' }}>
@@ -265,7 +265,7 @@ export default function AssessmentPage() {
                   width: '26px', height: '26px', borderRadius: '50%', display: 'flex',
                   alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   background: isComplete ? 'rgba(37,99,235,0.12)' : isCurrent ? 'rgba(37,99,235,0.08)' : 'rgba(0,0,0,0.04)',
-                  border: `1px solid ${isComplete ? 'rgba(37,99,235,0.4)' : isCurrent ? 'rgba(37,99,235,0.3)' : '#e2e8f0'}`,
+                  border: `1px solid ${isComplete ? 'rgba(37,99,235,0.4)' : isCurrent ? 'rgba(37,99,235,0.3)' : 'var(--brand-border)'}`,
                   transition: 'all 0.3s'
                 }}>
                   <Icon size={11} color={isComplete ? '#2563eb' : isCurrent ? '#1d4ed8' : '#94a3b8'} />
@@ -286,7 +286,7 @@ export default function AssessmentPage() {
         </div>
 
         {/* Progress bar */}
-        <div style={{ height: '4px', background: '#e2e8f0', borderRadius: '2px' }}>
+        <div style={{ height: '4px', background: 'var(--brand-border)', borderRadius: '2px' }}>
           <div style={{
             height: '100%', borderRadius: '2px',
             width: `${progressPct}%`,
@@ -314,7 +314,7 @@ export default function AssessmentPage() {
             Section {currentSection + 1} of 8 · {section.title}
           </p>
           {currentStep?.type === 'scaleBatch' && (
-            <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.5 }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-mid)', lineHeight: 1.5 }}>
               {section.description}
             </p>
           )}
@@ -369,7 +369,7 @@ export default function AssessmentPage() {
 function WelcomeIntroScreen({ firstName, onStart }: { firstName: string, onStart: () => void }) {
   return (
     <div style={{
-      backgroundColor: '#ffffff', minHeight: '100vh',
+      backgroundColor: 'var(--brand-bg)', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem', position: 'relative', overflow: 'hidden'
     }}>
@@ -396,11 +396,11 @@ function WelcomeIntroScreen({ firstName, onStart }: { firstName: string, onStart
           Here&apos;s what&apos;s coming
         </div>
 
-        <h1 style={{ fontSize: 'clamp(1.7rem, 5vw, 2.4rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', color: '#0f172a', marginBottom: '0.75rem' }}>
+        <h1 style={{ fontSize: 'clamp(1.7rem, 5vw, 2.4rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--brand-text)', marginBottom: '0.75rem' }}>
           Hi {firstName !== 'there' ? firstName : 'there'}. Ready to find out{' '}
           <span className="gradient-text">what you&apos;re built for?</span>
         </h1>
-        <p style={{ fontSize: '0.95rem', color: '#64748b', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+        <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, marginBottom: '2.5rem' }}>
           75 questions · ~25 minutes · Answer honestly — there are no right answers
         </p>
 
@@ -411,8 +411,8 @@ function WelcomeIntroScreen({ firstName, onStart }: { firstName: string, onStart
             return (
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
-                background: '#f8faff', borderRadius: '10px', padding: '0.625rem 0.875rem',
-                border: '1px solid #e2e8f0'
+                background: 'var(--brand-bg-subtle)', borderRadius: '10px', padding: '0.625rem 0.875rem',
+                border: '1px solid var(--brand-border)'
               }}>
                 <div style={{
                   width: '24px', height: '24px', borderRadius: '50%', flexShrink: 0,
@@ -421,7 +421,7 @@ function WelcomeIntroScreen({ firstName, onStart }: { firstName: string, onStart
                 }}>
                   <Icon size={11} color="#2563eb" />
                 </div>
-                <span style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 500 }}>{s.title}</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--brand-text-muted)', fontWeight: 500 }}>{s.title}</span>
               </div>
             )
           })}
@@ -438,7 +438,7 @@ function WelcomeIntroScreen({ firstName, onStart }: { firstName: string, onStart
         >
           Let&apos;s go →
         </button>
-        <p style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: '#94a3b8' }}>
+        <p style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: 'var(--brand-text-subtle)' }}>
           Press Enter to begin
         </p>
       </div>
@@ -451,7 +451,7 @@ function SectionIntroScreen({ section, sectionIndex }: { section: typeof SECTION
   const Icon = SECTION_ICONS[sectionIndex]
   return (
     <div style={{
-      backgroundColor: '#f8faff', minHeight: '100vh',
+      backgroundColor: 'var(--brand-bg-subtle)', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem'
     }}>
@@ -463,13 +463,13 @@ function SectionIntroScreen({ section, sectionIndex }: { section: typeof SECTION
         }}>
           <Icon size={22} color="#2563eb" />
         </div>
-        <p style={{ fontSize: '0.72rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.5rem', fontWeight: 600 }}>
+        <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.5rem', fontWeight: 600 }}>
           Section {sectionIndex + 1} of 8
         </p>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
           {section.title}
         </h2>
-        <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.65 }}>
+        <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-mid)', lineHeight: 1.65 }}>
           {SECTION_DESCRIPTIONS[sectionIndex]}
         </p>
       </div>
@@ -506,8 +506,8 @@ function SingleQuestion({
 
   const inputBase: React.CSSProperties = {
     width: '100%', padding: '13px 16px',
-    background: '#ffffff', border: '1px solid #e2e8f0',
-    borderRadius: '12px', color: '#0f172a', fontSize: '0.95rem', outline: 'none',
+    background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+    borderRadius: '12px', color: 'var(--brand-text)', fontSize: '0.95rem', outline: 'none',
     lineHeight: 1.6, fontFamily: 'inherit'
   }
 
@@ -522,7 +522,7 @@ function SingleQuestion({
     <div>
       <h2 style={{
         fontSize: isSection8 ? 'clamp(1.25rem, 3.5vw, 1.55rem)' : 'clamp(1.15rem, 3vw, 1.4rem)',
-        fontWeight: 700, lineHeight: 1.4, marginBottom: '1.75rem', color: '#0f172a'
+        fontWeight: 700, lineHeight: 1.4, marginBottom: '1.75rem', color: 'var(--brand-text)'
       }}>
         {question.label}
         {question.optional && (
@@ -562,7 +562,7 @@ function SingleQuestion({
               rows={isSection8 ? 6 : 4}
               style={{ ...inputBase, resize: 'none' }}
               onFocus={e => e.target.style.borderColor = '#3b82f6'}
-              onBlur={e => e.target.style.borderColor = '#e2e8f0'}
+              onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
               autoFocus={isSection8}
             />
             <span style={{
@@ -591,9 +591,9 @@ function SingleQuestion({
               onClick={() => onChange(opt)}
               style={{
                 width: '100%', padding: '13px 16px', textAlign: 'left',
-                background: value === opt ? 'rgba(37,99,235,0.07)' : '#ffffff',
-                border: `1px solid ${value === opt ? '#3b82f6' : '#e2e8f0'}`,
-                borderRadius: '12px', color: '#0f172a', fontSize: '0.9rem', cursor: 'pointer',
+                background: value === opt ? 'rgba(37,99,235,0.07)' : 'var(--brand-card)',
+                border: `1px solid ${value === opt ? '#3b82f6' : 'var(--brand-border)'}`,
+                borderRadius: '12px', color: 'var(--brand-text)', fontSize: '0.9rem', cursor: 'pointer',
                 lineHeight: 1.4, transition: 'all 0.15s ease', fontFamily: 'inherit',
                 fontWeight: value === opt ? 600 : 400
               }}
@@ -612,7 +612,7 @@ function SingleQuestion({
                 autoFocus
                 style={inputBase}
                 onFocus={e => e.target.style.borderColor = '#3b82f6'}
-                onBlur={e => e.target.style.borderColor = '#e2e8f0'}
+                onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
               />
               <button onClick={onContinue} style={continueBtn}>
                 Continue →
@@ -636,9 +636,9 @@ function SingleQuestion({
                 }}
                 style={{
                   padding: '9px 16px',
-                  background: arrVal.includes(opt) ? 'rgba(37,99,235,0.08)' : '#ffffff',
-                  border: `1px solid ${arrVal.includes(opt) ? '#3b82f6' : '#e2e8f0'}`,
-                  borderRadius: '100px', color: arrVal.includes(opt) ? '#2563eb' : '#0f172a',
+                  background: arrVal.includes(opt) ? 'rgba(37,99,235,0.08)' : 'var(--brand-card)',
+                  border: `1px solid ${arrVal.includes(opt) ? '#3b82f6' : 'var(--brand-border)'}`,
+                  borderRadius: '100px', color: arrVal.includes(opt) ? '#2563eb' : 'var(--brand-text)',
                   fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.15s ease',
                   fontFamily: 'inherit', fontWeight: arrVal.includes(opt) ? 600 : 400
                 }}
@@ -665,7 +665,7 @@ function SingleQuestion({
             }}>
               {numVal}
             </span>
-            <span style={{ fontSize: '1rem', color: '#64748b', marginLeft: '4px' }}>
+            <span style={{ fontSize: '1rem', color: 'var(--brand-text-mid)', marginLeft: '4px' }}>
               {numVal === question.max ? question.maxLabel : numVal === question.min ? question.minLabel : ''}
             </span>
           </div>
@@ -715,14 +715,14 @@ function ScaleBatch({
           const val = responses[q.id] as number | undefined
           return (
             <div key={q.id} style={{
-              background: '#ffffff',
+              background: 'var(--brand-card)',
               borderRadius: '14px', padding: '1rem',
-              border: `1px solid ${val ? 'rgba(37,99,235,0.3)' : '#e2e8f0'}`,
+              border: `1px solid ${val ? 'rgba(37,99,235,0.3)' : 'var(--brand-border)'}`,
               boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
               transition: 'all 0.2s ease'
             }}>
               <p style={{
-                fontSize: '0.875rem', color: '#0f172a',
+                fontSize: '0.875rem', color: 'var(--brand-text)',
                 lineHeight: 1.55, marginBottom: '0.75rem', fontWeight: 500
               }}>
                 {q.label}
@@ -734,9 +734,9 @@ function ScaleBatch({
                     onClick={() => onChange(q.id, n, q.section)}
                     style={{
                       flex: 1, padding: '9px 0',
-                      background: val === n ? 'rgba(37,99,235,0.1)' : '#f8faff',
-                      border: `1px solid ${val === n ? '#3b82f6' : '#e2e8f0'}`,
-                      borderRadius: '8px', color: val === n ? '#2563eb' : '#64748b',
+                      background: val === n ? 'rgba(37,99,235,0.1)' : 'var(--brand-bg-subtle)',
+                      border: `1px solid ${val === n ? '#3b82f6' : 'var(--brand-border)'}`,
+                      borderRadius: '8px', color: val === n ? '#2563eb' : 'var(--brand-text-mid)',
                       fontSize: '0.9rem', fontWeight: val === n ? 700 : 400, cursor: 'pointer',
                       transition: 'all 0.15s ease', fontFamily: 'inherit'
                     }}
@@ -782,7 +782,7 @@ function SectionCompleteScreen({
 
   return (
     <div style={{
-      backgroundColor: '#f8faff', minHeight: '100vh',
+      backgroundColor: 'var(--brand-bg-subtle)', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem', position: 'relative', overflow: 'hidden'
     }}>
@@ -832,7 +832,7 @@ function SectionCompleteScreen({
             </defs>
           </svg>
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0f172a' }}>{progress}%</span>
+            <span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--brand-text)' }}>{progress}%</span>
           </div>
         </div>
 
@@ -841,19 +841,19 @@ function SectionCompleteScreen({
             <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.75rem' }}>
               <span className="gradient-text">You&apos;re done. ✓</span>
             </h2>
-            <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.65, marginBottom: '2rem' }}>
+            <p style={{ fontSize: '1.05rem', color: 'var(--brand-text-mid)', lineHeight: 1.65, marginBottom: '2rem' }}>
               {section.encouragement}
             </p>
           </>
         ) : (
           <>
-            <p style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
+            <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
               Section complete
             </p>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.75rem', color: '#0f172a' }}>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>
               {section.title} ✓
             </h2>
-            <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.65, marginBottom: '2rem' }}>
+            <p style={{ fontSize: '1.05rem', color: 'var(--brand-text-mid)', lineHeight: 1.65, marginBottom: '2rem' }}>
               {isHalfway
                 ? "You're halfway through. The people who finish are the ones who actually get answers. Keep going."
                 : section.encouragement}
@@ -873,7 +873,7 @@ function SectionCompleteScreen({
           {isLast ? 'See my results →' : 'Continue →'}
         </button>
 
-        <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: '#94a3b8' }}>
+        <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: 'var(--brand-text-subtle)' }}>
           Press Enter to continue
         </p>
       </div>

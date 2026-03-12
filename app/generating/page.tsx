@@ -162,7 +162,7 @@ export default function GeneratingPage() {
 
   return (
     <main style={{
-      backgroundColor: '#f8faff', minHeight: '100vh',
+      backgroundColor: 'var(--brand-bg-subtle)', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem', position: 'relative', overflow: 'hidden'
     }}>
@@ -207,14 +207,14 @@ export default function GeneratingPage() {
           <div style={{
             position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>
-            <span style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0f172a' }}>
+            <span style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--brand-text)' }}>
               {Math.round(progress)}%
             </span>
           </div>
         </div>
 
         {/* Headline */}
-        <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.75rem', color: '#0f172a' }}>
+        <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>
           Building your report...
         </h1>
 
@@ -228,14 +228,14 @@ export default function GeneratingPage() {
         {/* Accumulating discovered items */}
         {revealed.length > 0 && (
           <div style={{
-            background: '#ffffff', borderRadius: '16px', padding: '1rem 1.25rem',
-            border: '1px solid #e2e8f0', boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+            background: 'var(--brand-card)', borderRadius: '16px', padding: '1rem 1.25rem',
+            border: '1px solid var(--brand-border)', boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
             marginBottom: '1.5rem', textAlign: 'left'
           }}>
             {revealed.map(label => (
               <div key={label} className="animate-fade-in" style={{
                 display: 'flex', alignItems: 'center', gap: '10px',
-                padding: '6px 0', borderBottom: '1px solid #f1f5f9'
+                padding: '6px 0', borderBottom: '1px solid var(--brand-track)'
               }}>
                 <span style={{
                   width: '18px', height: '18px', borderRadius: '50%', flexShrink: 0,
@@ -243,7 +243,7 @@ export default function GeneratingPage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '0.6rem', color: '#2563eb', fontWeight: 800
                 }}>✓</span>
-                <span style={{ fontSize: '0.875rem', color: '#334155', fontWeight: 500 }}>{label}</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--brand-text-strong)', fontWeight: 500 }}>{label}</span>
               </div>
             ))}
           </div>
@@ -251,13 +251,13 @@ export default function GeneratingPage() {
 
         {/* Rotating testimonials */}
         <div style={{
-          background: '#ffffff', borderRadius: '16px', padding: '1.25rem 1.5rem',
-          border: '1px solid #e2e8f0',
+          background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem 1.5rem',
+          border: '1px solid var(--brand-border)',
           boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
           minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           <p key={testimonialKey} className="animate-testimonial" style={{
-            fontSize: '0.9rem', color: '#475569', lineHeight: 1.65, margin: 0,
+            fontSize: '0.9rem', color: 'var(--brand-text-muted)', lineHeight: 1.65, margin: 0,
             fontStyle: 'italic'
           }}>
             {TESTIMONIALS[testimonialIndex]}

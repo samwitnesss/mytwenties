@@ -67,7 +67,7 @@ export default function StartPage() {
   }
 
   return (
-    <main style={{ backgroundColor: '#ffffff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem', position: 'relative', overflow: 'hidden' }}>
+    <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem', position: 'relative', overflow: 'hidden' }}>
       {/* Background orbs */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         <div className="animate-pulse-glow" style={{
@@ -82,7 +82,7 @@ export default function StartPage() {
         {/* Back link */}
         <Link href="/" style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
-          color: '#64748b', fontSize: '0.85rem', textDecoration: 'none',
+          color: 'var(--brand-text-mid)', fontSize: '0.85rem', textDecoration: 'none',
           marginBottom: '2rem', transition: 'color 0.2s'
         }}>
           ← Back
@@ -98,11 +98,11 @@ export default function StartPage() {
           }}>
             Step 1 of 1 to begin
           </div>
-          <h1 style={{ fontSize: '1.9rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '0.75rem', color: '#0f172a' }}>
+          <h1 style={{ fontSize: '1.9rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>
             Let&apos;s find out what you&apos;re{' '}
             <span className="gradient-text">built for.</span>
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--brand-text-mid)', fontSize: '0.95rem', lineHeight: 1.6 }}>
             We&apos;ll use your name to personalise your report.
           </p>
         </div>
@@ -114,16 +114,16 @@ export default function StartPage() {
           disabled={googleLoading || loading}
           style={{
             width: '100%', padding: '13px 16px', marginBottom: '1rem',
-            background: '#ffffff', border: '1.5px solid #e2e8f0',
+            background: 'var(--brand-card)', border: '1.5px solid var(--brand-border)',
             borderRadius: '12px', cursor: googleLoading ? 'not-allowed' : 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-            fontSize: '0.95rem', fontWeight: 600, color: '#0f172a', fontFamily: 'inherit',
+            fontSize: '0.95rem', fontWeight: 600, color: 'var(--brand-text)', fontFamily: 'inherit',
             boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
             opacity: googleLoading ? 0.7 : 1,
             transition: 'box-shadow 0.2s, border-color 0.2s'
           }}
           onMouseEnter={e => { if (!googleLoading) (e.currentTarget as HTMLButtonElement).style.borderColor = '#3b82f6' }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#e2e8f0' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--brand-border)' }}
         >
           {/* Google G icon */}
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -137,15 +137,15 @@ export default function StartPage() {
 
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
-          <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }} />
-          <span style={{ color: '#94a3b8', fontSize: '0.78rem', fontWeight: 500 }}>or continue with email</span>
-          <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }} />
+          <div style={{ flex: 1, height: '1px', background: 'var(--brand-border)' }} />
+          <span style={{ color: 'var(--brand-text-subtle)', fontSize: '0.78rem', fontWeight: 500 }}>or continue with email</span>
+          <div style={{ flex: 1, height: '1px', background: 'var(--brand-border)' }} />
         </div>
 
         {/* Email form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: '#475569', marginBottom: '8px' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: 'var(--brand-text-muted)', marginBottom: '8px' }}>
               First Name
             </label>
             <input
@@ -156,17 +156,17 @@ export default function StartPage() {
               autoComplete="given-name"
               style={{
                 width: '100%', padding: '14px 16px',
-                background: '#ffffff', border: '1px solid #e2e8f0',
-                borderRadius: '12px', color: '#0f172a', fontSize: '1rem',
+                background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                borderRadius: '12px', color: 'var(--brand-text)', fontSize: '1rem',
                 outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit'
               }}
               onFocus={e => e.target.style.borderColor = '#3b82f6'}
-              onBlur={e => e.target.style.borderColor = '#e2e8f0'}
+              onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
             />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: '#475569', marginBottom: '8px' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: 'var(--brand-text-muted)', marginBottom: '8px' }}>
               Email Address
             </label>
             <input
@@ -177,12 +177,12 @@ export default function StartPage() {
               autoComplete="email"
               style={{
                 width: '100%', padding: '14px 16px',
-                background: '#ffffff', border: '1px solid #e2e8f0',
-                borderRadius: '12px', color: '#0f172a', fontSize: '1rem',
+                background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                borderRadius: '12px', color: 'var(--brand-text)', fontSize: '1rem',
                 outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit'
               }}
               onFocus={e => e.target.style.borderColor = '#3b82f6'}
-              onBlur={e => e.target.style.borderColor = '#e2e8f0'}
+              onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
             />
           </div>
 
@@ -207,7 +207,7 @@ export default function StartPage() {
           </button>
         </form>
 
-        <p style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.78rem', color: '#94a3b8', lineHeight: 1.6 }}>
+        <p style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.78rem', color: 'var(--brand-text-subtle)', lineHeight: 1.6 }}>
           Your responses are private. We don&apos;t share your data.
         </p>
       </div>

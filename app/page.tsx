@@ -17,26 +17,26 @@ function useIsMobile() {
 export default function LandingPage() {
   const isMobile = useIsMobile()
   return (
-    <main style={{ backgroundColor: '#ffffff', minHeight: '100vh', overflowX: 'hidden', color: '#0f172a' }}>
+    <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', overflowX: 'hidden', color: 'var(--brand-text)' }}>
 
       {/* ─── NAV ─────────────────────────────────────── */}
       <nav style={{
         position: isMobile ? 'relative' : 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: isMobile ? 'rgba(255,255,255,0.85)' : 'transparent',
+        background: isMobile ? 'color-mix(in srgb, var(--brand-bg) 85%, transparent)' : 'transparent',
         backdropFilter: isMobile ? 'blur(8px)' : 'none',
         padding: isMobile ? '0 1.5rem' : 'env(safe-area-inset-top) 2rem 0',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         minHeight: '60px'
       }}>
-        <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#0f172a', letterSpacing: '-0.02em' }}>
+        <span style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--brand-text)', letterSpacing: '-0.02em' }}>
           My<span style={{ color: '#2563eb' }}>Twenties</span>
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link href="/login" style={{ textDecoration: 'none' }}>
             <button style={{
-              fontSize: '0.85rem', fontWeight: 600, color: '#475569',
+              fontSize: '0.85rem', fontWeight: 600, color: 'var(--brand-text-muted)',
               padding: '8px 18px', borderRadius: '100px',
-              border: '1px solid #e2e8f0', background: '#ffffff',
+              border: '1px solid var(--brand-border)', background: 'var(--brand-card)',
               cursor: 'pointer', fontFamily: 'inherit',
               boxShadow: '0 1px 4px rgba(0,0,0,0.05)'
             }}>
@@ -101,7 +101,7 @@ export default function LandingPage() {
           <h1 style={{
             fontSize: 'clamp(2.4rem, 6.5vw, 4.5rem)',
             fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.03em',
-            marginBottom: '1.75rem', color: '#0f172a'
+            marginBottom: '1.75rem', color: 'var(--brand-text)'
           }}>
             School taught you everything...
             <br />
@@ -110,7 +110,7 @@ export default function LandingPage() {
 
           {/* Sub — single punchy sentence */}
           <p style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', color: '#475569',
+            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', color: 'var(--brand-text-muted)',
             lineHeight: 1.75, maxWidth: '560px', margin: '0 auto 2.75rem'
           }}>
             25 minutes from now, you&apos;ll know more about yourself than most people figure out in their entire lives.
@@ -128,7 +128,7 @@ export default function LandingPage() {
             </button>
           </Link>
 
-          <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
             Your data is encrypted and never sold. Delete anytime.
           </p>
         </div>
@@ -235,7 +235,7 @@ export default function LandingPage() {
         <div style={{
           position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
-          color: '#94a3b8', fontSize: '0.72rem'
+          color: 'var(--brand-text-subtle)', fontSize: '0.72rem'
         }}>
           <span>See what you&apos;ll get</span>
           <div style={{ width: '1px', height: '36px', background: 'linear-gradient(to bottom, #cbd5e1, transparent)' }} />
@@ -243,12 +243,12 @@ export default function LandingPage() {
       </section>
 
       {/* ─── IS THIS YOU — moved up under hero ───────── */}
-      <section style={{ background: '#f8faff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '6rem 1.5rem' }}>
+      <section style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', borderBottom: '1px solid var(--brand-border)', padding: '6rem 1.5rem' }}>
         <div style={{ maxWidth: '660px', margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ fontSize: '0.73rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
+          <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
             Sound familiar?
           </p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '2.5rem', color: '#0f172a' }}>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '2.5rem', color: 'var(--brand-text)' }}>
             This is for you if you feel like{' '}
             <span className="gradient-text">you should be further along.</span>
           </h2>
@@ -262,9 +262,9 @@ export default function LandingPage() {
             ].map((item, i) => (
               <div key={i} style={{
                 display: 'flex', alignItems: 'flex-start', gap: '12px',
-                background: '#ffffff', borderRadius: '14px',
+                background: 'var(--brand-card)', borderRadius: '14px',
                 padding: '14px 18px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid var(--brand-border)',
                 borderLeft: '3px solid #2563eb',
                 boxShadow: '0 1px 6px rgba(37,99,235,0.07)'
               }}>
@@ -274,7 +274,7 @@ export default function LandingPage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '0.65rem', color: '#ffffff', fontWeight: 700, marginTop: '1px'
                 }}>✓</span>
-                <span style={{ color: '#334155', fontSize: '0.95rem', lineHeight: 1.6 }}>{item}</span>
+                <span style={{ color: 'var(--brand-text-strong)', fontSize: '0.95rem', lineHeight: 1.6 }}>{item}</span>
               </div>
             ))}
           </div>
@@ -289,14 +289,14 @@ export default function LandingPage() {
               Start the Assessment →
             </button>
           </Link>
-          <p style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: '#94a3b8' }}>
+          <p style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--brand-text-subtle)' }}>
             Free · 25 min
           </p>
         </div>
       </section>
 
       {/* ─── CREDIBILITY STRIP ───────────────────────── */}
-      <section style={{ borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', background: '#ffffff' }}>
+      <section style={{ borderTop: '1px solid var(--brand-border)', borderBottom: '1px solid var(--brand-border)', background: 'var(--brand-bg)' }}>
         <div style={{
           maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem',
           display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px'
@@ -323,10 +323,10 @@ export default function LandingPage() {
       {/* ─── WHAT YOU'LL GET ─────────────────────────── */}
       <section style={{ padding: '6rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <p style={{ fontSize: '1rem', color: '#64748b', letterSpacing: '0.04em', marginBottom: '0.75rem', fontWeight: 600 }}>
+          <p style={{ fontSize: '1rem', color: 'var(--brand-text-mid)', letterSpacing: '0.04em', marginBottom: '0.75rem', fontWeight: 600 }}>
             What you&apos;ll receive
           </p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', color: '#0f172a' }}>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--brand-text)' }}>
             Three things most people spend{' '}
             <span className="gradient-text">years trying to figure out.</span>
           </h2>
@@ -364,13 +364,13 @@ export default function LandingPage() {
       </section>
 
       {/* ─── REPORT PREVIEW MOCKUP ───────────────────── */}
-      <section style={{ background: '#f8faff', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', padding: '6rem 1.5rem' }}>
+      <section style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', borderBottom: '1px solid var(--brand-border)', padding: '6rem 1.5rem' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{ fontSize: '0.73rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
+            <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
               Your report
             </p>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', color: '#0f172a' }}>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--brand-text)' }}>
               This is your report.{' '}
               <span className="gradient-text">25 minutes from now.</span>
             </h2>
@@ -378,16 +378,16 @@ export default function LandingPage() {
 
           {/* Mock report card */}
           <div style={{
-            background: '#ffffff', borderRadius: '28px', overflow: 'hidden',
-            border: '1px solid #e2e8f0', boxShadow: '0 24px 80px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)',
+            background: 'var(--brand-card)', borderRadius: '28px', overflow: 'hidden',
+            border: '1px solid var(--brand-border)', boxShadow: '0 24px 80px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)',
             position: 'relative'
           }}>
             <div className="shimmer-card-shine" />
 
             {/* ── Report header ── */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, #ffffff 100%)',
-              borderBottom: '1px solid #e2e8f0', padding: isMobile ? '1.5rem 1rem 1.25rem' : '2.5rem 2.5rem 2rem',
+              background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, var(--brand-card) 100%)',
+              borderBottom: '1px solid var(--brand-border)', padding: isMobile ? '1.5rem 1rem 1.25rem' : '2.5rem 2.5rem 2rem',
               textAlign: 'center', position: 'relative', overflow: 'hidden'
             }}>
               <div style={{
@@ -410,10 +410,10 @@ export default function LandingPage() {
                 }}>
                   MyTwenties · Personal Report
                 </div>
-                <p style={{ fontSize: '0.7rem', color: '#94a3b8', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>
+                <p style={{ fontSize: '0.7rem', color: 'var(--brand-text-subtle)', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>
                   Generated March 12, 2026
                 </p>
-                <h3 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: '#0f172a', marginBottom: '0.75rem', letterSpacing: '-0.03em', lineHeight: 1 }}>
+                <h3 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: 'var(--brand-text)', marginBottom: '0.75rem', letterSpacing: '-0.03em', lineHeight: 1 }}>
                   Alex&apos;s Report
                 </h3>
                 <div style={{
@@ -422,9 +422,9 @@ export default function LandingPage() {
                   borderRadius: '100px', padding: '8px 20px', marginBottom: '1rem'
                 }}>
                   <span style={{ fontSize: '1rem', fontWeight: 800, color: '#2563eb' }}>The Architect</span>
-                  <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#64748b', background: '#f1f5f9', borderRadius: '100px', padding: '2px 8px' }}>87% match</span>
+                  <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--brand-text-mid)', background: 'var(--brand-track)', borderRadius: '100px', padding: '2px 8px' }}>87% match</span>
                 </div>
-                <p style={{ fontSize: '0.9rem', color: '#475569', fontStyle: 'italic', maxWidth: '400px', margin: '0 auto 1.5rem', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', fontStyle: 'italic', maxWidth: '400px', margin: '0 auto 1.5rem', lineHeight: 1.6 }}>
                   &ldquo;You don&apos;t fit the system — you build the system. The problem isn&apos;t your ambition. It&apos;s that you&apos;ve been playing someone else&apos;s game.&rdquo;
                 </p>
                 {/* Stat chips */}
@@ -436,11 +436,11 @@ export default function LandingPage() {
                     { label: 'Sections', value: '12 insights' },
                   ].map(({ label, value }) => (
                     <div key={label} style={{
-                      background: '#f8faff', border: '1px solid #e2e8f0',
+                      background: 'var(--brand-bg-subtle)', border: '1px solid var(--brand-border)',
                       borderRadius: '12px', padding: '0.6rem 1rem', textAlign: 'center'
                     }}>
-                      <p style={{ fontSize: '0.58rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '2px', fontWeight: 600 }}>{label}</p>
-                      <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>{value}</p>
+                      <p style={{ fontSize: '0.58rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '2px', fontWeight: 600 }}>{label}</p>
+                      <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0 }}>{value}</p>
                     </div>
                   ))}
                 </div>
@@ -454,11 +454,11 @@ export default function LandingPage() {
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                 {/* Identity card */}
                 <div style={{
-                  background: '#ffffff', borderRadius: '18px', padding: '1.5rem',
-                  border: '1px solid #e2e8f0', boxShadow: '0 2px 12px rgba(0,0,0,0.05)'
+                  background: 'var(--brand-card)', borderRadius: '18px', padding: '1.5rem',
+                  border: '1px solid var(--brand-border)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)'
                 }}>
                   <p style={{ fontSize: '0.62rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>01 · Identity Profile</p>
-                  <p style={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.7, marginBottom: '0.875rem' }}>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, marginBottom: '0.875rem' }}>
                     You operate at your best when you have a real problem to solve and full autonomy to solve it. You&apos;re not built for execution — you&apos;re built for design. The work that lights you up is building the thing that makes the right outcome inevitable.
                   </p>
                   <div style={{ background: 'rgba(37,99,235,0.05)', borderRadius: '10px', padding: '0.75rem', border: '1px solid rgba(37,99,235,0.12)', marginBottom: '0.875rem' }}>
@@ -475,7 +475,7 @@ export default function LandingPage() {
 
                 {/* Archetype card */}
                 <div style={{
-                  background: 'linear-gradient(135deg, rgba(37,99,235,0.04) 0%, #ffffff 100%)',
+                  background: 'linear-gradient(135deg, rgba(37,99,235,0.04) 0%, var(--brand-card) 100%)',
                   borderRadius: '18px', padding: '1.5rem',
                   border: '1px solid rgba(37,99,235,0.18)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)'
                 }}>
@@ -487,22 +487,22 @@ export default function LandingPage() {
                     </div>
                     <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(37,99,235,0.08)', border: '2px solid rgba(37,99,235,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.72rem', fontWeight: 700, color: '#2563eb' }}>87%</div>
                   </div>
-                  <p style={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.65, marginBottom: '0.875rem' }}>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-muted)', lineHeight: 1.65, marginBottom: '0.875rem' }}>
                     You build systems, frameworks, and structures — even when no one asks you to. You see how things connect before others see there&apos;s a pattern at all.
                   </p>
-                  <div style={{ background: '#f8faff', borderRadius: '8px', padding: '0.625rem', border: '1px solid #e2e8f0', marginBottom: '0.75rem' }}>
-                    <p style={{ fontSize: '0.62rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '3px' }}>Shadow Side</p>
-                    <p style={{ fontSize: '0.72rem', color: '#64748b', lineHeight: 1.55, margin: 0 }}>The architecture is beautiful. The building never gets built.</p>
+                  <div style={{ background: 'var(--brand-bg-subtle)', borderRadius: '8px', padding: '0.625rem', border: '1px solid var(--brand-border)', marginBottom: '0.75rem' }}>
+                    <p style={{ fontSize: '0.62rem', fontWeight: 600, color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '3px' }}>Shadow Side</p>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-mid)', lineHeight: 1.55, margin: 0 }}>The architecture is beautiful. The building never gets built.</p>
                   </div>
-                  <p style={{ fontSize: '0.62rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Secondary · 71%</p>
-                  <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569', margin: 0 }}>The Connector</p>
+                  <p style={{ fontSize: '0.62rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Secondary · 71%</p>
+                  <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--brand-text-muted)', margin: 0 }}>The Connector</p>
                 </div>
               </div>
 
               {/* Strength Stack */}
               <div style={{
-                background: '#ffffff', borderRadius: '18px', padding: '1.5rem',
-                border: '1px solid #e2e8f0', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', marginBottom: '1rem'
+                background: 'var(--brand-card)', borderRadius: '18px', padding: '1.5rem',
+                border: '1px solid var(--brand-border)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', marginBottom: '1rem'
               }}>
                 <p style={{ fontSize: '0.62rem', color: '#0ea5e9', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '1rem' }}>04 · Strength Stack</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
@@ -513,8 +513,8 @@ export default function LandingPage() {
                     { name: 'Emotional Intelligence', score: 0.76, income: 'Leadership, high-stakes sales' },
                   ].map(({ name, score }) => (
                     <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
-                      <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155', minWidth: '160px', flexShrink: 0 }}>{name}</span>
-                      <div style={{ flex: 1, height: '8px', background: '#f1f5f9', borderRadius: '100px', overflow: 'hidden' }}>
+                      <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--brand-text-strong)', minWidth: '160px', flexShrink: 0 }}>{name}</span>
+                      <div style={{ flex: 1, height: '8px', background: 'var(--brand-track)', borderRadius: '100px', overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${score * 100}%`, background: 'linear-gradient(90deg, #2563eb, #06b6d4)', borderRadius: '100px' }} />
                       </div>
                       <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#2563eb', minWidth: '30px', textAlign: 'right' }}>{Math.round(score * 100)}%</span>
@@ -525,13 +525,13 @@ export default function LandingPage() {
 
               {/* Bottom row — 3 cards */}
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
-                <div style={{ background: '#ffffff', borderRadius: '16px', padding: '1.25rem', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                <div style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem', border: '1px solid var(--brand-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                   <p style={{ fontSize: '0.62rem', color: '#0891b2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>07 · The Mirror</p>
-                  <p style={{ fontSize: '0.78rem', color: '#334155', lineHeight: 1.65, marginBottom: '0' }}>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-strong)', lineHeight: 1.65, marginBottom: '0' }}>
                     You&apos;ve been protecting yourself from disappointment by not fully committing to anything. If you never really try, you can never really fail. But you also never really live.
                   </p>
                 </div>
-                <div style={{ background: '#ffffff', borderRadius: '16px', padding: '1.25rem', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                <div style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem', border: '1px solid var(--brand-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                   <p style={{ fontSize: '0.62rem', color: '#0891b2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>09 · Direction Compass</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {[
@@ -540,13 +540,13 @@ export default function LandingPage() {
                       { title: 'B2B SaaS Founder', fit: '74%' },
                     ].map(({ title, fit }) => (
                       <div key={title} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.72rem', color: '#334155', fontWeight: 500 }}>{title}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--brand-text-strong)', fontWeight: 500 }}>{title}</span>
                         <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#0891b2', background: 'rgba(6,182,212,0.08)', borderRadius: '100px', padding: '2px 7px', border: '1px solid rgba(6,182,212,0.2)' }}>{fit}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div style={{ background: '#ffffff', borderRadius: '16px', padding: '1.25rem', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                <div style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem', border: '1px solid var(--brand-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                   <p style={{ fontSize: '0.62rem', color: '#f59e0b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>05 · Blind Spots</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                     {[
@@ -555,10 +555,10 @@ export default function LandingPage() {
                     ].map(({ name, sev }) => (
                       <div key={name}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                          <span style={{ fontSize: '0.72rem', color: '#334155', fontWeight: 500 }}>{name}</span>
+                          <span style={{ fontSize: '0.72rem', color: 'var(--brand-text-strong)', fontWeight: 500 }}>{name}</span>
                           <span style={{ fontSize: '0.65rem', color: '#f59e0b', fontWeight: 700 }}>{Math.round(sev * 100)}%</span>
                         </div>
-                        <div style={{ height: '5px', background: '#f1f5f9', borderRadius: '100px', overflow: 'hidden' }}>
+                        <div style={{ height: '5px', background: 'var(--brand-track)', borderRadius: '100px', overflow: 'hidden' }}>
                           <div style={{ height: '100%', width: `${sev * 100}%`, background: 'linear-gradient(90deg, #f59e0b, #ef4444)', borderRadius: '100px' }} />
                         </div>
                       </div>
@@ -574,25 +574,22 @@ export default function LandingPage() {
                     { label: '10 · Dream Day', preview: 'You wake at 7:30am, no alarm. The first hour is yours alone. By 9am you\'re deep in the problem you chose, not one someone assigned you...', color: '#0ea5e9' },
                     { label: '11 · Business Blueprint', preview: 'The model with the highest probability of success for your specific wiring is a founder-led consulting practice anchored in strategic clarity...', color: '#2563eb' },
                   ].map(({ label, preview, color }) => (
-                    <div key={label} style={{ background: '#f8faff', borderRadius: '14px', padding: '1.25rem', border: '1px solid #e2e8f0' }}>
+                    <div key={label} style={{ background: 'var(--brand-bg-subtle)', borderRadius: '14px', padding: '1.25rem', border: '1px solid var(--brand-border)' }}>
                       <p style={{ fontSize: '0.62rem', color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '6px' }}>{label}</p>
-                      <p style={{ fontSize: '0.78rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>{preview}</p>
+                      <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-mid)', lineHeight: 1.6, margin: 0 }}>{preview}</p>
                     </div>
                   ))}
                 </div>
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.97) 75%)'
-                }} />
+                <div className="fade-to-bottom" style={{ position: 'absolute', inset: 0 }} />
                 {/* "more" label at bottom */}
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, textAlign: 'center', paddingBottom: '4px' }}>
-                  <span style={{ fontSize: '1rem', color: '#475569', fontWeight: 700 }}>+ 4 more sections in your free report</span>
+                  <span style={{ fontSize: '1rem', color: 'var(--brand-text-muted)', fontWeight: 700 }}>+ 4 more sections in your free report</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.93rem', color: '#64748b', fontWeight: 500 }}>
+          <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.93rem', color: 'var(--brand-text-mid)', fontWeight: 500 }}>
             12 sections · Built from your answers · Completely personalised
           </p>
         </div>
@@ -601,10 +598,10 @@ export default function LandingPage() {
       {/* ─── HOW IT WORKS ────────────────────────────── */}
       <section style={{ padding: '6rem 1.5rem', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <p style={{ fontSize: '0.73rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
+          <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
             How it works
           </p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', color: '#0f172a' }}>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--brand-text)' }}>
             Simple. <span className="gradient-text">Brutally honest.</span> Yours.
           </h2>
         </div>
@@ -616,8 +613,8 @@ export default function LandingPage() {
             { step: '03', title: 'Get your report', body: 'A full breakdown of your archetype, direction, blind spots, and your next move.' },
           ].map(({ step, title, body }) => (
             <div key={step} style={{
-              background: '#ffffff', borderRadius: '20px', padding: '2rem',
-              border: '1px solid #e2e8f0',
+              background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem',
+              border: '1px solid var(--brand-border)',
               boxShadow: '0 4px 24px rgba(0,0,0,0.07)'
             }}>
               <div style={{
@@ -629,10 +626,10 @@ export default function LandingPage() {
               }}>
                 {step}
               </div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.75rem' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.75rem' }}>
                 {title}
               </h3>
-              <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.65, margin: 0 }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-mid)', lineHeight: 1.65, margin: 0 }}>
                 {body}
               </p>
             </div>
@@ -641,13 +638,13 @@ export default function LandingPage() {
       </section>
 
       {/* ─── TESTIMONIALS ────────────────────────────── */}
-      <section style={{ background: '#f8faff', borderTop: '1px solid #e2e8f0', padding: '6rem 1.5rem' }}>
+      <section style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', padding: '6rem 1.5rem' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{ fontSize: '0.73rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
+            <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
               What people say
             </p>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: 'var(--brand-text)', letterSpacing: '-0.02em' }}>
               Real results from real people.
             </h2>
           </div>
@@ -659,12 +656,12 @@ export default function LandingPage() {
               { initials: 'AR', name: 'Alex, 24', quote: "The Mirror section was uncomfortable to read but exactly what I needed to hear. No vague platitudes — just the truth about why I was stuck." },
             ].map(({ initials, name, quote }) => (
               <div key={name} style={{
-                background: '#ffffff', borderRadius: '20px', padding: '1.75rem',
-                border: '1px solid #e2e8f0',
+                background: 'var(--brand-card)', borderRadius: '20px', padding: '1.75rem',
+                border: '1px solid var(--brand-border)',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.07)'
               }}>
                 <div style={{ color: '#f59e0b', fontSize: '0.9rem', marginBottom: '1rem', letterSpacing: '2px' }}>★★★★★</div>
-                <p style={{ fontSize: '0.9rem', color: '#334155', lineHeight: 1.7, marginBottom: '1.25rem', fontStyle: 'italic' }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, marginBottom: '1.25rem', fontStyle: 'italic' }}>
                   &ldquo;{quote}&rdquo;
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -676,7 +673,7 @@ export default function LandingPage() {
                   }}>
                     {initials}
                   </div>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#475569' }}>{name}</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--brand-text-muted)' }}>{name}</span>
                 </div>
               </div>
             ))}
@@ -687,10 +684,10 @@ export default function LandingPage() {
       {/* ─── FAQ ─────────────────────────────────────── */}
       <section style={{ padding: '6rem 1.5rem', maxWidth: '720px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <p style={{ fontSize: '0.73rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
+          <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
             Questions
           </p>
-          <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: 'var(--brand-text)', letterSpacing: '-0.02em' }}>
             Answered before you ask.
           </h2>
         </div>
@@ -719,7 +716,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FINAL CTA ───────────────────────────────── */}
-      <section style={{ padding: '7rem 1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden', background: '#f8faff', borderTop: '1px solid #e2e8f0' }}>
+      <section style={{ padding: '7rem 1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden', background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)' }}>
         <div className="animate-pulse-glow" style={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
           width: '700px', height: '400px',
@@ -727,14 +724,14 @@ export default function LandingPage() {
           filter: 'blur(50px)', pointerEvents: 'none'
         }} />
         <div style={{ position: 'relative', maxWidth: '620px', margin: '0 auto' }}>
-          <p style={{ fontSize: '0.73rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '1rem', fontWeight: 600 }}>
+          <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '1rem', fontWeight: 600 }}>
             Stop waiting for clarity to find you.
           </p>
-          <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.5rem', color: '#0f172a' }}>
+          <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.5rem', color: 'var(--brand-text)' }}>
             You&apos;re under an hour away{' '}
             <span className="gradient-text">from finally getting it.</span>
           </h2>
-          <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto 2.5rem' }}>
+          <p style={{ fontSize: '1.05rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto 2.5rem' }}>
             You already know something isn&apos;t clicking. This tells you why — and exactly what to do about it.
           </p>
           <Link href="/start" style={{ textDecoration: 'none', display: 'inline-block' }}>
@@ -747,15 +744,15 @@ export default function LandingPage() {
               Start the Assessment →
             </button>
           </Link>
-          <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: '#94a3b8' }}>
+          <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
             Free · 25 min · Your data is private.
           </p>
         </div>
       </section>
 
       {/* ─── FOOTER ──────────────────────────────────── */}
-      <footer style={{ padding: '2rem 1.5rem', textAlign: 'center', borderTop: '1px solid #e2e8f0' }}>
-        <p style={{ color: '#94a3b8', fontSize: '0.8rem' }}>
+      <footer style={{ padding: '2rem 1.5rem', textAlign: 'center', borderTop: '1px solid var(--brand-border)' }}>
+        <p style={{ color: 'var(--brand-text-subtle)', fontSize: '0.8rem' }}>
           © 2026 MyTwenties · Your data is private and never shared.
         </p>
       </footer>
@@ -775,8 +772,8 @@ function ReportCard({ number, tag, tagColor, title, description, accent, accentB
 }) {
   return (
     <div style={{
-      background: '#ffffff', borderRadius: '20px', padding: '2rem',
-      border: '1px solid #e2e8f0',
+      background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem',
+      border: '1px solid var(--brand-border)',
       boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
       position: 'relative', overflow: 'hidden'
     }}>
@@ -798,10 +795,10 @@ function ReportCard({ number, tag, tagColor, title, description, accent, accentB
           {tag}
         </div>
         <div style={{ width: '40px', height: '3px', background: tagColor, borderRadius: '2px', margin: '0 auto 1.25rem', opacity: 0.4 }} />
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: '0.75rem', color: '#0f172a' }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>
           {title}
         </h3>
-        <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.7, margin: 0, textAlign: 'center' }}>
+        <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0, textAlign: 'center' }}>
           {description}
         </p>
       </div>
@@ -813,8 +810,8 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
   const [open, setOpen] = useState(false)
   return (
     <div style={{
-      background: '#ffffff', borderRadius: '16px',
-      border: '1px solid #e2e8f0', overflow: 'hidden',
+      background: 'var(--brand-card)', borderRadius: '16px',
+      border: '1px solid var(--brand-border)', overflow: 'hidden',
       boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
     }}>
       <button
@@ -825,11 +822,11 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem'
         }}
       >
-        <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.4 }}>{question}</span>
+        <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', lineHeight: 1.4 }}>{question}</span>
         <span style={{
           width: '24px', height: '24px', borderRadius: '50%', flexShrink: 0,
-          background: open ? 'rgba(37,99,235,0.1)' : '#f1f5f9',
-          border: `1px solid ${open ? 'rgba(37,99,235,0.2)' : '#e2e8f0'}`,
+          background: open ? 'rgba(37,99,235,0.1)' : 'var(--brand-track)',
+          border: `1px solid ${open ? 'rgba(37,99,235,0.2)' : 'var(--brand-border)'}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '1rem', color: open ? '#2563eb' : '#94a3b8', transition: 'all 0.2s',
           transform: open ? 'rotate(45deg)' : 'rotate(0deg)'
@@ -837,7 +834,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
       </button>
       {open && (
         <div style={{ padding: '0 1.5rem 1.25rem' }}>
-          <p style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.7, margin: 0 }}>{answer}</p>
+          <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, margin: 0 }}>{answer}</p>
         </div>
       )}
     </div>
