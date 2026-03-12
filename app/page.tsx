@@ -85,7 +85,7 @@ export default function LandingPage() {
           }}>
             School taught you everything...
             <br />
-            <span className="shimmer-text">but what to do with your life.</span>
+            <span className="gradient-text">but what to do with your life.</span>
           </h1>
 
           {/* Sub — single punchy sentence */}
@@ -362,6 +362,7 @@ export default function LandingPage() {
             border: '1px solid #e2e8f0', boxShadow: '0 24px 80px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)',
             position: 'relative'
           }}>
+            <div className="shimmer-card-shine" />
 
             {/* ── Report header ── */}
             <div style={{
