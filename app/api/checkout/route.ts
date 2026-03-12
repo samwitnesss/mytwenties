@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       mode: 'payment',
       line_items: [{ price: process.env.STRIPE_PRICE_ID!, quantity: 1 }],
       metadata: { reportId, userId },
+      allow_promotion_codes: true,
       success_url: `${baseUrl}/api/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/report/${reportId}`,
     })
