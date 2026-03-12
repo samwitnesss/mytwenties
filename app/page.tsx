@@ -70,7 +70,7 @@ export default function LandingPage() {
             fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.03em',
             marginBottom: '1.75rem', color: '#0f172a'
           }}>
-            School taught you everything{' '}
+            School taught you everything...
             <br />
             <span className="gradient-text">but what to do with your life.</span>
           </h1>
