@@ -22,8 +22,8 @@ export default function LandingPage() {
       {/* ─── NAV ─────────────────────────────────────── */}
       <nav style={{
         position: isMobile ? 'relative' : 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid #e2e8f0',
+        background: isMobile ? 'rgba(255,255,255,0.85)' : 'transparent',
+        backdropFilter: isMobile ? 'blur(8px)' : 'none',
         padding: isMobile ? '0 1.5rem' : 'env(safe-area-inset-top) 2rem 0',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         minHeight: '60px'
@@ -59,21 +59,22 @@ export default function LandingPage() {
       <section style={{
         position: 'relative', minHeight: isMobile ? 'calc(100vh - 60px)' : '100vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: isMobile ? '3rem 1.5rem 4rem' : '8rem 1.5rem 5rem', textAlign: 'center', overflow: 'hidden'
+        padding: isMobile ? '3rem 1.5rem 4rem' : '8rem 1.5rem 5rem', textAlign: 'center',
+        overflowX: 'hidden', overflowY: 'visible'
       }}>
         {/* ─── Aurora blobs — corners only, away from text ─── */}
-        {/* Blue — top-left corner */}
+        {/* Blue — top-left corner, bleeds into nav */}
         <div className="animate-aurora-1" style={{
-          position: 'absolute', top: '-60px', left: '-60px',
-          width: '320px', height: '280px',
+          position: 'absolute', top: isMobile ? '-40px' : '-80px', left: '-60px',
+          width: '320px', height: '300px',
           background: 'radial-gradient(ellipse at 60% 60%, rgba(37,99,235,0.22) 0%, rgba(59,130,246,0.1) 50%, transparent 70%)',
           filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
           mixBlendMode: 'multiply'
         }} />
-        {/* Teal — top-right corner */}
+        {/* Teal — top-right corner, bleeds into nav */}
         <div className="animate-aurora-2" style={{
-          position: 'absolute', top: '-60px', right: '-60px',
-          width: '300px', height: '260px',
+          position: 'absolute', top: isMobile ? '-40px' : '-80px', right: '-60px',
+          width: '300px', height: '280px',
           background: 'radial-gradient(ellipse at 40% 60%, rgba(6,182,212,0.2) 0%, rgba(14,165,233,0.08) 50%, transparent 70%)',
           filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
           mixBlendMode: 'multiply'
