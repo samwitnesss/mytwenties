@@ -290,14 +290,14 @@ export default function AssessmentPage() {
           <div style={{
             height: '100%', borderRadius: '2px',
             width: `${progressPct}%`,
-            background: 'linear-gradient(to right, #3b82f6, #7c3aed)',
+            background: 'linear-gradient(to right, #3b82f6, #06b6d4)',
             transition: 'width 0.4s ease'
           }} />
         </div>
 
         {/* Section 3+ social proof */}
         {currentSection >= 2 && (
-          <p style={{ fontSize: '0.7rem', color: '#7c3aed', marginTop: '5px', textAlign: 'center', opacity: 0.7 }}>
+          <p style={{ fontSize: '0.7rem', color: '#06b6d4', marginTop: '5px', textAlign: 'center', opacity: 0.7 }}>
             94% of people who reach this point complete the full assessment
           </p>
         )}
@@ -308,7 +308,7 @@ export default function AssessmentPage() {
         {/* Section label */}
         <div style={{ marginBottom: '1.75rem' }}>
           <p style={{
-            fontSize: '0.75rem', color: '#7c3aed', textTransform: 'uppercase',
+            fontSize: '0.75rem', color: '#06b6d4', textTransform: 'uppercase',
             letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 600
           }}>
             Section {currentSection + 1} of 8 · {section.title}
@@ -514,7 +514,7 @@ function SingleQuestion({
   const continueBtn: React.CSSProperties = {
     width: '100%', padding: '0.875rem', borderRadius: '12px', border: 'none',
     cursor: 'pointer', fontSize: '1rem', fontWeight: 700, color: '#ffffff', marginTop: '0.875rem',
-    background: 'linear-gradient(135deg, #3b82f6 0%, #7c3aed 100%)',
+    background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
     transition: 'all 0.2s ease', fontFamily: 'inherit'
   }
 
@@ -573,7 +573,7 @@ function SingleQuestion({
             </span>
           </div>
           {isSection8 && (
-            <p style={{ fontSize: '0.75rem', color: '#7c3aed', marginTop: '8px' }}>
+            <p style={{ fontSize: '0.75rem', color: '#06b6d4', marginTop: '8px' }}>
               💡 Tip: On mobile, tap the microphone on your keyboard for voice-to-text.
             </p>
           )}
@@ -660,7 +660,7 @@ function SingleQuestion({
           <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
             <span style={{
               fontSize: '2.5rem', fontWeight: 800,
-              background: 'linear-gradient(135deg, #3b82f6, #7c3aed)',
+              background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'
             }}>
               {numVal}
@@ -757,8 +757,8 @@ function ScaleBatch({
 
       {allAnswered && (
         <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#7c3aed', fontSize: '0.875rem' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#7c3aed' }} />
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#06b6d4', fontSize: '0.875rem' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#06b6d4' }} />
             Moving on...
           </div>
         </div>
@@ -827,7 +827,7 @@ function SectionCompleteScreen({
             <defs>
               <linearGradient id="completeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#3b82f6" />
-                <stop offset="100%" stopColor="#7c3aed" />
+                <stop offset="100%" stopColor="#06b6d4" />
               </linearGradient>
             </defs>
           </svg>
@@ -866,7 +866,7 @@ function SectionCompleteScreen({
           style={{
             fontSize: '1.05rem', fontWeight: 700, color: '#ffffff',
             padding: '0.9rem 2.5rem', borderRadius: '100px', border: 'none', cursor: 'pointer',
-            background: 'linear-gradient(135deg, #3b82f6 0%, #7c3aed 100%)',
+            background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
             transition: 'all 0.2s ease', fontFamily: 'inherit'
           }}
         >
