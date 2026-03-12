@@ -72,7 +72,7 @@ export default function LandingPage() {
           }}>
             School taught you everything{' '}
             <br />
-            <span className="gradient-text">except what to do with your life.</span>
+            <span className="gradient-text">but what to do with your life.</span>
           </h1>
 
           {/* Sub — single punchy sentence */}
