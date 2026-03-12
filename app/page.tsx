@@ -21,10 +21,10 @@ export default function LandingPage() {
 
       {/* ─── NAV ─────────────────────────────────────── */}
       <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        position: isMobile ? 'relative' : 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
         background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)',
         borderBottom: '1px solid #e2e8f0',
-        padding: 'env(safe-area-inset-top) 2rem 0',
+        padding: isMobile ? '0 1.5rem' : 'env(safe-area-inset-top) 2rem 0',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         minHeight: '60px'
       }}>
@@ -57,9 +57,9 @@ export default function LandingPage() {
 
       {/* ─── HERO ────────────────────────────────────── */}
       <section style={{
-        position: 'relative', minHeight: '100vh',
+        position: 'relative', minHeight: isMobile ? 'calc(100vh - 60px)' : '100vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '8rem 1.5rem 5rem', textAlign: 'center', overflow: 'hidden'
+        padding: isMobile ? '3rem 1.5rem 4rem' : '8rem 1.5rem 5rem', textAlign: 'center', overflow: 'hidden'
       }}>
         {/* ─── Aurora blobs — corners only, away from text ─── */}
         {/* Blue — top-left corner */}
