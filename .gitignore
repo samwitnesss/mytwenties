@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local planning/reference files
+.obsidian/
+"Deeper personality data/"
+Deeper personality data/
+MyTwenties_Assessment_Questions_v2.md
+Mytwenties report prompt.md
