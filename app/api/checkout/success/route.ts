@@ -19,7 +19,11 @@ export async function GET(req: NextRequest) {
 
     const { reportId, userId } = session.metadata ?? {}
 
-    if (reportId && userId) {
+    if (!reportId) {
+      return NextResponse.redirect(new URL('/', req.url))
+    }
+
+    if (userId) {
       const admin = createAdminClient()
       await admin
         .from('mytwenties_reports')

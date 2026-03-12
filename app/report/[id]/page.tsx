@@ -14,7 +14,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       .single()
 
     if (data?.report_data && data.status === 'ready') {
-      return <ReportContent report={data.report_data} reportType={data.report_type ?? 'free'} />
+      return <ReportContent report={{ ...data.report_data, id }} reportType={data.report_type ?? 'free'} />
     }
   } catch {
     // Fall through to mock

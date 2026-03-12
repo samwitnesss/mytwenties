@@ -378,7 +378,14 @@ Remember: be specific to their exact answers. Reference what they actually said.
 
     // Parse the JSON — strip any accidental markdown fences
     const jsonStr = rawText.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim()
-    const reportData = JSON.parse(jsonStr)
+
+    let reportData: Record<string, unknown>
+    try {
+      reportData = JSON.parse(jsonStr)
+    } catch {
+      console.error('Claude returned invalid JSON:', jsonStr.slice(0, 500))
+      return NextResponse.json({ error: 'Report generation produced invalid data. Please try again.' }, { status: 500 })
+    }
 
     // Add metadata
     reportData.userId = userId
