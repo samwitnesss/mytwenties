@@ -44,7 +44,8 @@ export default function LoginPage() {
       } else if (data.pendingReportId) {
         router.push('/generating')
       } else {
-        router.push('/assessment')
+        setError('no_report')
+        setLoading(false)
       }
     } catch {
       setError('Something went wrong. Please try again.')
@@ -123,7 +124,19 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && (
+          {error === 'no_report' ? (
+            <div style={{
+              fontSize: '0.875rem', padding: '14px 16px',
+              background: 'rgba(37,99,235,0.06)', borderRadius: '10px',
+              border: '1px solid rgba(37,99,235,0.2)', lineHeight: 1.6,
+              color: 'var(--brand-text-muted)'
+            }}>
+              You have an account but haven&apos;t completed the assessment yet.{' '}
+              <Link href="/assessment" style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'none' }}>
+                Continue the assessment →
+              </Link>
+            </div>
+          ) : error ? (
             <div style={{
               color: '#dc2626', fontSize: '0.85rem', padding: '10px 14px',
               background: 'rgba(220,38,38,0.06)', borderRadius: '8px',
@@ -134,7 +147,7 @@ export default function LoginPage() {
                 <span> <Link href="/start" style={{ color: '#2563eb', fontWeight: 600 }}>Start it here →</Link></span>
               )}
             </div>
-          )}
+          ) : null}
 
           <button
             type="submit"
