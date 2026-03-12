@@ -61,19 +61,46 @@ export default function LandingPage() {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '8rem 1.5rem 5rem', textAlign: 'center', overflow: 'hidden'
       }}>
-        {/* Blue glow */}
-        <div className="animate-pulse-glow" style={{
-          position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)',
-          width: '800px', height: '500px',
-          background: 'radial-gradient(ellipse, rgba(37,99,235,0.09) 0%, transparent 65%)',
-          filter: 'blur(50px)', borderRadius: '50%', pointerEvents: 'none'
+        {/* ─── Aurora blobs ─── */}
+        {/* Large blue core — center-top */}
+        <div className="animate-aurora-1" style={{
+          position: 'absolute', top: '5%', left: '50%', marginLeft: '-350px',
+          width: '700px', height: '500px',
+          background: 'radial-gradient(ellipse at 50% 50%, rgba(37,99,235,0.13) 0%, rgba(59,130,246,0.06) 45%, transparent 70%)',
+          filter: 'blur(60px)', borderRadius: '50%', pointerEvents: 'none',
+          mixBlendMode: 'multiply'
         }} />
-        {/* Pink accent */}
-        <div className="animate-float-delayed" style={{
-          position: 'absolute', top: '20%', right: '10%',
-          width: '300px', height: '300px',
-          background: 'radial-gradient(circle, rgba(6,182,212,0.07) 0%, transparent 70%)',
-          filter: 'blur(40px)', borderRadius: '50%', pointerEvents: 'none'
+        {/* Teal aurora — top-right */}
+        <div className="animate-aurora-2" style={{
+          position: 'absolute', top: '-5%', right: '5%',
+          width: '520px', height: '420px',
+          background: 'radial-gradient(ellipse at 40% 40%, rgba(6,182,212,0.11) 0%, rgba(14,165,233,0.05) 50%, transparent 70%)',
+          filter: 'blur(70px)', borderRadius: '50%', pointerEvents: 'none',
+          mixBlendMode: 'multiply'
+        }} />
+        {/* Indigo/violet — left */}
+        <div className="animate-aurora-3" style={{
+          position: 'absolute', top: '15%', left: '-5%',
+          width: '480px', height: '380px',
+          background: 'radial-gradient(ellipse at 60% 50%, rgba(99,102,241,0.09) 0%, rgba(139,92,246,0.04) 50%, transparent 70%)',
+          filter: 'blur(65px)', borderRadius: '50%', pointerEvents: 'none',
+          mixBlendMode: 'multiply'
+        }} />
+        {/* Soft teal fill — bottom-left */}
+        <div className="animate-aurora-1" style={{
+          position: 'absolute', bottom: '10%', left: '15%',
+          width: '400px', height: '300px',
+          background: 'radial-gradient(ellipse at 50% 50%, rgba(6,182,212,0.07) 0%, transparent 65%)',
+          filter: 'blur(55px)', borderRadius: '50%', pointerEvents: 'none',
+          mixBlendMode: 'multiply', animationDelay: '-9s'
+        }} />
+        {/* Blue accent — bottom-right */}
+        <div className="animate-aurora-2" style={{
+          position: 'absolute', bottom: '8%', right: '10%',
+          width: '380px', height: '280px',
+          background: 'radial-gradient(ellipse at 50% 50%, rgba(37,99,235,0.08) 0%, transparent 65%)',
+          filter: 'blur(50px)', borderRadius: '50%', pointerEvents: 'none',
+          mixBlendMode: 'multiply', animationDelay: '-12s'
         }} />
 
         <div style={{ position: 'relative', zIndex: 10, maxWidth: '760px', margin: '0 auto' }}>
