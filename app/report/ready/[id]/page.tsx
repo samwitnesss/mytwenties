@@ -13,7 +13,8 @@ export default function ReportReadyPage() {
   useEffect(() => {
     const stored = localStorage.getItem('mt_first_name')
     if (stored) setFirstName(stored)
-  }, [])
+    if (reportId) localStorage.setItem('mt_report_id', reportId)
+  }, [reportId])
 
   return (
     <main style={{

@@ -16,6 +16,18 @@ function useIsMobile() {
 
 export default function LandingPage() {
   const isMobile = useIsMobile()
+  const [reportId, setReportId] = useState<string | null>(null)
+  const [firstName, setFirstName] = useState<string | null>(null)
+
+  useEffect(() => {
+    const rid = localStorage.getItem('mt_report_id')
+    const name = localStorage.getItem('mt_first_name')
+    if (rid && localStorage.getItem('mt_user_id')) {
+      setReportId(rid)
+      setFirstName(name)
+    }
+  }, [])
+
   return (
     <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', overflowX: 'hidden', color: 'var(--brand-text)' }}>
 
@@ -117,20 +129,39 @@ export default function LandingPage() {
           </p>
 
           {/* CTA */}
-          <Link href="/start" style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '1rem' }}>
-            <button className="gradient-btn" style={{
-              fontSize: '1.1rem', fontWeight: 700, color: '#ffffff',
-              padding: '1rem 2.75rem', borderRadius: '100px', border: 'none',
-              cursor: 'pointer', letterSpacing: '0.01em',
-              boxShadow: '0 8px 32px rgba(37,99,235,0.3)', fontFamily: 'inherit'
-            }}>
-              Start the Assessment →
-            </button>
-          </Link>
-
-          <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
-            Your data is encrypted and never sold. Delete anytime.
-          </p>
+          {reportId ? (
+            <div style={{ marginBottom: '1rem' }}>
+              <Link href={`/report/${reportId}`} style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '0.75rem' }}>
+                <button className="gradient-btn" style={{
+                  fontSize: '1.1rem', fontWeight: 700, color: '#ffffff',
+                  padding: '1rem 2.75rem', borderRadius: '100px', border: 'none',
+                  cursor: 'pointer', letterSpacing: '0.01em',
+                  boxShadow: '0 8px 32px rgba(37,99,235,0.3)', fontFamily: 'inherit'
+                }}>
+                  View My Report →
+                </button>
+              </Link>
+              <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
+                {firstName ? `Welcome back, ${firstName}.` : 'Welcome back.'}
+              </p>
+            </div>
+          ) : (
+            <>
+              <Link href="/start" style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '1rem' }}>
+                <button className="gradient-btn" style={{
+                  fontSize: '1.1rem', fontWeight: 700, color: '#ffffff',
+                  padding: '1rem 2.75rem', borderRadius: '100px', border: 'none',
+                  cursor: 'pointer', letterSpacing: '0.01em',
+                  boxShadow: '0 8px 32px rgba(37,99,235,0.3)', fontFamily: 'inherit'
+                }}>
+                  Start the Assessment →
+                </button>
+              </Link>
+              <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
+                Your data is encrypted and never sold. Delete anytime.
+              </p>
+            </>
+          )}
         </div>
 
         {/* ─── Hand-drawn stick figure illustrations ─── */}

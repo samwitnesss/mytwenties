@@ -40,6 +40,7 @@ export default function LoginPage() {
 
       // Route based on report state
       if (data.reportId) {
+        localStorage.setItem('mt_report_id', data.reportId)
         router.push(`/report/ready/${data.reportId}`)
       } else if (data.pendingReportId) {
         router.push('/generating')
