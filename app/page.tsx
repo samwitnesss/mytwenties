@@ -60,20 +60,20 @@ export default function LandingPage() {
         position: 'relative', minHeight: isMobile ? 'calc(100vh - 60px)' : '100vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: isMobile ? '3rem 1.5rem 4rem' : '8rem 1.5rem 5rem', textAlign: 'center',
-        overflowX: 'hidden', overflowY: 'visible'
+        overflow: 'hidden'
       }}>
         {/* ─── Aurora blobs — corners only, away from text ─── */}
-        {/* Blue — top-left corner, bleeds into nav */}
+        {/* Blue — top-left corner */}
         <div className="animate-aurora-1" style={{
-          position: 'absolute', top: isMobile ? '-40px' : '-80px', left: '-60px',
+          position: 'absolute', top: 0, left: '-60px',
           width: '320px', height: '300px',
           background: 'radial-gradient(ellipse at 60% 60%, rgba(37,99,235,0.22) 0%, rgba(59,130,246,0.1) 50%, transparent 70%)',
           filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
           mixBlendMode: 'multiply'
         }} />
-        {/* Teal — top-right corner, bleeds into nav */}
+        {/* Teal — top-right corner */}
         <div className="animate-aurora-2" style={{
-          position: 'absolute', top: isMobile ? '-40px' : '-80px', right: '-60px',
+          position: 'absolute', top: 0, right: '-60px',
           width: '300px', height: '280px',
           background: 'radial-gradient(ellipse at 40% 60%, rgba(6,182,212,0.2) 0%, rgba(14,165,233,0.08) 50%, transparent 70%)',
           filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
