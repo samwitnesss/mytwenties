@@ -1,19 +1,32 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  return isMobile
+}
+
 export default function LandingPage() {
+  const isMobile = useIsMobile()
   return (
     <main style={{ backgroundColor: '#ffffff', minHeight: '100vh', overflowX: 'hidden', color: '#0f172a' }}>
 
       {/* ─── NAV ─────────────────────────────────────── */}
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid #e2e8f0', padding: '0 2rem',
+        background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)',
+        borderBottom: '1px solid #e2e8f0',
+        padding: 'env(safe-area-inset-top) 2rem 0',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: '60px'
+        minHeight: '60px'
       }}>
         <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#0f172a', letterSpacing: '-0.02em' }}>
           My<span style={{ color: '#2563eb' }}>Twenties</span>
@@ -102,7 +115,7 @@ export default function LandingPage() {
 
         {/* ─── Hand-drawn stick figure illustrations ─── */}
         {/* Artist at easel */}
-        <svg width="155" height="175" viewBox="0 0 155 175" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10%', left: '2%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="155" height="175" viewBox="0 0 155 175" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10%', left: '2%', opacity: 0.05, pointerEvents: 'none', transform: isMobile ? 'scale(0.65)' : 'scale(1)', transformOrigin: 'top left' }} aria-hidden="true">
           <circle cx="46" cy="18" r="13" />
           <path d="M46,31 Q47,52 46,74" /><path d="M46,50 Q64,42 86,38" /><path d="M46,50 Q34,60 26,70" />
           <path d="M46,74 Q38,92 34,112" /><path d="M46,74 Q56,92 60,112" />
@@ -112,7 +125,7 @@ export default function LandingPage() {
           <path d="M86,38 L92,33" strokeWidth="2" />
         </svg>
         {/* Speaker at podium */}
-        <svg width="150" height="180" viewBox="0 0 150 180" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '12%', right: '3%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="150" height="180" viewBox="0 0 150 180" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '12%', right: '3%', opacity: 0.05, pointerEvents: 'none', transform: isMobile ? 'scale(0.65)' : 'scale(1)', transformOrigin: 'top right' }} aria-hidden="true">
           <circle cx="72" cy="18" r="13" />
           <path d="M72,31 Q73,52 72,76" /><path d="M72,50 Q88,34 102,20" /><path d="M72,50 Q58,58 48,54" />
           <path d="M72,76 Q62,96 58,118" /><path d="M72,76 Q82,96 86,118" />
@@ -122,7 +135,7 @@ export default function LandingPage() {
           <path d="M105,20 L105,36" strokeWidth="2" /><path d="M100,36 L110,36" strokeWidth="2" />
         </svg>
         {/* Surfer */}
-        <svg width="200" height="155" viewBox="0 0 200 155" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '16%', left: '1%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="200" height="155" viewBox="0 0 200 155" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '16%', left: '1%', opacity: 0.05, pointerEvents: 'none', transform: isMobile ? 'scale(0.6)' : 'scale(1)', transformOrigin: 'bottom left' }} aria-hidden="true">
           <circle cx="100" cy="20" r="13" />
           <path d="M100,33 Q103,52 105,68" /><path d="M102,50 Q80,42 58,46" /><path d="M102,50 Q122,38 146,42" />
           <path d="M105,68 Q94,82 90,98" /><path d="M105,68 Q118,82 122,96" />
@@ -130,7 +143,7 @@ export default function LandingPage() {
           <path d="M10,138 Q40,126 68,140 Q96,154 126,136 Q152,122 180,138" strokeWidth="2.2" />
         </svg>
         {/* Golfer */}
-        <svg width="165" height="158" viewBox="0 0 165 158" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '13%', right: '2%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="165" height="158" viewBox="0 0 165 158" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '13%', right: '2%', opacity: 0.05, pointerEvents: 'none', transform: isMobile ? 'scale(0.6)' : 'scale(1)', transformOrigin: 'bottom right' }} aria-hidden="true">
           <circle cx="94" cy="16" r="13" />
           <path d="M94,29 Q89,48 84,66" /><path d="M88,46 Q66,52 44,58" /><path d="M88,46 Q72,38 50,46" />
           <path d="M84,66 Q77,84 74,104" /><path d="M84,66 Q95,82 99,102" />
@@ -138,14 +151,14 @@ export default function LandingPage() {
           <circle cx="23" cy="116" r="5" strokeWidth="2.2" /><path d="M5,116 L138,116" strokeWidth="1.8" />
         </svg>
         {/* Runner */}
-        <svg width="115" height="158" viewBox="0 0 115 158" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '42%', right: '0.5%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="115" height="158" viewBox="0 0 115 158" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '42%', right: '0.5%', opacity: 0.05, pointerEvents: 'none', display: isMobile ? 'none' : 'block' }} aria-hidden="true">
           <circle cx="58" cy="18" r="12" />
           <path d="M58,30 Q54,48 52,66" /><path d="M55,46 Q36,32 26,24" /><path d="M55,46 Q74,58 84,68" />
           <path d="M52,66 Q36,82 28,102" /><path d="M52,66 Q66,78 74,94" />
           <path d="M28,102 Q22,114 14,116" /><path d="M74,94 Q82,106 90,112" />
         </svg>
         {/* Yoga / meditation — left-center */}
-        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '28%', left: '18%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '28%', left: '18%', opacity: 0.05, pointerEvents: 'none', display: isMobile ? 'none' : 'block' }} aria-hidden="true">
           <circle cx="60" cy="16" r="13" />
           <path d="M60,29 Q60,50 60,66" />
           <path d="M60,44 Q42,54 24,60 Q18,62 14,68" /><path d="M60,44 Q78,54 96,60 Q102,62 106,68" />
@@ -154,7 +167,7 @@ export default function LandingPage() {
           <path d="M106,68 Q110,72 106,76 Q102,80 98,76" strokeWidth="2.2" />
         </svg>
         {/* Chef cooking — center-left */}
-        <svg width="130" height="165" viewBox="0 0 130 165" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '22%', left: '38%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="130" height="165" viewBox="0 0 130 165" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '22%', left: '38%', opacity: 0.05, pointerEvents: 'none', display: isMobile ? 'none' : 'block' }} aria-hidden="true">
           <circle cx="65" cy="22" r="13" />
           <path d="M50,14 Q54,4 65,6 Q76,4 80,14" strokeWidth="2.2" />
           <path d="M50,14 Q46,20 50,26 Q54,32 65,30 Q76,32 80,26 Q84,20 80,14" strokeWidth="2.2" />
@@ -163,7 +176,7 @@ export default function LandingPage() {
           <path d="M64,72 Q56,90 52,110" /><path d="M64,72 Q74,90 78,110" />
         </svg>
         {/* Guitarist / musician — center-right */}
-        <svg width="140" height="170" viewBox="0 0 140 170" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '18%', left: '58%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="140" height="170" viewBox="0 0 140 170" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '18%', left: '58%', opacity: 0.05, pointerEvents: 'none', display: isMobile ? 'none' : 'block' }} aria-hidden="true">
           <circle cx="60" cy="18" r="13" />
           <path d="M60,31 Q60,52 60,70" />
           <path d="M60,50 Q40,36 28,28" /><path d="M60,50 Q80,38 100,36" />
@@ -175,7 +188,7 @@ export default function LandingPage() {
           <path d="M27,30 L101,38" strokeWidth="1.6" />
         </svg>
         {/* Desk / laptop worker — lower center */}
-        <svg width="160" height="145" viewBox="0 0 160 145" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '22%', left: '36%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="160" height="145" viewBox="0 0 160 145" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '22%', left: '36%', opacity: 0.05, pointerEvents: 'none', display: isMobile ? 'none' : 'block' }} aria-hidden="true">
           <circle cx="80" cy="18" r="13" />
           <path d="M80,31 Q82,52 84,70" />
           <path d="M82,50 Q60,44 44,48" /><path d="M82,50 Q104,40 120,44" />
@@ -187,7 +200,7 @@ export default function LandingPage() {
           <rect x="48" y="80" width="64" height="22" rx="2" strokeWidth="1.8" />
         </svg>
         {/* Photographer — right-center */}
-        <svg width="130" height="150" viewBox="0 0 130 150" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '52%', left: '20%', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true">
+        <svg width="130" height="150" viewBox="0 0 130 150" fill="none" stroke="#334155" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '52%', left: '20%', opacity: 0.05, pointerEvents: 'none', display: isMobile ? 'none' : 'block' }} aria-hidden="true">
           <circle cx="65" cy="18" r="13" />
           <path d="M65,31 Q65,52 65,70" />
           <path d="M65,50 Q46,38 32,34" /><path d="M65,50 Q84,40 100,44" />
@@ -230,14 +243,16 @@ export default function LandingPage() {
               <div key={i} style={{
                 display: 'flex', alignItems: 'flex-start', gap: '12px',
                 background: '#ffffff', borderRadius: '14px',
-                padding: '14px 18px', border: '1px solid #e2e8f0',
-                boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+                padding: '14px 18px',
+                border: '1px solid #e2e8f0',
+                borderLeft: '3px solid #2563eb',
+                boxShadow: '0 1px 6px rgba(37,99,235,0.07)'
               }}>
                 <span style={{
-                  width: '20px', height: '20px', borderRadius: '50%', flexShrink: 0,
-                  background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.2)',
+                  width: '22px', height: '22px', borderRadius: '50%', flexShrink: 0,
+                  background: 'linear-gradient(135deg, #2563eb, #06b6d4)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.65rem', color: '#2563eb', fontWeight: 700, marginTop: '1px'
+                  fontSize: '0.65rem', color: '#ffffff', fontWeight: 700, marginTop: '1px'
                 }}>✓</span>
                 <span style={{ color: '#334155', fontSize: '0.95rem', lineHeight: 1.6 }}>{item}</span>
               </div>
@@ -263,20 +278,23 @@ export default function LandingPage() {
       {/* ─── CREDIBILITY STRIP ───────────────────────── */}
       <section style={{ borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', background: '#ffffff' }}>
         <div style={{
-          maxWidth: '900px', margin: '0 auto', padding: '2.5rem 1.5rem',
-          display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0'
+          maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem',
+          display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px'
         }}>
           {[
-            { label: 'Built from 100+ real coaching conversations' },
-            { label: '75 questions across 10 dimensions' },
-            { label: '12 sections of personalised output' },
+            { label: '100+ coaching conversations' },
+            { label: '75 questions · 10 dimensions' },
+            { label: '12 personalised sections' },
             { label: 'Results in 25 minutes' },
           ].map(({ label }, i) => (
             <div key={i} style={{
-              flex: '1 1 180px', textAlign: 'center', padding: '1rem 1.5rem',
-              borderRight: i < 3 ? '1px solid #e2e8f0' : 'none'
+              background: 'rgba(37,99,235,0.05)',
+              border: '1px solid rgba(37,99,235,0.18)',
+              borderRadius: '100px',
+              padding: '0.55rem 1.25rem',
+              textAlign: 'center'
             }}>
-              <p style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.4 }}>{label}</p>
+              <p style={{ fontSize: '0.85rem', fontWeight: 700, color: '#2563eb', margin: 0, whiteSpace: 'nowrap' }}>{label}</p>
             </div>
           ))}
         </div>
@@ -348,7 +366,7 @@ export default function LandingPage() {
             {/* ── Report header ── */}
             <div style={{
               background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, #ffffff 100%)',
-              borderBottom: '1px solid #e2e8f0', padding: '2.5rem 2.5rem 2rem',
+              borderBottom: '1px solid #e2e8f0', padding: isMobile ? '1.5rem 1rem 1.25rem' : '2.5rem 2.5rem 2rem',
               textAlign: 'center', position: 'relative', overflow: 'hidden'
             }}>
               <div style={{
@@ -409,10 +427,10 @@ export default function LandingPage() {
             </div>
 
             {/* ── Section content ── */}
-            <div style={{ padding: '2rem 2.5rem' }}>
+            <div style={{ padding: isMobile ? '1.25rem 1rem' : '2rem 2.5rem' }}>
 
               {/* Identity + Archetype row */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                 {/* Identity card */}
                 <div style={{
                   background: '#ffffff', borderRadius: '18px', padding: '1.5rem',
@@ -485,7 +503,7 @@ export default function LandingPage() {
               </div>
 
               {/* Bottom row — 3 cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
                 <div style={{ background: '#ffffff', borderRadius: '16px', padding: '1.25rem', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                   <p style={{ fontSize: '0.62rem', color: '#0891b2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>07 · The Mirror</p>
                   <p style={{ fontSize: '0.78rem', color: '#334155', lineHeight: 1.65, marginBottom: '0' }}>
@@ -530,7 +548,7 @@ export default function LandingPage() {
 
               {/* Fading bottom rows */}
               <div style={{ position: 'relative' }}>
-                <div style={{ pointerEvents: 'none', userSelect: 'none', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', opacity: 0.5 }}>
+                <div style={{ pointerEvents: 'none', userSelect: 'none', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '1rem', opacity: 0.5 }}>
                   {[
                     { label: '10 · Dream Day', preview: 'You wake at 7:30am, no alarm. The first hour is yours alone. By 9am you\'re deep in the problem you chose, not one someone assigned you...', color: '#0ea5e9' },
                     { label: '11 · Business Blueprint', preview: 'The model with the highest probability of success for your specific wiring is a founder-led consulting practice anchored in strategic clarity...', color: '#2563eb' },
@@ -583,9 +601,10 @@ export default function LandingPage() {
             }}>
               <div style={{
                 width: '44px', height: '44px', borderRadius: '12px',
-                background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.2)',
+                background: 'linear-gradient(135deg, #2563eb, #06b6d4)',
+                boxShadow: '0 4px 16px rgba(37,99,235,0.3)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.75rem', fontWeight: 800, color: '#2563eb', marginBottom: '1.25rem'
+                fontSize: '0.75rem', fontWeight: 800, color: '#ffffff', marginBottom: '1.25rem'
               }}>
                 {step}
               </div>
@@ -761,7 +780,7 @@ function ReportCard({ number, tag, tagColor, title, description, accent, accentB
         <h3 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: '0.75rem', color: '#0f172a' }}>
           {title}
         </h3>
-        <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.7, margin: 0, textAlign: 'left' }}>
+        <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.7, margin: 0, textAlign: 'center' }}>
           {description}
         </p>
       </div>
