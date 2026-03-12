@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MyTwenties — Find out what you're actually built for",
   description: "A 20-minute deep assessment that tells you who you are, what you're built for, and what to do next. No fluff.",
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    viewportFit: 'cover',
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{ backgroundColor: '#0A0612', color: '#ffffff', minHeight: '100vh' }}
+        style={{ backgroundColor: '#ffffff', color: '#0f172a', minHeight: '100vh' }}
       >
         {children}
       </body>
