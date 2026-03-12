@@ -1,17 +1,33 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { Suspense } from 'react'
 
-export default function StartPage() {
+function StartPageInner() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    const urlError = searchParams.get('error')
+    if (urlError) {
+      const messages: Record<string, string> = {
+        auth_failed: 'Google sign-in failed. Please try again.',
+        no_code: 'Sign-in was cancelled. Please try again.',
+        user_creation_failed: 'Could not create your account. Please try again.',
+        unexpected: 'Something went wrong. Please try again.',
+        incomplete: 'Sign-in incomplete. Please try again.',
+      }
+      setError(messages[urlError] ?? 'Sign-in failed. Please try again.')
+    }
+  }, [searchParams])
 
   async function handleGoogleSignIn() {
     setGoogleLoading(true)
@@ -212,5 +228,13 @@ export default function StartPage() {
         </p>
       </div>
     </main>
+  )
+}
+
+export default function StartPage() {
+  return (
+    <Suspense>
+      <StartPageInner />
+    </Suspense>
   )
 }
