@@ -667,9 +667,9 @@ export default function LandingPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             {[
-              { accentFrom: '#2563eb', accentTo: '#3b82f6', name: 'Jamie, 23', quote: "I've done every personality test out there. This is the only one that actually made me feel understood. The direction compass alone was worth it." },
-              { accentFrom: '#06b6d4', accentTo: '#0284c7', name: 'Sophie, 18', quote: "I was spinning my wheels after finishing school. This gave me a framework for my next move that actually made sense for who I am." },
-              { accentFrom: '#7c3aed', accentTo: '#2563eb', name: 'Alex, 20', quote: "The Mirror section was uncomfortable to read but exactly what I needed to hear. No vague platitudes — just the truth about why I was stuck." },
+              { accentFrom: '#2563eb', accentTo: '#3b82f6', name: 'Mia, 23', quote: "I almost didn't finish it because I thought it would be like every other personality quiz. By section 3 I couldn't stop. The report called out things about me that I've never been able to put into words. Sent it to my best friend and she said 'that's literally you.'" },
+              { accentFrom: '#06b6d4', accentTo: '#0284c7', name: 'Jordan, 18', quote: "I've been going back and forth on what to do after uni for two years. The direction compass didn't just say 'be creative' like every other test. It gave me three actual paths with steps. I started on one of them the same week." },
+              { accentFrom: '#7c3aed', accentTo: '#2563eb', name: 'Jacob, 20', quote: "The blind spots section was hard to read. Not because it was mean, but because it was right. It connected dots between things I do that I never realised were related. I've read it four times now." },
             ].map(({ accentFrom, accentTo, name, quote }) => (
               <div key={name} style={{
                 background: 'var(--brand-card)', borderRadius: '20px', padding: '1.75rem',
