@@ -8,49 +8,47 @@ interface Parallel {
 }
 
 export default function FamousParallel({ parallel }: { parallel: Parallel }) {
-  const initials = parallel.name.split(' ').map(n => n[0]).join('')
-
   return (
     <div style={{
-      background: '#ffffff', borderRadius: '20px', overflow: 'hidden',
-      border: '1px solid #e2e8f0', flex: '1 1 280px', minWidth: '260px',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+      background: 'var(--brand-card)', borderRadius: '20px', overflow: 'hidden',
+      border: '1px solid var(--brand-border)', flex: '1 1 280px', minWidth: '260px',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)'
     }}>
-      {/* Image placeholder */}
+      {/* Name header */}
       <div style={{
-        height: '140px',
-        background: 'linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(6,182,212,0.12) 100%)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'
+        padding: '2rem 2rem 1.5rem',
+        background: 'linear-gradient(135deg, rgba(37,99,235,0.06) 0%, rgba(6,182,212,0.06) 100%)',
+        borderBottom: '1px solid var(--brand-border)',
+        textAlign: 'center'
       }}>
-        <div style={{
-          width: '64px', height: '64px', borderRadius: '50%',
-          background: 'rgba(37,99,235,0.15)', border: '2px solid rgba(37,99,235,0.3)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '1.4rem', fontWeight: 700, color: '#2563eb'
+        <p style={{
+          fontSize: 'clamp(2rem, 5vw, 2.8rem)',
+          fontFamily: "'Caveat', cursive",
+          fontWeight: 700,
+          color: 'var(--brand-text)',
+          lineHeight: 1.1,
+          margin: 0
         }}>
-          {initials}
-        </div>
-        <div style={{ position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)' }}>
-          <span style={{
-            fontSize: '1rem', fontWeight: 700, color: '#0f172a'
-          }}>
-            {parallel.name}
-          </span>
-        </div>
+          {parallel.name}
+        </p>
       </div>
 
-      <div style={{ padding: '1.25rem' }}>
-        <p style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.65, marginBottom: '1rem' }}>
+      <div style={{ padding: '1.5rem' }}>
+        <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '1.25rem' }}>
           {parallel.connection}
         </p>
+
+        {/* Key lesson — bold and prominent */}
         <div style={{
-          background: 'rgba(37,99,235,0.05)', borderRadius: '10px', padding: '0.75rem',
-          border: '1px solid rgba(37,99,235,0.15)'
+          background: 'linear-gradient(135deg, #1e3a5f 0%, #1a365d 100%)',
+          borderRadius: '14px', padding: '1.25rem 1.5rem',
+          border: '1px solid rgba(59,130,246,0.3)',
+          boxShadow: '0 4px 20px rgba(37,99,235,0.15)'
         }}>
-          <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#2563eb', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          <p style={{ fontSize: '0.68rem', fontWeight: 700, color: '#60a5fa', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Key Lesson
           </p>
-          <p style={{ fontSize: '0.85rem', color: '#475569', margin: 0, lineHeight: 1.5, fontStyle: 'italic' }}>
+          <p style={{ fontSize: '1.05rem', fontWeight: 700, color: '#ffffff', margin: 0, lineHeight: 1.55 }}>
             &ldquo;{parallel.key_lesson}&rdquo;
           </p>
         </div>
