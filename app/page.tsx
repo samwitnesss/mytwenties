@@ -682,28 +682,44 @@ export default function LandingPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             {[
-              { initials: 'JM', name: 'Jamie, 23', quote: "I've done every personality test out there. This is the only one that actually made me feel understood. The direction compass alone was worth it." },
-              { initials: 'SC', name: 'Sophie, 26', quote: "I was spinning my wheels for three years after uni. This gave me a framework for my next move that actually made sense for who I am." },
-              { initials: 'AR', name: 'Alex, 24', quote: "The Mirror section was uncomfortable to read but exactly what I needed to hear. No vague platitudes — just the truth about why I was stuck." },
-            ].map(({ initials, name, quote }) => (
+              {
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jamie23&backgroundColor=dbeafe&hairColor=2d1b00&top=shortHair',
+                accentFrom: '#2563eb', accentTo: '#3b82f6',
+                name: 'Jamie, 23', quote: "I've done every personality test out there. This is the only one that actually made me feel understood. The direction compass alone was worth it."
+              },
+              {
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie18&backgroundColor=fce7f3&hairColor=b45309&top=longHair',
+                accentFrom: '#06b6d4', accentTo: '#0284c7',
+                name: 'Sophie, 18', quote: "I was spinning my wheels after finishing school. This gave me a framework for my next move that actually made sense for who I am."
+              },
+              {
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex20&backgroundColor=dcfce7&hairColor=1c1917&top=shortHair',
+                accentFrom: '#7c3aed', accentTo: '#2563eb',
+                name: 'Alex, 20', quote: "The Mirror section was uncomfortable to read but exactly what I needed to hear. No vague platitudes — just the truth about why I was stuck."
+              },
+            ].map(({ avatar, accentFrom, accentTo, name, quote }) => (
               <div key={name} style={{
                 background: 'var(--brand-card)', borderRadius: '20px', padding: '1.75rem',
                 border: '1px solid var(--brand-border)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.07)'
+                boxShadow: '0 8px 40px rgba(0,0,0,0.1)',
+                position: 'relative', overflow: 'hidden'
               }}>
+                {/* Coloured top accent strip */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
+                  background: `linear-gradient(to right, ${accentFrom}, ${accentTo})`
+                }} />
                 <div style={{ color: '#f59e0b', fontSize: '0.9rem', marginBottom: '1rem', letterSpacing: '2px' }}>★★★★★</div>
                 <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, marginBottom: '1.25rem', fontStyle: 'italic' }}>
                   &ldquo;{quote}&rdquo;
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{
-                    width: '36px', height: '36px', borderRadius: '50%',
-                    background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.2)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '0.75rem', fontWeight: 700, color: '#2563eb'
-                  }}>
-                    {initials}
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={avatar} alt={name}
+                    width={40} height={40}
+                    style={{ borderRadius: '50%', border: '2px solid var(--brand-border)', background: 'var(--brand-bg-subtle)' }}
+                  />
                   <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--brand-text-muted)' }}>{name}</span>
                 </div>
               </div>
@@ -733,8 +749,12 @@ export default function LandingPage() {
               a: "It's not about time — it's about the right questions. Every question in this assessment was built from real coaching conversations, not academic theory. They're designed to surface the things you already know but haven't articulated."
             },
             {
+              q: "Is it free?",
+              a: "Yes — the full assessment and your complete report are free. You won't be asked for a card or charged anything to get your results. Once you've read your report, you have the option to upgrade for $29 to unlock a deeper set of results: more detailed analysis, extended sections, and expanded direction guidance. That upgrade is entirely optional — the free report stands on its own."
+            },
+            {
               q: "Will this actually tell me something useful?",
-              a: "Yes. Or you don't pay. The base report is completely free. If you read it and think it's generic, close the tab. If you want to go deeper, that's when it costs — and only then."
+              a: "Yes. The free report alone covers your core archetypes, strengths, blind spots, and direction compass. If you read it and think it's generic, you haven't lost a thing. The $29 upgrade goes further — but most people find the free version more than enough to get clarity."
             },
             {
               q: "What happens to my answers?",
