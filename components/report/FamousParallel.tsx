@@ -10,8 +10,8 @@ interface Parallel {
 export default function FamousParallel({ parallel }: { parallel: Parallel }) {
   return (
     <div style={{
-      background: 'var(--brand-card)', borderRadius: '20px', overflow: 'hidden',
-      border: '1px solid var(--brand-border)', flex: '1 1 280px', minWidth: '260px',
+      background: 'var(--brand-card)', borderRadius: '20px',
+      border: '1px solid var(--brand-border)',
       boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)'
     }}>
       {/* Name header */}
@@ -23,11 +23,12 @@ export default function FamousParallel({ parallel }: { parallel: Parallel }) {
       }}>
         <p style={{
           fontSize: 'clamp(2rem, 5vw, 2.8rem)',
-          fontFamily: "'Caveat', cursive",
+          fontFamily: "'DM Sans', system-ui, sans-serif",
           fontWeight: 700,
           color: 'var(--brand-text)',
           lineHeight: 1.1,
-          margin: 0
+          margin: 0,
+          letterSpacing: '-0.02em'
         }}>
           {parallel.name}
         </p>
@@ -38,17 +39,16 @@ export default function FamousParallel({ parallel }: { parallel: Parallel }) {
           {parallel.connection}
         </p>
 
-        {/* Key lesson — bold and prominent */}
+        {/* Key lesson */}
         <div style={{
-          background: 'linear-gradient(135deg, #1e3a5f 0%, #1a365d 100%)',
+          background: 'rgba(37,99,235,0.06)',
           borderRadius: '14px', padding: '1.25rem 1.5rem',
-          border: '1px solid rgba(59,130,246,0.3)',
-          boxShadow: '0 4px 20px rgba(37,99,235,0.15)'
+          border: '2px solid rgba(37,99,235,0.25)'
         }}>
-          <p style={{ fontSize: '0.68rem', fontWeight: 700, color: '#60a5fa', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          <p style={{ fontSize: '0.68rem', fontWeight: 700, color: '#2563eb', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Key Lesson
           </p>
-          <p style={{ fontSize: '1.05rem', fontWeight: 700, color: '#ffffff', margin: 0, lineHeight: 1.55 }}>
+          <p style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0, lineHeight: 1.55 }}>
             &ldquo;{parallel.key_lesson}&rdquo;
           </p>
         </div>

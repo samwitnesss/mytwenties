@@ -17,8 +17,8 @@ interface ShareableCardProps {
   radarScores?: RadarScore[]
 }
 
-function MiniRadar({ scores }: { scores: RadarScore[] }) {
-  const cx = 80, cy = 80, r = 62, n = scores.length
+function BigRadar({ scores }: { scores: RadarScore[] }) {
+  const cx = 150, cy = 150, r = 118, n = scores.length
   const angle = (i: number) => (2 * Math.PI * i / n) - Math.PI / 2
   const pt = (i: number, frac: number) => {
     const a = angle(i)
@@ -32,28 +32,65 @@ function MiniRadar({ scores }: { scores: RadarScore[] }) {
     x2: cx + r * Math.cos(angle(i)),
     y2: cy + r * Math.sin(angle(i))
   }))
+  const labelPts = scores.map((s, i) => {
+    const a = angle(i)
+    const labelR = r + 22
+    return {
+      x: cx + labelR * Math.cos(a),
+      y: cy + labelR * Math.sin(a),
+      label: s.axis,
+      value: s.value,
+      anchor: (Math.cos(a) > 0.1 ? 'start' : Math.cos(a) < -0.1 ? 'end' : 'middle') as 'start' | 'end' | 'middle'
+    }
+  })
 
   return (
-    <svg width="160" height="160" viewBox="0 0 160 160" style={{ display: 'block' }}>
+    <svg width="300" height="300" viewBox="0 0 300 300" style={{ display: 'block', overflow: 'visible' }}>
       {grids.map((pts, gi) => (
-        <polygon key={gi} points={pts} fill="none" stroke="rgba(6,182,212,0.2)" strokeWidth="0.8" />
+        <polygon key={gi} points={pts} fill="none" stroke="rgba(6,182,212,0.18)" strokeWidth="1" />
       ))}
       {spokes.map((s, i) => (
-        <line key={i} x1={cx} y1={cy} x2={s.x2} y2={s.y2} stroke="rgba(6,182,212,0.2)" strokeWidth="0.8" />
+        <line key={i} x1={cx} y1={cy} x2={s.x2} y2={s.y2} stroke="rgba(6,182,212,0.18)" strokeWidth="1" />
       ))}
       <polygon
         points={dataPoints}
-        fill="rgba(37,99,235,0.3)"
+        fill="rgba(37,99,235,0.25)"
         stroke="#06b6d4"
-        strokeWidth="1.5"
+        strokeWidth="2"
         strokeLinejoin="round"
       />
+      {scores.map((s, i) => {
+        const a = angle(i)
+        const dotX = cx + r * (s.value / 100) * Math.cos(a)
+        const dotY = cy + r * (s.value / 100) * Math.sin(a)
+        return (
+          <circle key={i} cx={dotX} cy={dotY} r="5" fill="#06b6d4" stroke="#0891b2" strokeWidth="1.5" />
+        )
+      })}
+      {labelPts.map((l, i) => (
+        <text
+          key={i}
+          x={l.x}
+          y={l.y + 4}
+          textAnchor={l.anchor}
+          fill="rgba(255,255,255,0.55)"
+          fontSize="10"
+          fontFamily="system-ui, sans-serif"
+          fontWeight="500"
+        >
+          {l.label}
+        </text>
+      ))}
     </svg>
   )
 }
 
-export default function ShareableCard({ archetype, topStrength, cardHeadline, subtext, mirrorHeadline, celebrity, radarScores }: ShareableCardProps) {
+export default function ShareableCard({ archetype, topStrength, cardHeadline, subtext, mirrorHeadline, radarScores }: ShareableCardProps) {
   const [copied, setCopied] = useState(false)
+
+  const topAxis = radarScores && radarScores.length > 0
+    ? radarScores.reduce((best, s) => s.value > best.value ? s : best, radarScores[0])
+    : null
 
   function handleShare() {
     if (navigator.share) {
@@ -76,78 +113,90 @@ export default function ShareableCard({ archetype, topStrength, cardHeadline, su
       <div style={{
         width: '375px', maxWidth: '100%', aspectRatio: '9/16',
         background: 'linear-gradient(135deg, #020d1a 0%, #0c1f35 50%, #020d1a 100%)',
-        borderRadius: '24px', padding: '2.5rem', display: 'flex', flexDirection: 'column',
+        borderRadius: '24px', padding: '2rem', display: 'flex', flexDirection: 'column',
         justifyContent: 'space-between', position: 'relative', overflow: 'hidden',
         border: '1px solid rgba(6,182,212,0.3)',
         boxShadow: '0 0 60px rgba(6,182,212,0.2)'
       }}>
         {/* Background orbs */}
         <div style={{
-          position: 'absolute', top: '15%', right: '-20%', width: '220px', height: '220px',
-          background: 'radial-gradient(circle, rgba(6,182,212,0.25) 0%, transparent 70%)',
-          borderRadius: '50%', filter: 'blur(30px)'
+          position: 'absolute', top: '10%', right: '-20%', width: '240px', height: '240px',
+          background: 'radial-gradient(circle, rgba(6,182,212,0.2) 0%, transparent 70%)',
+          borderRadius: '50%', filter: 'blur(40px)', pointerEvents: 'none'
         }} />
         <div style={{
-          position: 'absolute', bottom: '15%', left: '-10%', width: '180px', height: '180px',
-          background: 'radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%)',
-          borderRadius: '50%', filter: 'blur(25px)'
+          position: 'absolute', bottom: '10%', left: '-15%', width: '200px', height: '200px',
+          background: 'radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)',
+          borderRadius: '50%', filter: 'blur(35px)', pointerEvents: 'none'
         }} />
 
         {/* Top: brand + archetype */}
         <div style={{ position: 'relative' }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            background: 'rgba(6,182,212,0.2)', border: '1px solid rgba(6,182,212,0.4)',
-            borderRadius: '100px', padding: '4px 12px', marginBottom: '1.5rem'
-          }}>
-            <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#22d3ee', display: 'inline-block' }} />
-            <span style={{ fontSize: '0.7rem', color: '#22d3ee', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              {subtext}
+          {/* my twenties brand mark */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '1.25rem' }}>
+            <div style={{
+              width: '20px', height: '20px', borderRadius: '6px',
+              background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+            }}>
+              <div style={{ width: '8px', height: '8px', borderRadius: '2px', background: 'rgba(255,255,255,0.9)' }} />
+            </div>
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.01em' }}>
+              my<span style={{ color: '#22d3ee' }}>twenties</span>
             </span>
           </div>
-          <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-            My Archetype
+
+          <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', marginBottom: '0.3rem', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+            Your archetype
           </div>
-          <div style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.4rem', lineHeight: 1.1 }}>
+          <div style={{ fontSize: '1.9rem', fontWeight: 800, lineHeight: 1.1, marginBottom: '0.2rem' }}>
             <span className="gradient-text">{archetype}</span>
           </div>
-          {celebrity && (
-            <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.45)', marginTop: '4px' }}>
-              Most like: <span style={{ color: '#22d3ee', fontWeight: 600 }}>{celebrity}</span>
-            </div>
-          )}
+          <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em' }}>
+            {subtext}
+          </div>
         </div>
 
-        {/* Middle: radar */}
+        {/* Middle: radar with strongest dimension label above */}
         {radarScores && radarScores.length > 0 && (
-          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', margin: '0.5rem 0' }}>
-            <MiniRadar scores={radarScores} />
+          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+            {topAxis && (
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '3px' }}>
+                  strongest dimension
+                </div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#22d3ee', letterSpacing: '-0.01em' }}>
+                  {topAxis.axis}
+                </div>
+              </div>
+            )}
+            <BigRadar scores={radarScores} />
           </div>
         )}
 
-        {/* Bottom: headline + mirror + strength */}
+        {/* Bottom: mirror + headline + strength */}
         <div style={{ position: 'relative' }}>
           {mirrorHeadline && (
             <div style={{
-              background: 'rgba(6,182,212,0.1)', borderRadius: '10px', padding: '0.75rem 1rem',
-              border: '1px solid rgba(6,182,212,0.2)', marginBottom: '1rem'
+              background: 'rgba(6,182,212,0.1)', borderRadius: '10px', padding: '0.6rem 0.9rem',
+              border: '1px solid rgba(6,182,212,0.2)', marginBottom: '0.75rem'
             }}>
-              <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', marginBottom: '3px', textTransform: 'uppercase', letterSpacing: '0.07em' }}>The Mirror</p>
-              <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.8)', fontStyle: 'italic', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.3)', marginBottom: '3px', textTransform: 'uppercase', letterSpacing: '0.07em' }}>The Mirror</p>
+              <p style={{ fontSize: '0.76rem', color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', margin: 0, lineHeight: 1.4 }}>
                 &ldquo;{mirrorHeadline}&rdquo;
               </p>
             </div>
           )}
-          <p style={{ fontSize: '1.15rem', fontWeight: 700, lineHeight: 1.35, color: '#ffffff', marginBottom: '1rem' }}>
+          <p style={{ fontSize: '0.95rem', fontWeight: 700, lineHeight: 1.4, color: '#ffffff', marginBottom: '0.75rem' }}>
             &ldquo;{cardHeadline}&rdquo;
           </p>
           <div style={{
             display: 'flex', alignItems: 'center', gap: '8px',
-            padding: '8px 12px', background: 'rgba(6,182,212,0.15)',
-            borderRadius: '10px', border: '1px solid rgba(6,182,212,0.25)'
+            padding: '7px 11px', background: 'rgba(6,182,212,0.15)',
+            borderRadius: '9px', border: '1px solid rgba(6,182,212,0.25)'
           }}>
-            <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>Top strength</span>
-            <span style={{ fontSize: '0.75rem', color: '#22d3ee', fontWeight: 600 }}>{topStrength}</span>
+            <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)' }}>Top strength</span>
+            <span style={{ fontSize: '0.65rem', color: '#22d3ee', fontWeight: 600 }}>{topStrength}</span>
           </div>
         </div>
       </div>

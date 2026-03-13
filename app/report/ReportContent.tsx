@@ -404,23 +404,64 @@ function LockedSection({ onUnlock, unlocking }: { onUnlock: () => void; unlockin
       <div style={{ padding: '2.5rem 2.5rem 0', position: 'relative' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', pointerEvents: 'none', userSelect: 'none' }}>
           {[
-            { title: 'Business Blueprint', icon: '🏗️', preview: `Based on your archetype and drive for autonomy, the business model with the highest probability of success for you is` },
-            { title: 'Career Direction Map', icon: '🗺️', preview: `The roles most aligned with how your brain actually works aren't the obvious ones. Your specific path is` },
-            { title: 'Highest Leverage Move', icon: '⚡', preview: `Of everything you could do right now, one action will produce more momentum than anything else in the next 30 days:` },
-            { title: 'The Letter', icon: '✉️', preview: `There's something I want to say to you directly. Something the people in your life probably see but haven't told you. It's this:` },
+            {
+              title: 'Business Blueprint',
+              icon: '🏗️',
+              sell: 'Your custom business model — the one with the highest probability of success given exactly how you\'re wired. Not a generic framework.',
+              preview: `Includes your recommended model, why it fits your archetype, a 5-step action plan, and a realistic path to your first $1k and $5k. Based on your results, the business structure most likely to work for you is`,
+              blur: `a model that plays directly into your natural strengths while bypassing the execution patterns that have tripped you up before...`
+            },
+            {
+              title: 'Career Direction Map',
+              icon: '🗺️',
+              sell: 'Three specific roles named — each with realistic income ranges and a clear explanation of why each one fits your brain.',
+              preview: `Most people never find work that fits because they\'re looking at job titles instead of cognitive fit. The three roles most aligned with how you actually think and operate are`,
+              blur: `not the obvious ones on any list — and the highest-leverage entry point into each of them given where you\'re starting from...`
+            },
+            {
+              title: 'Highest Leverage Move',
+              icon: '⚡',
+              sell: 'The single most important action to take in the next 7 days. Not a list — one decision, with the reasoning for why it unlocks everything else.',
+              preview: `Of every possible first move available to you right now, this is the one that creates the most momentum given your specific profile and current position:`,
+              blur: `a move that most people overlook because it doesn\'t feel dramatic — but it\'s the one that compounds faster than anything else from here...`
+            },
+            {
+              title: 'Reading List',
+              icon: '📚',
+              sell: 'Five books chosen specifically for your profile — not bestseller lists. The exact five that will hit different given your wiring and where you\'re going.',
+              preview: `These aren\'t the obvious recommendations. Based on your archetype and the specific gaps your profile revealed, the five books most likely to move you forward are`,
+              blur: `starting with one that almost no one in your position has read but that will immediately reframe the thing you\'ve been stuck on...`
+            },
+            {
+              title: 'AI Mentor Prompt',
+              icon: '🤖',
+              sell: 'A ready-to-paste system prompt that turns Claude or ChatGPT into a personal mentor who knows your full profile and advises you accordingly.',
+              preview: `Copy this into Claude or ChatGPT and it becomes a thinking partner that understands your archetype, knows your blind spots, and gives you advice calibrated to how you actually work — not generic coaching:`,
+              blur: `built from your full assessment data so every response it gives you is filtered through your specific psychology and not a one-size-fits-all playbook...`
+            },
+            {
+              title: 'The Letter',
+              icon: '✉️',
+              sell: 'A personal letter written directly to you. Not a summary. Not a template. Something real — about what your results actually mean for your life.',
+              preview: `There\'s something your results make clear that\'s worth saying directly. Something the numbers point to that\'s hard to see from the inside but important to hear:`,
+              blur: `the thing that explains why some things have always felt easy while others have drained you, and what that means for the decision in front of you right now...`
+            },
           ].map((item) => (
             <div key={item.title} style={{
               background: 'rgba(255,255,255,0.07)', borderRadius: '18px', padding: '1.75rem',
               border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '0.5rem' }}>
                 <span style={{ fontSize: '1.2rem' }}>{item.icon}</span>
                 <h4 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>{item.title}</h4>
               </div>
-              <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontSize: '0.88rem', fontWeight: 600, color: '#7dd3fc', lineHeight: 1.55, marginBottom: '0.6rem' }}>
+                {item.sell}
+              </p>
+              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, margin: 0 }}>
                 {item.preview}
-                <span style={{ filter: 'blur(5px)', color: 'rgba(255,255,255,0.5)' }}>
-                  {' '}a highly specific, founder-led model where your natural intensity becomes your biggest competitive advantage rather than a liability...
+                <span style={{ filter: 'blur(5px)', color: 'rgba(255,255,255,0.4)', userSelect: 'none' }}>
+                  {' '}{item.blur}
                 </span>
               </p>
             </div>
@@ -435,7 +476,7 @@ function LockedSection({ onUnlock, unlocking }: { onUnlock: () => void; unlockin
           background: 'rgba(6,182,212,0.2)', border: '1px solid rgba(6,182,212,0.4)',
           borderRadius: '100px', padding: '6px 18px', marginBottom: '1.25rem',
           fontSize: '0.72rem', color: '#22d3ee', letterSpacing: '0.07em', textTransform: 'uppercase', fontWeight: 600
-        }}>4 sections locked</div>
+        }}>6 sections locked</div>
         <h3 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900, color: '#ffffff', marginBottom: '0.75rem' }}>
           Unlock your complete insights
         </h3>
