@@ -168,7 +168,7 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
           {/* Top row: primary card + radar */}
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'stretch', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
             {/* Left: primary archetype */}
-            <div style={{ flex: '0 0 min(420px, 100%)' }}>
+            <div style={{ flex: '0 0 min(500px, 100%)' }}>
               <div style={{
                 background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, var(--brand-card) 100%)',
                 borderRadius: '24px', padding: '2rem', border: '1px solid rgba(37,99,235,0.22)', boxShadow: CARD_FEATURE, height: '100%'

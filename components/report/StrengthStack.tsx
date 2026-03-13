@@ -10,7 +10,7 @@ interface Strength {
 
 export default function StrengthStack({ strengths }: { strengths: Strength[] }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem' }}>
       {strengths.map((s) => (
         <div key={s.rank} style={{
           background: 'var(--brand-card)', borderRadius: '20px', padding: '1.25rem 1.5rem',

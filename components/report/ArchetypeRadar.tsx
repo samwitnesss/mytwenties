@@ -29,7 +29,7 @@ export default function ArchetypeRadar({ scores, primaryAxis }: { scores: RadarS
 
   return (
     <div style={{
-      background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem',
+      background: 'var(--brand-card)', borderRadius: '20px', padding: '1.25rem',
       border: '1px solid var(--brand-border)',
       boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)',
       display: 'flex', flexDirection: 'column', flex: 1
