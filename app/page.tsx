@@ -74,40 +74,6 @@ export default function LandingPage() {
         padding: isMobile ? '3rem 1.5rem 4rem' : '8rem 1.5rem 5rem', textAlign: 'center',
         overflow: 'hidden'
       }}>
-        {/* ─── Aurora blobs — corners only, away from text ─── */}
-        {/* Blue — top-left corner */}
-        <div className="animate-aurora-1" style={{
-          position: 'absolute', top: 0, left: '-60px',
-          width: '320px', height: '300px',
-          background: 'radial-gradient(ellipse at 60% 60%, rgba(37,99,235,0.22) 0%, rgba(59,130,246,0.1) 50%, transparent 70%)',
-          filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
-          mixBlendMode: 'multiply'
-        }} />
-        {/* Teal — top-right corner */}
-        <div className="animate-aurora-2" style={{
-          position: 'absolute', top: 0, right: '-60px',
-          width: '300px', height: '280px',
-          background: 'radial-gradient(ellipse at 40% 60%, rgba(6,182,212,0.2) 0%, rgba(14,165,233,0.08) 50%, transparent 70%)',
-          filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
-          mixBlendMode: 'multiply'
-        }} />
-        {/* Indigo — bottom-left corner */}
-        <div className="animate-aurora-3" style={{
-          position: 'absolute', bottom: '-60px', left: '-60px',
-          width: '280px', height: '250px',
-          background: 'radial-gradient(ellipse at 60% 40%, rgba(99,102,241,0.2) 0%, rgba(139,92,246,0.08) 50%, transparent 70%)',
-          filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
-          mixBlendMode: 'multiply'
-        }} />
-        {/* Blue — bottom-right corner */}
-        <div className="animate-aurora-1" style={{
-          position: 'absolute', bottom: '-60px', right: '-60px',
-          width: '280px', height: '240px',
-          background: 'radial-gradient(ellipse at 40% 40%, rgba(37,99,235,0.18) 0%, rgba(6,182,212,0.08) 50%, transparent 70%)',
-          filter: 'blur(45px)', borderRadius: '50%', pointerEvents: 'none',
-          mixBlendMode: 'multiply', animationDelay: '-9s'
-        }} />
-
         <div style={{ position: 'relative', zIndex: 10, maxWidth: '760px', margin: '0 auto' }}>
           {/* Headline */}
           <h1 style={{
@@ -154,7 +120,7 @@ export default function LandingPage() {
                   cursor: 'pointer', letterSpacing: '0.01em',
                   boxShadow: '0 8px 32px rgba(37,99,235,0.3)', fontFamily: 'inherit'
                 }}>
-                  Start the Assessment →
+                  Find Out What I&apos;m Built For →
                 </button>
               </Link>
               <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
@@ -274,7 +240,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── IS THIS YOU — moved up under hero ───────── */}
-      <section style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', borderBottom: '1px solid var(--brand-border)', padding: '6rem 1.5rem' }}>
+      <section style={{ padding: '6rem 1.5rem' }}>
         <div style={{ maxWidth: '660px', margin: '0 auto', textAlign: 'center' }}>
           <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
             Sound familiar?
@@ -317,7 +283,7 @@ export default function LandingPage() {
               cursor: 'pointer', width: '100%', maxWidth: '400px',
               boxShadow: '0 8px 32px rgba(37,99,235,0.25)', fontFamily: 'inherit'
             }}>
-              Start the Assessment →
+              Find Out What I&apos;m Built For →
             </button>
           </Link>
           <p style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--brand-text-subtle)' }}>
@@ -327,7 +293,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── CREDIBILITY STRIP ───────────────────────── */}
-      <section style={{ borderTop: '1px solid var(--brand-border)', borderBottom: '1px solid var(--brand-border)', background: 'var(--brand-bg)' }}>
+      <section style={{ background: 'var(--brand-bg)' }}>
         <div style={{
           maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem',
           display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px'
@@ -395,7 +361,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── REPORT PREVIEW MOCKUP ───────────────────── */}
-      <section style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', borderBottom: '1px solid var(--brand-border)', padding: '6rem 1.5rem' }}>
+      <section style={{ padding: '6rem 1.5rem' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
@@ -445,7 +411,7 @@ export default function LandingPage() {
                   Generated March 12, 2026
                 </p>
                 <h3 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: 'var(--brand-text)', marginBottom: '0.75rem', letterSpacing: '-0.03em', lineHeight: 1 }}>
-                  Alex&apos;s Report
+                  Jordan&apos;s Report
                 </h3>
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: '10px',
@@ -453,10 +419,10 @@ export default function LandingPage() {
                   borderRadius: '100px', padding: '8px 20px', marginBottom: '1rem'
                 }}>
                   <span style={{ fontSize: '1rem', fontWeight: 800, color: '#2563eb' }}>The Architect</span>
-                  <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--brand-text-mid)', background: 'var(--brand-track)', borderRadius: '100px', padding: '2px 8px' }}>87% match</span>
+                  <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--brand-text-mid)', background: 'var(--brand-track)', borderRadius: '100px', padding: '2px 8px' }}>91% match</span>
                 </div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', fontStyle: 'italic', maxWidth: '400px', margin: '0 auto 1.5rem', lineHeight: 1.6 }}>
-                  &ldquo;You don&apos;t fit the system — you build the system. The problem isn&apos;t your ambition. It&apos;s that you&apos;ve been playing someone else&apos;s game.&rdquo;
+                <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', fontStyle: 'italic', maxWidth: '440px', margin: '0 auto 1.5rem', lineHeight: 1.6 }}>
+                  &ldquo;You don&apos;t fit the system — you redesign it. Your problem isn&apos;t a lack of ability. It&apos;s that you keep applying real talent to the wrong game.&rdquo;
                 </p>
                 {/* Stat chips */}
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -490,15 +456,15 @@ export default function LandingPage() {
                 }}>
                   <p style={{ fontSize: '0.62rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>01 · Identity Profile</p>
                   <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, marginBottom: '0.875rem' }}>
-                    You operate at your best when you have a real problem to solve and full autonomy to solve it. You&apos;re not built for execution — you&apos;re built for design. The work that lights you up is building the thing that makes the right outcome inevitable.
+                    You think in systems before anyone else sees there&apos;s a pattern. You can hold ten variables in your head and still see the one thing everyone missed. When you&apos;re in the right environment, you&apos;re the person who makes the whole thing work. When you&apos;re not, you feel it constantly — that restless sense that you&apos;re capable of far more than you&apos;re being asked to do.
                   </p>
                   <div style={{ background: 'rgba(37,99,235,0.05)', borderRadius: '10px', padding: '0.75rem', border: '1px solid rgba(37,99,235,0.12)', marginBottom: '0.875rem' }}>
                     <p style={{ fontSize: '0.75rem', color: '#2563eb', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
-                      &ldquo;You&apos;re not waiting for the right opportunity. You&apos;re waiting for permission you don&apos;t need.&rdquo;
+                      &ldquo;You&apos;re not struggling because you lack direction. You&apos;re struggling because you&apos;ve been trying to fit a blueprint that was never designed for you.&rdquo;
                     </p>
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-                    {['Builder', 'Systems thinker', 'Self-directed', 'High standards'].map(t => (
+                    {['Systems builder', 'Pattern recogniser', 'Autonomous', 'Strategic', 'High standards'].map(t => (
                       <span key={t} style={{ fontSize: '0.65rem', color: '#2563eb', background: 'rgba(37,99,235,0.07)', borderRadius: '100px', padding: '3px 9px', border: '1px solid rgba(37,99,235,0.18)' }}>{t}</span>
                     ))}
                   </div>
@@ -519,11 +485,11 @@ export default function LandingPage() {
                     <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(37,99,235,0.08)', border: '2px solid rgba(37,99,235,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.72rem', fontWeight: 700, color: '#2563eb' }}>87%</div>
                   </div>
                   <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-muted)', lineHeight: 1.65, marginBottom: '0.875rem' }}>
-                    You build systems, frameworks, and structures — even when no one asks you to. You see how things connect before others see there&apos;s a pattern at all.
+                    You build systems, frameworks, and mental models — not because you were asked to, but because you can&apos;t help it. You see how things connect before anyone else sees there&apos;s a pattern. This makes you genuinely rare. It also makes conventional work feel like being asked to solve a puzzle with your hands tied.
                   </p>
                   <div style={{ background: 'var(--brand-bg-subtle)', borderRadius: '8px', padding: '0.625rem', border: '1px solid var(--brand-border)', marginBottom: '0.75rem' }}>
                     <p style={{ fontSize: '0.62rem', fontWeight: 600, color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '3px' }}>Shadow Side</p>
-                    <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-mid)', lineHeight: 1.55, margin: 0 }}>The architecture is beautiful. The building never gets built.</p>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-mid)', lineHeight: 1.55, margin: 0 }}>The plan is perfect. It&apos;s been revised seven times. The first version was never shipped.</p>
                   </div>
                   <p style={{ fontSize: '0.62rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Secondary · 71%</p>
                   <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--brand-text-muted)', margin: 0 }}>The Connector</p>
@@ -538,17 +504,20 @@ export default function LandingPage() {
                 <p style={{ fontSize: '0.62rem', color: '#0ea5e9', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '1rem' }}>04 · Strength Stack</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                   {[
-                    { name: 'Systems Thinking', score: 0.91, income: 'High-ticket consulting, product strategy' },
-                    { name: 'Deep Communication', score: 0.84, income: 'Coaching, content, education' },
-                    { name: 'Creative Problem-Solving', score: 0.79, income: 'Product creation, entrepreneurship' },
-                    { name: 'Emotional Intelligence', score: 0.76, income: 'Leadership, high-stakes sales' },
-                  ].map(({ name, score }) => (
-                    <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
-                      <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--brand-text-strong)', minWidth: '160px', flexShrink: 0 }}>{name}</span>
-                      <div style={{ flex: 1, height: '8px', background: 'var(--brand-track)', borderRadius: '100px', overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${score * 100}%`, background: 'linear-gradient(90deg, #2563eb, #06b6d4)', borderRadius: '100px' }} />
+                    { name: 'Systems Thinking', score: 0.91, income: 'Consulting · Strategy · $120k–$300k+' },
+                    { name: 'Deep Communication', score: 0.86, income: 'Coaching · Content · $60k–$200k' },
+                    { name: 'Creative Problem-Solving', score: 0.81, income: 'Product · Founding · Unlimited' },
+                    { name: 'Emotional Intelligence', score: 0.74, income: 'Leadership · Sales · $90k–$180k' },
+                  ].map(({ name, score, income }) => (
+                    <div key={name}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', marginBottom: '2px' }}>
+                        <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--brand-text-strong)', minWidth: '160px', flexShrink: 0 }}>{name}</span>
+                        <div style={{ flex: 1, height: '8px', background: 'var(--brand-track)', borderRadius: '100px', overflow: 'hidden' }}>
+                          <div style={{ height: '100%', width: `${score * 100}%`, background: 'linear-gradient(90deg, #2563eb, #06b6d4)', borderRadius: '100px' }} />
+                        </div>
+                        <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#2563eb', minWidth: '30px', textAlign: 'right' }}>{Math.round(score * 100)}%</span>
                       </div>
-                      <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#2563eb', minWidth: '30px', textAlign: 'right' }}>{Math.round(score * 100)}%</span>
+                      <p style={{ fontSize: '0.62rem', color: 'var(--brand-text-subtle)', margin: '0 0 6px 0', paddingLeft: '0px' }}>{income}</p>
                     </div>
                   ))}
                 </div>
@@ -558,21 +527,27 @@ export default function LandingPage() {
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
                 <div style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem', border: '1px solid var(--brand-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                   <p style={{ fontSize: '0.62rem', color: '#0891b2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>07 · The Mirror</p>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-strong)', lineHeight: 1.65, marginBottom: '0' }}>
-                    You&apos;ve been protecting yourself from disappointment by not fully committing to anything. If you never really try, you can never really fail. But you also never really live.
+                  <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-strong)', lineHeight: 1.65, marginBottom: '0.625rem' }}>
+                    You&apos;ve been treating busyness as a substitute for commitment. If you stay in the research phase, in the planning phase, in the &quot;almost ready&quot; phase — you never have to find out if you actually have what it takes. But every year you spend avoiding that question is a year spent becoming more of the person who avoids it.
+                  </p>
+                  <p style={{ fontSize: '0.72rem', color: '#0891b2', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
+                    The version of you that you&apos;re most afraid of becoming? You&apos;re already becoming it.
                   </p>
                 </div>
                 <div style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem', border: '1px solid var(--brand-border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                   <p style={{ fontSize: '0.62rem', color: '#0891b2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>09 · Direction Compass</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                     {[
-                      { title: 'Strategy Consulting', fit: '89%' },
-                      { title: 'Personal Brand + Education', fit: '81%' },
-                      { title: 'B2B SaaS Founder', fit: '74%' },
-                    ].map(({ title, fit }) => (
-                      <div key={title} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--brand-text-strong)', fontWeight: 500 }}>{title}</span>
-                        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#0891b2', background: 'rgba(6,182,212,0.08)', borderRadius: '100px', padding: '2px 7px', border: '1px solid rgba(6,182,212,0.2)' }}>{fit}</span>
+                      { title: 'Strategy Consulting', fit: '94%', note: '$120–$300k · 6–12 mo to first client' },
+                      { title: 'Founder-Led Education', fit: '87%', note: '$60–$250k · 12–18 mo to revenue' },
+                      { title: 'B2B SaaS Founder', fit: '76%', note: 'High ceiling · 18–36 mo runway needed' },
+                    ].map(({ title, fit, note }) => (
+                      <div key={title}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1px' }}>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--brand-text-strong)', fontWeight: 600 }}>{title}</span>
+                          <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#0891b2', background: 'rgba(6,182,212,0.08)', borderRadius: '100px', padding: '2px 7px', border: '1px solid rgba(6,182,212,0.2)', flexShrink: 0 }}>{fit}</span>
+                        </div>
+                        <p style={{ fontSize: '0.62rem', color: 'var(--brand-text-subtle)', margin: 0 }}>{note}</p>
                       </div>
                     ))}
                   </div>
@@ -581,17 +556,19 @@ export default function LandingPage() {
                   <p style={{ fontSize: '0.62rem', color: '#f59e0b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '0.5rem' }}>05 · Blind Spots</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
                     {[
-                      { name: 'Execution Avoidance', sev: 0.82 },
-                      { name: 'Over-engineering', sev: 0.65 },
-                    ].map(({ name, sev }) => (
+                      { name: 'Execution Avoidance', sev: 0.84, desc: 'Refines endlessly. Ships rarely.' },
+                      { name: 'Validation Seeking', sev: 0.72, desc: 'Delays decisions without external sign-off.' },
+                      { name: 'Scope Creep', sev: 0.61, desc: 'Turns simple tasks into full systems.' },
+                    ].map(({ name, sev, desc }) => (
                       <div key={name}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                          <span style={{ fontSize: '0.72rem', color: 'var(--brand-text-strong)', fontWeight: 500 }}>{name}</span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                          <span style={{ fontSize: '0.72rem', color: 'var(--brand-text-strong)', fontWeight: 600 }}>{name}</span>
                           <span style={{ fontSize: '0.65rem', color: '#f59e0b', fontWeight: 700 }}>{Math.round(sev * 100)}%</span>
                         </div>
-                        <div style={{ height: '5px', background: 'var(--brand-track)', borderRadius: '100px', overflow: 'hidden' }}>
+                        <div style={{ height: '5px', background: 'var(--brand-track)', borderRadius: '100px', overflow: 'hidden', marginBottom: '3px' }}>
                           <div style={{ height: '100%', width: `${sev * 100}%`, background: 'linear-gradient(90deg, #f59e0b, #ef4444)', borderRadius: '100px' }} />
                         </div>
+                        <p style={{ fontSize: '0.6rem', color: 'var(--brand-text-subtle)', margin: '0 0 6px 0', fontStyle: 'italic' }}>{desc}</p>
                       </div>
                     ))}
                   </div>
@@ -602,8 +579,16 @@ export default function LandingPage() {
               <div style={{ position: 'relative' }}>
                 <div style={{ pointerEvents: 'none', userSelect: 'none', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '1rem', opacity: 0.5 }}>
                   {[
-                    { label: '10 · Dream Day', preview: 'You wake at 7:30am, no alarm. The first hour is yours alone. By 9am you\'re deep in the problem you chose, not one someone assigned you...', color: '#0ea5e9' },
-                    { label: '11 · Business Blueprint', preview: 'The model with the highest probability of success for your specific wiring is a founder-led consulting practice anchored in strategic clarity...', color: '#2563eb' },
+                    {
+                      label: '10 · Dream Day',
+                      preview: 'You wake without an alarm — not because you\'re lazy, but because you went to bed excited about tomorrow. The morning is yours. By 9am you\'re three hours into work that doesn\'t feel like work. Nobody assigned it. Nobody\'s watching. You\'re building something and you know exactly why it matters. This is what your days could look like — and why they don\'t yet.',
+                      color: '#0ea5e9'
+                    },
+                    {
+                      label: '11 · First Move',
+                      preview: 'Based on your answers, the highest-probability first move isn\'t what most people in your position assume. It\'s not applying to more jobs, starting a broad business, or waiting for the right moment. It\'s one specific action — achievable in the next 30 days — that positions you for the direction your wiring actually points toward.',
+                      color: '#2563eb'
+                    },
                   ].map(({ label, preview, color }) => (
                     <div key={label} style={{ background: 'var(--brand-bg-subtle)', borderRadius: '14px', padding: '1.25rem', border: '1px solid var(--brand-border)' }}>
                       <p style={{ fontSize: '0.62rem', color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: '6px' }}>{label}</p>
@@ -640,7 +625,7 @@ export default function LandingPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
           {[
             { step: '01', title: 'Answer honestly', body: '75 questions across 10 dimensions of who you are. No right answers — just you.' },
-            { step: '02', title: 'We analyse everything', body: 'Your responses are run through our assessment framework to build your unique profile.' },
+            { step: '02', title: 'We analyse everything', body: 'Your answers get cross-referenced across 10 dimensions to surface patterns you can\'t see yourself — why you feel stuck, what you\'re actually good at, and where your energy should go.' },
             { step: '03', title: 'Get your report', body: 'A full breakdown of your archetype, direction, blind spots, and your next move.' },
           ].map(({ step, title, body }) => (
             <div key={step} style={{
@@ -669,7 +654,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── TESTIMONIALS ────────────────────────────── */}
-      <section style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', padding: '6rem 1.5rem' }}>
+      <section style={{ padding: '6rem 1.5rem' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
@@ -739,14 +724,14 @@ export default function LandingPage() {
               q: "What happens to my answers?",
               a: "Private. Never shared. Used only to generate your report. You can email us to have everything deleted at any time."
             },
-          ].map(({ q, a }) => (
-            <FAQItem key={q} question={q} answer={a} />
+          ].map(({ q, a }, i) => (
+            <FAQItem key={q} question={q} answer={a} defaultOpen={i === 0} />
           ))}
         </div>
       </section>
 
       {/* ─── FINAL CTA ───────────────────────────────── */}
-      <section style={{ padding: '7rem 1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden', background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)' }}>
+      <section style={{ padding: '7rem 1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="animate-pulse-glow" style={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
           width: '700px', height: '400px',
@@ -758,11 +743,14 @@ export default function LandingPage() {
             Stop waiting for clarity to find you.
           </p>
           <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.5rem', color: 'var(--brand-text)' }}>
-            You&apos;re under an hour away{' '}
+            You&apos;re 25 minutes away{' '}
             <span className="gradient-text">from finally getting it.</span>
           </h2>
-          <p style={{ fontSize: '1.05rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto 2.5rem' }}>
+          <p style={{ fontSize: '1.05rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto 1rem' }}>
             You already know something isn&apos;t clicking. This tells you why — and exactly what to do about it.
+          </p>
+          <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-subtle)', fontStyle: 'italic', maxWidth: '420px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
+            This won&apos;t tell you you&apos;re broken. It&apos;ll show you why everything actually makes sense.
           </p>
           <Link href="/start" style={{ textDecoration: 'none', display: 'inline-block' }}>
             <button className="gradient-btn" style={{
@@ -771,11 +759,14 @@ export default function LandingPage() {
               cursor: 'pointer', boxShadow: '0 8px 40px rgba(37,99,235,0.3)',
               fontFamily: 'inherit'
             }}>
-              Start the Assessment →
+              Find Out What I&apos;m Built For →
             </button>
           </Link>
           <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
             Free · 25 min · Your data is private.
+          </p>
+          <p style={{ marginTop: '2.5rem', fontSize: '0.78rem', color: 'var(--brand-text-subtle)', lineHeight: 1.6 }}>
+            Built by Sam — a 22-year-old who dropped out at 19 and has since coached 100+ young people through this exact problem.
           </p>
         </div>
       </section>
@@ -836,8 +827,8 @@ function ReportCard({ number, tag, tagColor, title, description, accent, accentB
   )
 }
 
-function FAQItem({ question, answer }: { question: string, answer: string }) {
-  const [open, setOpen] = useState(false)
+function FAQItem({ question, answer, defaultOpen = false }: { question: string, answer: string, defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen)
   return (
     <div style={{
       background: 'var(--brand-card)', borderRadius: '16px',
