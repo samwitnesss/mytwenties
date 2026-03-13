@@ -10,7 +10,7 @@ interface Strength {
 
 export default function StrengthStack({ strengths }: { strengths: Strength[] }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem' }}>
       {strengths.map((s) => (
         <div key={s.rank} style={{
           background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem',
@@ -48,7 +48,6 @@ export default function StrengthStack({ strengths }: { strengths: Strength[] }) 
                   background: 'linear-gradient(to right, #2563eb, #06b6d4)',
                   transition: 'width 1s ease'
                 }} />
-                {/* End-dot marker */}
                 <div style={{
                   position: 'absolute', top: '50%', transform: 'translate(-50%, -50%)',
                   left: `${s.score * 100}%`,

@@ -13,6 +13,7 @@ import { MockReport } from '@/lib/mock-report'
 const CARD = '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)'
 const CARD_FEATURE = '0 16px 56px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.08)'
 const CONTENT: React.CSSProperties = { maxWidth: '760px', margin: '0 auto', marginBottom: '3.5rem' }
+const CONTENT_WIDE: React.CSSProperties = { maxWidth: '1100px', margin: '0 auto', marginBottom: '3.5rem' }
 
 export default function ReportContent({ report, reportType = 'free' }: { report: MockReport; reportType?: string }) {
   const [firstName, setFirstName] = useState(report.firstName || 'You')
@@ -161,52 +162,57 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
           </div>
         </div>
 
-        {/* 02 · ARCHETYPE */}
-        <div style={CONTENT}>
+        {/* 02 · ARCHETYPE + RADAR — two-column layout */}
+        <div style={CONTENT_WIDE}>
           <SectionHeader label="02" title="Your Archetype" />
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, var(--brand-card) 100%)',
-            borderRadius: '24px', padding: '2rem', border: '1px solid rgba(37,99,235,0.22)', marginBottom: '1.25rem', boxShadow: CARD_FEATURE
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
-              <div>
-                <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>Primary Archetype</p>
-                <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: 0 }}>
-                  <span className="gradient-text">{report.archetype.primary.name}</span>
-                </h3>
-              </div>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'stretch', flexWrap: 'wrap' }}>
+            {/* Left: primary + secondary stacked */}
+            <div style={{ flex: '0 0 min(420px, 100%)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div style={{
-                width: '58px', height: '58px', borderRadius: '50%', flexShrink: 0,
-                background: 'rgba(37,99,235,0.08)', border: '2px solid rgba(37,99,235,0.3)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '1.05rem', fontWeight: 800, color: '#2563eb'
-              }}>{archetypeMatch}%</div>
+                background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, var(--brand-card) 100%)',
+                borderRadius: '24px', padding: '2rem', border: '1px solid rgba(37,99,235,0.22)', boxShadow: CARD_FEATURE,
+                flex: 1
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
+                  <div>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>Primary Archetype</p>
+                    <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: 0 }}>
+                      <span className="gradient-text">{report.archetype.primary.name}</span>
+                    </h3>
+                  </div>
+                  <div style={{
+                    width: '58px', height: '58px', borderRadius: '50%', flexShrink: 0,
+                    background: 'rgba(37,99,235,0.08)', border: '2px solid rgba(37,99,235,0.3)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '1.05rem', fontWeight: 800, color: '#2563eb'
+                  }}>{archetypeMatch}%</div>
+                </div>
+                <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-muted)', lineHeight: 1.8, marginBottom: '1.25rem' }}>
+                  {report.archetype.primary.description}
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '1.25rem' }}>
+                  {report.archetype.primary.traits.map(t => (
+                    <span key={t} style={{ fontSize: '0.8rem', color: '#2563eb', background: 'rgba(37,99,235,0.07)', borderRadius: '100px', padding: '5px 14px', border: '1px solid rgba(37,99,235,0.2)', fontWeight: 500 }}>{t}</span>
+                  ))}
+                </div>
+                <div style={{ background: 'var(--brand-bg-subtle)', borderRadius: '12px', padding: '1.25rem', border: '1px solid var(--brand-border)' }}>
+                  <p style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px' }}>Shadow Side</p>
+                  <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0 }}>{report.archetype.primary.shadow}</p>
+                </div>
+              </div>
+              <div style={{ background: 'var(--brand-card)', borderRadius: '18px', padding: '1.5rem', border: '1px solid var(--brand-border)', boxShadow: CARD }}>
+                <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>
+                  Secondary Archetype · {Math.round(report.archetype.secondary.score * 100)}%
+                </p>
+                <h4 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>{report.archetype.secondary.name}</h4>
+                <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0 }}>{report.archetype.secondary.description}</p>
+              </div>
             </div>
-            <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-muted)', lineHeight: 1.8, marginBottom: '1.25rem' }}>
-              {report.archetype.primary.description}
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '1.25rem' }}>
-              {report.archetype.primary.traits.map(t => (
-                <span key={t} style={{ fontSize: '0.8rem', color: '#2563eb', background: 'rgba(37,99,235,0.07)', borderRadius: '100px', padding: '5px 14px', border: '1px solid rgba(37,99,235,0.2)', fontWeight: 500 }}>{t}</span>
-              ))}
-            </div>
-            <div style={{ background: 'var(--brand-bg-subtle)', borderRadius: '12px', padding: '1.25rem', border: '1px solid var(--brand-border)' }}>
-              <p style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px' }}>Shadow Side</p>
-              <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0 }}>{report.archetype.primary.shadow}</p>
+            {/* Right: radar — fills height of left column */}
+            <div style={{ flex: 1, minWidth: '300px', display: 'flex', flexDirection: 'column' }}>
+              <ArchetypeRadar scores={report.archetype.radar_scores} primaryAxis={report.archetype.primary.name} />
             </div>
           </div>
-          <div style={{ background: 'var(--brand-card)', borderRadius: '18px', padding: '1.5rem', border: '1px solid var(--brand-border)', boxShadow: CARD }}>
-            <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>
-              Secondary Archetype · {Math.round(report.archetype.secondary.score * 100)}%
-            </p>
-            <h4 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>{report.archetype.secondary.name}</h4>
-            <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0 }}>{report.archetype.secondary.description}</p>
-          </div>
-        </div>
-
-        {/* Archetype Radar */}
-        <div style={CONTENT}>
-          <ArchetypeRadar scores={report.archetype.radar_scores} primaryAxis={report.archetype.primary.name} />
         </div>
 
         {/* 03 · HIDDEN DYNAMICS */}
@@ -376,11 +382,14 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 
 function SectionHeader({ label, title }: { label: string, title: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.5rem' }}>
-      <span style={{ fontSize: '0.68rem', color: 'var(--brand-text-subtle)', fontWeight: 600, letterSpacing: '0.1em', flexShrink: 0 }}>{label}</span>
-      <div style={{ height: '1px', background: 'var(--brand-border)', flex: 1 }} />
-      <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--brand-text)', flexShrink: 0, margin: 0 }}>{title}</h2>
-      <div style={{ height: '1px', background: 'var(--brand-border)', flex: 1 }} />
+    <div style={{ marginBottom: '1.75rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+        <span style={{ fontSize: '0.62rem', color: 'var(--brand-text-subtle)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{label}</span>
+        <div style={{ height: '1px', background: 'linear-gradient(to right, var(--brand-border), transparent)', flex: 1 }} />
+      </div>
+      <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', fontWeight: 800, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.1 }}>
+        <span className="gradient-text">{title}</span>
+      </h2>
     </div>
   )
 }

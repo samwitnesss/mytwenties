@@ -31,13 +31,11 @@ export default function ArchetypeRadar({ scores, primaryAxis }: { scores: RadarS
     <div style={{
       background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem',
       border: '1px solid var(--brand-border)',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)'
+      boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)',
+      display: 'flex', flexDirection: 'column', flex: 1
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-        <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--brand-text-mid)' }}>
-          Archetype Radar
-        </h3>
-        {activeAxis && (
+        {activeAxis ? (
           <span style={{
             fontSize: '0.8rem', fontWeight: 700, color: '#2563eb',
             background: 'rgba(37,99,235,0.08)', borderRadius: '100px', padding: '3px 12px',
@@ -45,12 +43,13 @@ export default function ArchetypeRadar({ scores, primaryAxis }: { scores: RadarS
           }}>
             {activeAxis}: {scores.find(s => s.axis === activeAxis)?.value}%
           </span>
+        ) : (
+          <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', margin: 0 }}>
+            Hover over points to explore your scores
+          </p>
         )}
       </div>
-      <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginBottom: '1rem' }}>
-        Hover over points to explore your scores
-      </p>
-      <ResponsiveContainer width="100%" height={460}>
+      <ResponsiveContainer width="100%" height={520}>
         <RadarChart data={scores} margin={{ top: 24, right: 36, bottom: 24, left: 36 }}>
           <PolarGrid stroke="var(--brand-border)" />
           <PolarAngleAxis
