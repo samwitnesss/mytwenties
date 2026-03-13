@@ -682,29 +682,16 @@ export default function LandingPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
             {[
-              {
-                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jamie23&backgroundColor=dbeafe&hairColor=2d1b00&top=shortHair',
-                accentFrom: '#2563eb', accentTo: '#3b82f6',
-                name: 'Jamie, 23', quote: "I've done every personality test out there. This is the only one that actually made me feel understood. The direction compass alone was worth it."
-              },
-              {
-                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie18&backgroundColor=fce7f3&hairColor=b45309&top=longHair',
-                accentFrom: '#06b6d4', accentTo: '#0284c7',
-                name: 'Sophie, 18', quote: "I was spinning my wheels after finishing school. This gave me a framework for my next move that actually made sense for who I am."
-              },
-              {
-                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex20&backgroundColor=dcfce7&hairColor=1c1917&top=shortHair',
-                accentFrom: '#7c3aed', accentTo: '#2563eb',
-                name: 'Alex, 20', quote: "The Mirror section was uncomfortable to read but exactly what I needed to hear. No vague platitudes — just the truth about why I was stuck."
-              },
-            ].map(({ avatar, accentFrom, accentTo, name, quote }) => (
+              { accentFrom: '#2563eb', accentTo: '#3b82f6', name: 'Jamie, 23', quote: "I've done every personality test out there. This is the only one that actually made me feel understood. The direction compass alone was worth it." },
+              { accentFrom: '#06b6d4', accentTo: '#0284c7', name: 'Sophie, 18', quote: "I was spinning my wheels after finishing school. This gave me a framework for my next move that actually made sense for who I am." },
+              { accentFrom: '#7c3aed', accentTo: '#2563eb', name: 'Alex, 20', quote: "The Mirror section was uncomfortable to read but exactly what I needed to hear. No vague platitudes — just the truth about why I was stuck." },
+            ].map(({ accentFrom, accentTo, name, quote }) => (
               <div key={name} style={{
                 background: 'var(--brand-card)', borderRadius: '20px', padding: '1.75rem',
                 border: '1px solid var(--brand-border)',
                 boxShadow: '0 8px 40px rgba(0,0,0,0.1)',
                 position: 'relative', overflow: 'hidden'
               }}>
-                {/* Coloured top accent strip */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
                   background: `linear-gradient(to right, ${accentFrom}, ${accentTo})`
@@ -713,15 +700,7 @@ export default function LandingPage() {
                 <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, marginBottom: '1.25rem', fontStyle: 'italic' }}>
                   &ldquo;{quote}&rdquo;
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={avatar} alt={name}
-                    width={40} height={40}
-                    style={{ borderRadius: '50%', border: '2px solid var(--brand-border)', background: 'var(--brand-bg-subtle)' }}
-                  />
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--brand-text-muted)' }}>{name}</span>
-                </div>
+                <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--brand-text)' }}>{name}</span>
               </div>
             ))}
           </div>
