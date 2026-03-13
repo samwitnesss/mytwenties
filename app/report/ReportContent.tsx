@@ -165,13 +165,13 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
         {/* 02 · ARCHETYPE + RADAR — two-column layout */}
         <div style={CONTENT_WIDE}>
           <SectionHeader label="02" title="Your Archetype" />
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'stretch', flexWrap: 'wrap' }}>
-            {/* Left: primary + secondary stacked */}
-            <div style={{ flex: '0 0 min(420px, 100%)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {/* Top row: primary card + radar */}
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'stretch', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+            {/* Left: primary archetype */}
+            <div style={{ flex: '0 0 min(420px, 100%)' }}>
               <div style={{
                 background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, var(--brand-card) 100%)',
-                borderRadius: '24px', padding: '2rem', border: '1px solid rgba(37,99,235,0.22)', boxShadow: CARD_FEATURE,
-                flex: 1
+                borderRadius: '24px', padding: '2rem', border: '1px solid rgba(37,99,235,0.22)', boxShadow: CARD_FEATURE, height: '100%'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
                   <div>
@@ -200,17 +200,20 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
                   <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0 }}>{report.archetype.primary.shadow}</p>
                 </div>
               </div>
-              <div style={{ background: 'var(--brand-card)', borderRadius: '18px', padding: '1.5rem', border: '1px solid var(--brand-border)', boxShadow: CARD }}>
-                <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>
-                  Secondary Archetype · {Math.round(report.archetype.secondary.score * 100)}%
-                </p>
-                <h4 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>{report.archetype.secondary.name}</h4>
-                <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0 }}>{report.archetype.secondary.description}</p>
-              </div>
             </div>
-            {/* Right: radar — fills height of left column */}
+            {/* Right: radar */}
             <div style={{ flex: 1, minWidth: '300px', display: 'flex', flexDirection: 'column' }}>
               <ArchetypeRadar scores={report.archetype.radar_scores} primaryAxis={report.archetype.primary.name} />
+            </div>
+          </div>
+          {/* Bottom: secondary archetype spans full width */}
+          <div style={{ background: 'var(--brand-card)', borderRadius: '18px', padding: '1.5rem 2rem', border: '1px solid var(--brand-border)', boxShadow: CARD }}>
+            <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>
+              Secondary Archetype · {Math.round(report.archetype.secondary.score * 100)}%
+            </p>
+            <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+              <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0, flexShrink: 0 }}>{report.archetype.secondary.name}</h4>
+              <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0, flex: 1 }}>{report.archetype.secondary.description}</p>
             </div>
           </div>
         </div>
@@ -233,7 +236,7 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
         </div>
 
         {/* 04 · STRENGTH STACK */}
-        <div style={CONTENT}>
+        <div style={CONTENT_WIDE}>
           <SectionHeader label="04" title="Your Strength Stack" />
           <StrengthStack strengths={report.strengths} />
         </div>
@@ -382,11 +385,8 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 
 function SectionHeader({ label, title }: { label: string, title: string }) {
   return (
-    <div style={{ marginBottom: '1.75rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-        <span style={{ fontSize: '0.62rem', color: 'var(--brand-text-subtle)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{label}</span>
-        <div style={{ height: '1px', background: 'linear-gradient(to right, var(--brand-border), transparent)', flex: 1 }} />
-      </div>
+    <div style={{ marginBottom: '1.75rem', textAlign: 'center' }}>
+      <span style={{ fontSize: '0.62rem', color: 'var(--brand-text-subtle)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>{label}</span>
       <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', fontWeight: 800, margin: 0, letterSpacing: '-0.025em', lineHeight: 1.1 }}>
         <span className="gradient-text">{title}</span>
       </h2>

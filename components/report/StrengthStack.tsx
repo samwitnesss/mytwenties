@@ -13,7 +13,7 @@ export default function StrengthStack({ strengths }: { strengths: Strength[] }) 
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem' }}>
       {strengths.map((s) => (
         <div key={s.rank} style={{
-          background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem',
+          background: 'var(--brand-card)', borderRadius: '20px', padding: '1.25rem 1.5rem',
           border: '1px solid var(--brand-border)', position: 'relative', overflow: 'hidden',
           boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)'
         }}>
