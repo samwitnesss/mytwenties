@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
         .eq('user_id', userId)
     }
 
-    return NextResponse.redirect(new URL(`/report/${reportId}`, req.url))
+    return NextResponse.redirect(new URL(`/report/${reportId}?unlocked=1`, req.url))
   } catch (err) {
     console.error('Checkout success error:', err)
     return NextResponse.redirect(new URL('/', req.url))

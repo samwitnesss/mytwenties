@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import ArchetypeRadar from '@/components/report/ArchetypeRadar'
 import EnergyMap from '@/components/report/EnergyMap'
 import StrengthStack from '@/components/report/StrengthStack'
@@ -15,14 +15,49 @@ const CARD_FEATURE = '0 16px 56px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.08)'
 const CONTENT: React.CSSProperties = { maxWidth: '760px', margin: '0 auto', marginBottom: '3.5rem' }
 const CONTENT_WIDE: React.CSSProperties = { maxWidth: '1100px', margin: '0 auto', marginBottom: '3.5rem' }
 
-export default function ReportContent({ report, reportType = 'free' }: { report: MockReport; reportType?: string }) {
+const CONFETTI_COLORS = ['#2563eb', '#06b6d4', '#a855f7', '#ec4899', '#f59e0b', '#10b981', '#ffffff']
+
+function ConfettiEffect() {
+  const pieces = useMemo(() => Array.from({ length: 70 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 1.8}s`,
+    duration: `${2.5 + Math.random() * 2}s`,
+    color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+    size: `${5 + Math.random() * 9}px`,
+    borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+  })), [])
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 9999, overflow: 'hidden' }}>
+      {pieces.map(p => (
+        <div key={p.id} className="confetti-piece" style={{
+          left: p.left, top: '-20px',
+          width: p.size, height: p.size,
+          background: p.color, borderRadius: p.borderRadius,
+          animationDuration: p.duration, animationDelay: p.delay,
+        }} />
+      ))}
+    </div>
+  )
+}
+
+export default function ReportContent({ report, reportType = 'free', unlocked = false }: { report: MockReport; reportType?: string; unlocked?: boolean }) {
   const [firstName, setFirstName] = useState(report.firstName || 'You')
   const [unlocking, setUnlocking] = useState(false)
+  const [showConfetti, setShowConfetti] = useState(unlocked && reportType === 'paid')
 
   useEffect(() => {
     const stored = localStorage.getItem('mt_first_name')
     if (stored) setFirstName(stored)
   }, [])
+
+  useEffect(() => {
+    if (showConfetti) {
+      const t = setTimeout(() => setShowConfetti(false), 4500)
+      return () => clearTimeout(t)
+    }
+  }, [showConfetti])
 
   async function handleUnlock() {
     setUnlocking(true)
@@ -54,6 +89,7 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 
   return (
     <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', color: 'var(--brand-text)' }}>
+      {showConfetti && <ConfettiEffect />}
 
       {/* HEADER */}
       <section style={{
@@ -321,9 +357,25 @@ export default function ReportContent({ report, reportType = 'free' }: { report:
 
         {/* 11 · FULL REPORT */}
         <div style={CONTENT}>
-          <SectionHeader label="11" title="Your Full Report" />
+          <SectionHeader label="11" title="Your Full Map" />
           {reportType === 'paid' ? (
-            <PremiumSections report={report} />
+            <>
+              {unlocked && (
+                <div className="animate-unlock-banner" style={{
+                  background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
+                  borderRadius: '20px', padding: '1.5rem 2rem', marginBottom: '2rem',
+                  display: 'flex', alignItems: 'center', gap: '1rem',
+                  boxShadow: '0 8px 40px rgba(37,99,235,0.35)'
+                }}>
+                  <div style={{ fontSize: '1.8rem' }}>🎉</div>
+                  <div>
+                    <p style={{ fontSize: '1.1rem', fontWeight: 800, color: '#ffffff', margin: '0 0 2px', letterSpacing: '-0.01em' }}>Your full map is unlocked</p>
+                    <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', margin: 0 }}>Everything below is yours. Take your time with it.</p>
+                  </div>
+                </div>
+              )}
+              <PremiumSections report={report} />
+            </>
           ) : (
             <LockedSection onUnlock={handleUnlock} unlocking={unlocking} />
           )}
@@ -523,28 +575,46 @@ function LockedSection({ onUnlock, unlocking }: { onUnlock: () => void; unlockin
   )
 }
 
+function PremiumLabel({ icon, title }: { icon: string; title: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.25rem' }}>
+      <span style={{ fontSize: '1.3rem' }}>{icon}</span>
+      <h3 style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)', fontWeight: 800, margin: 0, letterSpacing: '-0.02em' }}>
+        <span className="gradient-text">{title}</span>
+      </h3>
+    </div>
+  )
+}
+
 function PremiumSections({ report }: { report: MockReport }) {
   const CF = '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)'
   const C = '0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04)'
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
       {report.business_blueprint && (
         <div>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '1.25rem' }}>🏗️ Business Blueprint</h3>
-          <div style={{ background: 'var(--brand-card)', borderRadius: '20px', padding: '2rem', border: '1px solid var(--brand-border)', boxShadow: CF }}>
-            <p style={{ fontSize: '0.72rem', color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: '4px' }}>Model</p>
-            <p style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1rem' }}>{report.business_blueprint.model}</p>
-            <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.8, marginBottom: '1.5rem' }}>{report.business_blueprint.why_it_fits}</p>
-            <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: '0.875rem' }}>Your First Steps</p>
-            <ol style={{ paddingLeft: '1.25rem', margin: 0 }}>
-              {report.business_blueprint.first_steps.map((step, i) => (
-                <li key={i} style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '0.625rem' }}>{step}</li>
-              ))}
-            </ol>
-            <div style={{ marginTop: '1.75rem', background: 'rgba(37,99,235,0.05)', borderRadius: '12px', padding: '1.25rem', border: '1px solid rgba(37,99,235,0.12)' }}>
-              <p style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>Timeline</p>
-              <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-strong)', lineHeight: 1.75, margin: 0 }}>{report.business_blueprint.realistic_timeline}</p>
+          <PremiumLabel icon="🏗️" title="Business Blueprint" />
+          <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(37,99,235,0.2)', boxShadow: CF }}>
+            <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', padding: '2rem' }}>
+              <p style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, marginBottom: '6px' }}>Your model</p>
+              <p style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', lineHeight: 1.2, margin: 0 }}>{report.business_blueprint.model}</p>
+            </div>
+            <div style={{ background: 'var(--brand-card)', padding: '2rem' }}>
+              <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-muted)', lineHeight: 1.85, marginBottom: '2rem' }}>{report.business_blueprint.why_it_fits}</p>
+              <p style={{ fontSize: '0.68rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '1rem' }}>Your first steps</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2rem' }}>
+                {report.business_blueprint.first_steps.map((step, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg, #2563eb, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.72rem', fontWeight: 800, color: '#ffffff' }}>{i + 1}</div>
+                    <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, margin: 0, paddingTop: '4px' }}>{step}</p>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: 'rgba(37,99,235,0.06)', borderRadius: '14px', padding: '1.25rem 1.5rem', border: '1px solid rgba(37,99,235,0.18)' }}>
+                <p style={{ fontSize: '0.68rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>Realistic timeline</p>
+                <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-strong)', lineHeight: 1.75, margin: 0, fontWeight: 600 }}>{report.business_blueprint.realistic_timeline}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -552,15 +622,22 @@ function PremiumSections({ report }: { report: MockReport }) {
 
       {report.career_map && (
         <div>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '0.625rem' }}>🗺️ Career Direction Map</h3>
-          <p style={{ fontSize: '1rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, marginBottom: '0.75rem', fontWeight: 600 }}>{report.career_map.headline}</p>
-          <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.8, marginBottom: '1.25rem' }}>{report.career_map.why}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <PremiumLabel icon="🗺️" title="Career Direction Map" />
+          <div style={{ background: 'var(--brand-card)', borderRadius: '24px', padding: '2rem', border: '1px solid var(--brand-border)', boxShadow: CF, marginBottom: '1rem' }}>
+            <p style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--brand-text)', lineHeight: 1.5, marginBottom: '0.75rem' }}>{report.career_map.headline}</p>
+            <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.85, margin: 0 }}>{report.career_map.why}</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
             {report.career_map.roles.map((role, i) => (
-              <div key={i} style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.5rem', border: '1px solid var(--brand-border)', boxShadow: C }}>
-                <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.5rem' }}>{role.title}</h4>
-                <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '0.75rem' }}>{role.description}</p>
-                <p style={{ fontSize: '0.8rem', color: '#2563eb', fontWeight: 700 }}>{role.income}</p>
+              <div key={i} style={{ background: 'var(--brand-card)', borderRadius: '18px', padding: '1.5rem', border: '1px solid var(--brand-border)', boxShadow: C, display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #2563eb, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.78rem', fontWeight: 800, color: '#ffffff' }}>{i + 1}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '8px' }}>
+                    <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0 }}>{role.title}</h4>
+                    <span style={{ fontSize: '0.82rem', color: '#06b6d4', fontWeight: 700, background: 'rgba(6,182,212,0.1)', borderRadius: '100px', padding: '3px 12px', border: '1px solid rgba(6,182,212,0.25)', flexShrink: 0 }}>{role.income}</span>
+                  </div>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, margin: 0 }}>{role.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -569,13 +646,18 @@ function PremiumSections({ report }: { report: MockReport }) {
 
       {report.highest_leverage_move && (
         <div>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '1.25rem' }}>⚡ Highest Leverage Move</h3>
-          <div style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, var(--brand-card) 100%)', borderRadius: '20px', padding: '2rem', border: '1px solid rgba(37,99,235,0.18)', boxShadow: CF }}>
-            <p style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--brand-text)', lineHeight: 1.5, marginBottom: '1rem' }}>{report.highest_leverage_move.move}</p>
-            <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.8, marginBottom: '1.25rem' }}>{report.highest_leverage_move.why_now}</p>
-            <div style={{ background: 'rgba(37,99,235,0.05)', borderRadius: '12px', padding: '1.25rem', border: '1px solid rgba(37,99,235,0.12)' }}>
-              <p style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>How to Start</p>
-              <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-strong)', lineHeight: 1.75, margin: 0 }}>{report.highest_leverage_move.how_to_start}</p>
+          <PremiumLabel icon="⚡" title="Highest Leverage Move" />
+          <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(6,182,212,0.3)', boxShadow: CF }}>
+            <div style={{ background: 'linear-gradient(135deg, #0c1f35 0%, #0c3d5e 100%)', padding: '2rem' }}>
+              <p style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, marginBottom: '8px' }}>Do this now</p>
+              <p style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', lineHeight: 1.4, margin: 0 }}>{report.highest_leverage_move.move}</p>
+            </div>
+            <div style={{ background: 'var(--brand-card)', padding: '2rem' }}>
+              <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-muted)', lineHeight: 1.85, marginBottom: '1.5rem' }}>{report.highest_leverage_move.why_now}</p>
+              <div style={{ background: 'rgba(6,182,212,0.06)', borderRadius: '14px', padding: '1.25rem 1.5rem', border: '1px solid rgba(6,182,212,0.2)' }}>
+                <p style={{ fontSize: '0.68rem', color: '#0891b2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>How to start this week</p>
+                <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-strong)', lineHeight: 1.75, margin: 0 }}>{report.highest_leverage_move.how_to_start}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -583,14 +665,14 @@ function PremiumSections({ report }: { report: MockReport }) {
 
       {report.reading_list && (
         <div>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '1.25rem' }}>📚 Reading List</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+          <PremiumLabel icon="📚" title="Your Reading List" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {report.reading_list.map((book, i) => (
-              <div key={i} style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.5rem', border: '1px solid var(--brand-border)', boxShadow: C, display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.75rem', color: '#2563eb', fontWeight: 800 }}>{i + 1}</div>
+              <div key={i} style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem 1.5rem', border: '1px solid var(--brand-border)', boxShadow: C, display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #2563eb, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.75rem', color: '#ffffff', fontWeight: 800 }}>{i + 1}</div>
                 <div>
-                  <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '2px' }}>{book.title}</p>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-subtle)', marginBottom: '6px' }}>{book.author}</p>
+                  <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1px' }}>{book.title}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginBottom: '5px' }}>{book.author}</p>
                   <p style={{ fontSize: '0.88rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, margin: 0 }}>{book.why}</p>
                 </div>
               </div>
@@ -601,20 +683,28 @@ function PremiumSections({ report }: { report: MockReport }) {
 
       {report.ai_mentor_prompt && (
         <div>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '0.625rem' }}>🤖 Your AI Mentor Prompt</h3>
-          <p style={{ fontSize: '0.88rem', color: 'var(--brand-text-subtle)', marginBottom: '1rem' }}>Paste this into Claude or ChatGPT to create a personalised AI mentor who knows everything about you.</p>
-          <div style={{ background: 'var(--brand-bg-subtle)', borderRadius: '16px', padding: '1.75rem', border: '1px solid var(--brand-border)', fontFamily: 'monospace', fontSize: '0.82rem', color: 'var(--brand-text-strong)', lineHeight: 1.8, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-            {report.ai_mentor_prompt}
+          <PremiumLabel icon="🤖" title="Your AI Mentor Prompt" />
+          <div style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(37,99,235,0.2)', boxShadow: C }}>
+            <div style={{ background: '#0f172a', padding: '0.875rem 1.25rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                {['#ef4444','#f59e0b','#10b981'].map(c => <div key={c} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c }} />)}
+              </div>
+              <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace' }}>Paste into Claude or ChatGPT</span>
+            </div>
+            <div style={{ background: '#1e293b', padding: '1.75rem', fontFamily: 'monospace', fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.9, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+              <span style={{ color: '#7dd3fc' }}>{report.ai_mentor_prompt}</span>
+            </div>
           </div>
         </div>
       )}
 
       {report.the_letter && (
         <div>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '1.25rem' }}>✉️ A Letter To You</h3>
-          <div style={{ background: 'var(--brand-card)', borderRadius: '24px', padding: '2.75rem', border: '1px solid var(--brand-border)', boxShadow: CF }}>
+          <PremiumLabel icon="✉️" title="A Letter To You" />
+          <div style={{ background: 'var(--brand-card)', borderRadius: '24px', padding: '2.75rem', border: '1px solid var(--brand-border)', boxShadow: CF, borderLeft: '4px solid #2563eb' }}>
+            <p style={{ fontSize: '0.68rem', color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1.75rem' }}>Written for you</p>
             {report.the_letter.map((para, i) => (
-              <p key={i} style={{ fontSize: 'clamp(0.95rem, 2vw, 1.1rem)', lineHeight: 1.9, color: 'var(--brand-text-strong)', marginBottom: i < report.the_letter!.length - 1 ? '1.5rem' : 0 }}>
+              <p key={i} style={{ fontSize: 'clamp(1rem, 2vw, 1.1rem)', lineHeight: 1.95, color: 'var(--brand-text-strong)', marginBottom: i < report.the_letter!.length - 1 ? '1.5rem' : 0 }}>
                 {para}
               </p>
             ))}
