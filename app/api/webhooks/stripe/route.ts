@@ -29,13 +29,20 @@ export async function POST(req: NextRequest) {
 
     const { reportId, userId } = session.metadata ?? {}
 
-    if (reportId && userId) {
+    if (reportId) {
       const admin = createAdminClient()
-      await admin
-        .from('mytwenties_reports')
-        .update({ report_type: 'paid' })
-        .eq('id', reportId)
-        .eq('user_id', userId)
+      if (userId) {
+        await admin
+          .from('mytwenties_reports')
+          .update({ report_type: 'paid' })
+          .eq('id', reportId)
+          .eq('user_id', userId)
+      } else {
+        await admin
+          .from('mytwenties_reports')
+          .update({ report_type: 'paid' })
+          .eq('id', reportId)
+      }
     }
   }
 

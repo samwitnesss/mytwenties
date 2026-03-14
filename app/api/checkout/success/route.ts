@@ -23,13 +23,18 @@ export async function GET(req: NextRequest) {
       return NextResponse.redirect(new URL('/', req.url))
     }
 
+    const admin = createAdminClient()
     if (userId) {
-      const admin = createAdminClient()
       await admin
         .from('mytwenties_reports')
         .update({ report_type: 'paid' })
         .eq('id', reportId)
         .eq('user_id', userId)
+    } else {
+      await admin
+        .from('mytwenties_reports')
+        .update({ report_type: 'paid' })
+        .eq('id', reportId)
     }
 
     return NextResponse.redirect(new URL(`/report/${reportId}?unlocked=1`, req.url))
