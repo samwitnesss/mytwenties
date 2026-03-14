@@ -42,6 +42,64 @@ function ConfettiEffect() {
   )
 }
 
+function UnlockBanner() {
+  const [visible, setVisible] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 700)
+    return () => clearTimeout(t)
+  }, [])
+
+  function scrollToMap() {
+    document.getElementById('full-map')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setDismissed(true)
+  }
+
+  if (dismissed) return null
+
+  return (
+    <div
+      onClick={scrollToMap}
+      style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
+        transform: visible ? 'translateY(0)' : 'translateY(-110%)',
+        transition: 'transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        background: 'linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%)',
+        cursor: 'pointer',
+        boxShadow: '0 4px 32px rgba(37,99,235,0.45)',
+      }}
+    >
+      <div style={{
+        maxWidth: '760px', margin: '0 auto',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        gap: '12px', padding: '14px 1.5rem',
+      }}>
+        <span style={{ fontSize: '1rem' }}>🔓</span>
+        <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }}>
+          Your full map is unlocked!
+        </span>
+        <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.75)', fontWeight: 500 }}>
+          Scroll down to see it
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'bounce-down 1.2s ease-in-out infinite' }}>
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+        <button
+          onClick={e => { e.stopPropagation(); setDismissed(true) }}
+          style={{
+            position: 'absolute', right: '1rem',
+            background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%',
+            width: '26px', height: '26px', cursor: 'pointer', color: '#ffffff',
+            fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            lineHeight: 1
+          }}
+        >×</button>
+      </div>
+    </div>
+  )
+}
+
 export default function ReportContent({ report, reportType = 'free', unlocked = false }: { report: MockReport; reportType?: string; unlocked?: boolean }) {
   const [firstName, setFirstName] = useState(report.firstName || 'You')
   const [unlocking, setUnlocking] = useState(false)
@@ -90,6 +148,7 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
   return (
     <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', color: 'var(--brand-text)' }}>
       {showConfetti && <ConfettiEffect />}
+      {unlocked && reportType === 'paid' && <UnlockBanner />}
 
       {/* HEADER */}
       <section style={{
@@ -356,7 +415,7 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
         </div>
 
         {/* 11 · FULL REPORT */}
-        <div style={CONTENT}>
+        <div id="full-map" style={CONTENT}>
           <SectionHeader label="11" title="Your Full Map" />
           {reportType === 'paid' ? (
             <>
