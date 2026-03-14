@@ -49,6 +49,7 @@ RULES:
 3. Write in second person ("You are...", "Your pattern is...").
 4. Return ONLY valid JSON. No markdown, no preamble, no code fences.
 5. Be concise in each field — quality over length.
+6. NEVER fabricate quotes, statements, or specific details the person did not provide. If they didn't say it, don't put it in quotes or attribute it to them. Only reference what is explicitly in their responses.
 
 ARCHETYPES: The Architect, The Connector, The Creator, The Disruptor, The Performer, The Analyst, The Caretaker, The Explorer
 
