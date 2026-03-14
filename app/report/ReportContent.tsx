@@ -645,6 +645,17 @@ function PremiumLabel({ icon, title }: { icon: string; title: string }) {
   )
 }
 
+function boldTimeMarkers(text: string): React.ReactNode {
+  // Bold time markers like "— this week", "— week 2", "— month 1", "— day 90" etc.
+  const parts = text.split(/(—\s*(?:this week|week \d+|month \d+|day \d+|\d+\s*weeks?|\d+\s*months?)[^—]*)/gi)
+  if (parts.length === 1) return text
+  return parts.map((part, i) =>
+    /^—\s*(?:this week|week \d+|month \d+|day \d+|\d+\s*weeks?|\d+\s*months?)/i.test(part)
+      ? <strong key={i} style={{ fontWeight: 700, color: 'var(--brand-text)' }}>{part}</strong>
+      : part
+  )
+}
+
 function PremiumSections({ report }: { report: MockReport }) {
   const CF = '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)'
   const C = '0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04)'
@@ -666,7 +677,7 @@ function PremiumSections({ report }: { report: MockReport }) {
                 {report.business_blueprint.first_steps.map((step, i) => (
                   <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                     <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg, #2563eb, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.72rem', fontWeight: 800, color: '#ffffff' }}>{i + 1}</div>
-                    <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, margin: 0, paddingTop: '4px' }}>{step}</p>
+                    <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, margin: 0, paddingTop: '4px' }}>{boldTimeMarkers(step)}</p>
                   </div>
                 ))}
               </div>
@@ -708,15 +719,21 @@ function PremiumSections({ report }: { report: MockReport }) {
           <PremiumLabel icon="⚡" title="Highest Leverage Move" />
           <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(6,182,212,0.3)', boxShadow: CF }}>
             <div style={{ background: 'linear-gradient(135deg, #0c1f35 0%, #0c3d5e 100%)', padding: '2rem' }}>
-              <p style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, marginBottom: '8px' }}>Do this now</p>
+              <p className="gradient-text" style={{ fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 800, marginBottom: '10px' }}>Do this now</p>
               <p style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', lineHeight: 1.4, margin: 0 }}>{report.highest_leverage_move.move}</p>
             </div>
-            <div style={{ background: 'var(--brand-card)', padding: '2rem' }}>
-              <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-muted)', lineHeight: 1.85, marginBottom: '1.5rem' }}>{report.highest_leverage_move.why_now}</p>
+            <div style={{ background: 'var(--brand-card)', padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-muted)', lineHeight: 1.85, margin: 0 }}>{report.highest_leverage_move.why_now}</p>
               <div style={{ background: 'rgba(6,182,212,0.06)', borderRadius: '14px', padding: '1.25rem 1.5rem', border: '1px solid rgba(6,182,212,0.2)' }}>
                 <p style={{ fontSize: '0.68rem', color: '#0891b2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>How to start this week</p>
                 <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-strong)', lineHeight: 1.75, margin: 0 }}>{report.highest_leverage_move.how_to_start}</p>
               </div>
+              {report.highest_leverage_move.worst_case && (
+                <div style={{ background: 'rgba(37,99,235,0.04)', borderRadius: '14px', padding: '1.25rem 1.5rem', border: '1px solid rgba(37,99,235,0.14)' }}>
+                  <p style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '6px' }}>What&apos;s the worst case scenario?</p>
+                  <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, margin: 0 }}>{report.highest_leverage_move.worst_case}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -743,12 +760,15 @@ function PremiumSections({ report }: { report: MockReport }) {
       {report.ai_mentor_prompt && (
         <div>
           <PremiumLabel icon="🤖" title="Your AI Mentor Prompt" />
+          <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '1.25rem' }}>
+            This is a custom system prompt built from your full profile. Copy and paste it into <strong style={{ color: 'var(--brand-text-strong)', fontWeight: 600 }}>ChatGPT, Claude, or Gemini</strong> — it turns the AI into a personalised mentor who understands your exact archetype, strengths, blind spots, and direction. Every response it gives you will be filtered through how you actually work, not generic advice.
+          </p>
           <div style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(37,99,235,0.2)', boxShadow: C }}>
             <div style={{ background: '#0f172a', padding: '0.875rem 1.25rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
               <div style={{ display: 'flex', gap: '5px' }}>
                 {['#ef4444','#f59e0b','#10b981'].map(c => <div key={c} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c }} />)}
               </div>
-              <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace' }}>Paste into Claude or ChatGPT</span>
+              <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', fontFamily: 'monospace' }}>Copy · Paste into ChatGPT / Claude / Gemini as System Prompt</span>
             </div>
             <div style={{ background: '#1e293b', padding: '1.75rem', fontFamily: 'monospace', fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.9, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
               <span style={{ color: '#7dd3fc' }}>{report.ai_mentor_prompt}</span>

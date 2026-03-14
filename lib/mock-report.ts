@@ -202,6 +202,7 @@ export type MockReport = typeof mockReport & {
     move: string
     why_now: string
     how_to_start: string
+    worst_case: string
   }
   reading_list?: Array<{ title: string; author: string; why: string }>
   ai_mentor_prompt?: string
