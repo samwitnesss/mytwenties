@@ -38,6 +38,7 @@ export default function GeneratingPage() {
   const [testimonialIndex, setTestimonialIndex] = useState(0)
   const [testimonialKey, setTestimonialKey] = useState(0)
   const [revealed, setRevealed] = useState<string[]>([])
+  const [timedOut, setTimedOut] = useState(false)
   const circumference = 2 * Math.PI * 45
 
   // Track reportId so we can redirect as soon as generation completes
@@ -121,7 +122,7 @@ export default function GeneratingPage() {
       }
     }, 3000)
 
-    // Hard cap at 120s — redirect to status-based fallback
+    // Hard cap at 120s — do one final status check, then show error state
     const maxTimer = setTimeout(async () => {
       if (redirectedRef.current) return
       try {
@@ -130,10 +131,10 @@ export default function GeneratingPage() {
         if (data.ready && data.reportId) {
           doRedirect(data.reportId)
         } else {
-          router.push('/report/preview')
+          setTimedOut(true)
         }
       } catch {
-        router.push('/report/preview')
+        setTimedOut(true)
       }
     }, 120000)
 
@@ -159,6 +160,43 @@ export default function GeneratingPage() {
   }, [router])
 
   const strokeOffset = circumference - (progress / 100) * circumference
+
+  if (timedOut) {
+    return (
+      <main style={{
+        backgroundColor: 'var(--brand-bg)', minHeight: '100vh',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '2rem 1.5rem'
+      }}>
+        <div style={{ textAlign: 'center', maxWidth: '420px' }}>
+          <div style={{
+            width: '64px', height: '64px', borderRadius: '50%', margin: '0 auto 1.5rem',
+            background: 'rgba(37,99,235,0.08)', border: '2px solid rgba(37,99,235,0.2)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.75rem'
+          }}>⏳</div>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '0.75rem' }}>
+            This is taking longer than usual
+          </h1>
+          <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, marginBottom: '2rem' }}>
+            Your report may still be generating. Refresh in a moment — your responses are safely saved.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              padding: '0.875rem 2rem', borderRadius: '100px', border: 'none', cursor: 'pointer',
+              background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
+              color: '#fff', fontWeight: 700, fontSize: '0.95rem', fontFamily: 'inherit'
+            }}
+          >
+            Refresh page
+          </button>
+          <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
+            Still stuck? Email <a href="mailto:sam@samwitness.com" style={{ color: '#2563eb' }}>sam@samwitness.com</a>
+          </p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main style={{
