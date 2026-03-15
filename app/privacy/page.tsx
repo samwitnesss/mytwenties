@@ -26,7 +26,7 @@ export default function PrivacyPage() {
           },
           {
             title: 'Deletion',
-            body: 'You can request deletion of your data at any time by emailing sam@mytwenties.com. We will permanently delete your account and all associated responses and reports within 7 days.'
+            body: 'You can request deletion of your data at any time by emailing sam@samwitness.com. We will permanently delete your account and all associated responses and reports within 7 days.'
           },
           {
             title: 'Third parties',
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
           },
           {
             title: 'Contact',
-            body: 'For any privacy questions, email sam@mytwenties.com.'
+            body: 'For any privacy questions, email sam@samwitness.com.'
           }
         ].map(({ title, body }) => (
           <div key={title} style={{ marginBottom: '2rem' }}>

@@ -26,7 +26,7 @@ export default function TermsPage() {
           },
           {
             title: 'Payments',
-            body: 'The base report is free. The full paid report ($29) is a one-time purchase. If you are not satisfied with your paid report, you can request a full refund within 30 days by emailing sam@mytwenties.com.'
+            body: 'The base report is free. The full paid report ($29) is a one-time purchase. If you are not satisfied with your paid report, you can request a full refund within 30 days by emailing sam@samwitness.com.'
           },
           {
             title: 'Prohibited use',
@@ -38,7 +38,7 @@ export default function TermsPage() {
           },
           {
             title: 'Contact',
-            body: 'For any questions about these terms, email sam@mytwenties.com.'
+            body: 'For any questions about these terms, email sam@samwitness.com.'
           }
         ].map(({ title, body }) => (
           <div key={title} style={{ marginBottom: '2rem' }}>
