@@ -68,6 +68,7 @@ export default function AssessmentPage() {
   const [scaleBatchIndex, setScaleBatchIndex] = useState(0)
   const [textValue, setTextValue] = useState('')
   const [otherInputValue, setOtherInputValue] = useState('')
+  const [saveError, setSaveError] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
@@ -82,12 +83,16 @@ export default function AssessmentPage() {
     debounce(async (uid: string, section: number, questionId: string, type: string, value: ResponseValue) => {
       if (value === null || value === '' || (Array.isArray(value) && value.length === 0)) return
       try {
-        await fetch('/api/responses', {
+        const res = await fetch('/api/responses', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: uid, section, questionId, responseType: type, responseValue: value })
         })
-      } catch { /* silent */ }
+        if (!res.ok) throw new Error('Save failed')
+        setSaveError(false)
+      } catch {
+        setSaveError(true)
+      }
     }, 800),
     []
   )
@@ -302,6 +307,19 @@ export default function AssessmentPage() {
           </p>
         )}
       </header>
+
+      {/* Save error toast */}
+      {saveError && (
+        <div style={{
+          position: 'fixed', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)',
+          background: '#ef4444', color: '#fff', padding: '0.75rem 1.25rem',
+          borderRadius: '100px', fontSize: '0.85rem', fontWeight: 600,
+          boxShadow: '0 4px 20px rgba(239,68,68,0.4)', zIndex: 1000,
+          display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap'
+        }}>
+          <span>⚠️</span> Connection issue — check your internet and try again
+        </div>
+      )}
 
       {/* Main content */}
       <main style={{ flex: 1, padding: '2rem 1rem 5rem', maxWidth: '540px', margin: '0 auto', width: '100%' }}>
