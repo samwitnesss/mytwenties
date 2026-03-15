@@ -1,11 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function BeginPage() {
   const router = useRouter()
   const [ageConfirmed, setAgeConfirmed] = useState(false)
+
+  useEffect(() => {
+    if (!localStorage.getItem('mt_user_id')) {
+      router.push('/start')
+    }
+  }, [router])
 
   return (
     <main style={{
