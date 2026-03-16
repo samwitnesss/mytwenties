@@ -665,11 +665,15 @@ function SingleQuestion({
               </button>
             ))}
           </div>
-          {arrVal.length > 0 && (
+          {arrVal.length > 0 ? (
             <button onClick={onContinue} style={continueBtn}>
               Continue ({arrVal.length} selected) →
             </button>
-          )}
+          ) : question.optional ? (
+            <button onClick={onContinue} style={{ ...continueBtn, background: 'var(--brand-card)', color: 'var(--brand-text-mid)', border: '1px solid var(--brand-border)' }}>
+              Skip →
+            </button>
+          ) : null}
         </div>
       )}
 
@@ -718,9 +722,12 @@ function ScaleBatch({
   onComplete: () => void
 }) {
   const allAnswered = questions.every(q => responses[q.id] !== undefined && responses[q.id] !== null)
+  const hasInteractedRef = useRef(false)
 
   useEffect(() => {
-    if (allAnswered) {
+    // Only auto-advance after the user actually clicks something in this batch —
+    // prevents immediately skipping forward when navigating back to an already-answered batch
+    if (allAnswered && hasInteractedRef.current) {
       const t = setTimeout(onComplete, 400)
       return () => clearTimeout(t)
     }
@@ -749,7 +756,7 @@ function ScaleBatch({
                 {[1, 2, 3, 4, 5].map(n => (
                   <button
                     key={n}
-                    onClick={() => onChange(q.id, n, q.section)}
+                    onClick={() => { hasInteractedRef.current = true; onChange(q.id, n, q.section) }}
                     style={{
                       flex: 1, padding: '9px 0',
                       background: val === n ? 'rgba(37,99,235,0.1)' : 'var(--brand-bg-subtle)',
