@@ -50,7 +50,8 @@ export const SECTIONS: Section[] = [
           'Comfortable — I have savings and no major pressure',
           'Getting by — I cover basics but not much spare',
           'Tight — money stresses me out regularly',
-          'Supported by parents but want independence'
+          'Supported by parents but want independence',
+          'Other'
         ]
       },
       { id: 'q7', section: 1, type: 'slider', label: 'How many hours per week do you have available to work on something new?', min: 0, max: 40, step: 2, minLabel: '0 hrs', maxLabel: '40+ hrs' },
@@ -132,7 +133,8 @@ export const SECTIONS: Section[] = [
           'It made me cautious — I was taught to play it safe',
           'It\'s complicated — mixed messages',
           'It lit a fire in me to prove something',
-          'I\'m still figuring out the impact'
+          'I\'m still figuring out the impact',
+          'Other'
         ]
       }
     ]
@@ -227,7 +229,8 @@ export const SECTIONS: Section[] = [
           'I can\'t afford to take the risk',
           'My parents wouldn\'t support it',
           'I don\'t have anyone around me doing this',
-          'I\'m stuck in a situation I can\'t easily leave'
+          'I\'m stuck in a situation I can\'t easily leave',
+          'Other'
         ]
       },
       { id: 'q80', section: 7, type: 'scale', label: 'Fear of failure holds me back from taking action.' },
