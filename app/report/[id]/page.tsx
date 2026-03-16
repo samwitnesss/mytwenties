@@ -35,6 +35,7 @@ export default async function ReportPage({
         report={{ ...data.report_data, id }}
         reportType={data.report_type ?? 'free'}
         unlocked={unlocked === '1'}
+        paidPending={data.report_type === 'paid_pending'}
       />
     )
   }

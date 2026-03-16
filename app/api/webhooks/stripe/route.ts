@@ -31,13 +31,13 @@ export async function POST(req: NextRequest) {
 
     if (reportId) {
       const admin = createAdminClient()
+      // Only set paid_pending if not already fully paid (idempotent)
       const updateQuery = userId
-        ? admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId).eq('user_id', userId)
-        : admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId)
+        ? admin.from('mytwenties_reports').update({ report_type: 'paid_pending' }).eq('id', reportId).eq('user_id', userId).neq('report_type', 'paid')
+        : admin.from('mytwenties_reports').update({ report_type: 'paid_pending' }).eq('id', reportId).neq('report_type', 'paid')
       const { error: updateError } = await updateQuery
       if (updateError) {
-        console.error('webhook: failed to mark report as paid:', updateError, { reportId, userId })
-        // Return 500 so Stripe retries the webhook
+        console.error('webhook: failed to mark report as paid_pending:', updateError, { reportId, userId })
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
       }
     }

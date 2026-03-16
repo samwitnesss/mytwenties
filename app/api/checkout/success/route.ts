@@ -24,12 +24,13 @@ export async function GET(req: NextRequest) {
     }
 
     const admin = createAdminClient()
+    // Only set paid_pending if not already fully paid (idempotent)
     const updateQuery = userId
-      ? admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId).eq('user_id', userId)
-      : admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId)
+      ? admin.from('mytwenties_reports').update({ report_type: 'paid_pending' }).eq('id', reportId).eq('user_id', userId).neq('report_type', 'paid')
+      : admin.from('mytwenties_reports').update({ report_type: 'paid_pending' }).eq('id', reportId).neq('report_type', 'paid')
     const { error: updateError } = await updateQuery
     if (updateError) {
-      console.error('checkout/success: failed to mark report as paid:', updateError, { reportId, userId })
+      console.error('checkout/success: failed to mark report as paid_pending:', updateError, { reportId, userId })
     }
 
     return NextResponse.redirect(new URL(`/report/${reportId}?unlocked=1`, req.url))

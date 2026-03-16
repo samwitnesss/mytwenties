@@ -111,7 +111,82 @@ function useIsMobile() {
   return isMobile
 }
 
-export default function ReportContent({ report, reportType = 'free', unlocked = false }: { report: MockReport; reportType?: string; unlocked?: boolean }) {
+function PaidGeneratingState({ reportId }: { reportId: string }) {
+  const [dots, setDots] = useState('.')
+
+  useEffect(() => {
+    // Trigger paid generation
+    fetch('/api/reports/generate-paid', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reportId }),
+    }).catch(err => console.error('generate-paid fetch error:', err))
+
+    // Animate dots
+    const dotsInterval = setInterval(() => {
+      setDots(d => d.length >= 3 ? '.' : d + '.')
+    }, 600)
+
+    // Poll for completion
+    const pollInterval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/reports/${reportId}/status`)
+        if (!res.ok) return
+        const { report_type } = await res.json()
+        if (report_type === 'paid') {
+          clearInterval(pollInterval)
+          clearInterval(dotsInterval)
+          window.location.reload()
+        }
+      } catch {
+        // silent — keep polling
+      }
+    }, 3000)
+
+    return () => {
+      clearInterval(dotsInterval)
+      clearInterval(pollInterval)
+    }
+  }, [reportId])
+
+  return (
+    <div style={{
+      background: 'linear-gradient(135deg, #0c3d5e 0%, #0d4f6b 50%, #083347 100%)',
+      borderRadius: '28px', padding: '4rem 2rem', textAlign: 'center',
+      border: '1px solid rgba(6,182,212,0.25)',
+      boxShadow: '0 24px 80px rgba(6,182,212,0.12)',
+    }}>
+      <div style={{
+        width: '72px', height: '72px', borderRadius: '50%', margin: '0 auto 2rem',
+        background: 'rgba(6,182,212,0.15)', border: '2px solid rgba(6,182,212,0.4)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem'
+      }}>⚡</div>
+      <h3 style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 900, color: '#ffffff', marginBottom: '0.75rem' }}>
+        Building your full report{dots}
+      </h3>
+      <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: '420px', margin: '0 auto 2rem' }}>
+        Your Business Blueprint, Career Map, Highest Leverage Move, Reading List, Personal Mentor Prompt, and The Letter are being generated now. Usually takes 15–30 seconds.
+      </p>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+        {[0, 1, 2].map(i => (
+          <div key={i} style={{
+            width: '10px', height: '10px', borderRadius: '50%',
+            background: 'rgba(6,182,212,0.6)',
+            animation: `pulse 1.2s ease-in-out ${i * 0.2}s infinite`,
+          }} />
+        ))}
+      </div>
+      <p style={{ marginTop: '2rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)' }}>
+        This page will update automatically when ready
+      </p>
+      <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)' }}>
+        Having trouble? Email sam@mytwenties.app
+      </p>
+    </div>
+  )
+}
+
+export default function ReportContent({ report, reportType = 'free', unlocked = false, paidPending = false }: { report: MockReport; reportType?: string; unlocked?: boolean; paidPending?: boolean }) {
   const isMobile = useIsMobile()
   const [firstName, setFirstName] = useState(report.firstName || 'You')
   const [unlocking, setUnlocking] = useState(false)
@@ -447,6 +522,8 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
               )}
               <PremiumSections report={report} />
             </>
+          ) : paidPending ? (
+            <PaidGeneratingState reportId={String((report as MockReport & { id?: string }).id ?? '')} />
           ) : (
             <LockedSection onUnlock={handleUnlock} unlocking={unlocking} />
           )}
