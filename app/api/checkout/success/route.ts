@@ -24,17 +24,12 @@ export async function GET(req: NextRequest) {
     }
 
     const admin = createAdminClient()
-    if (userId) {
-      await admin
-        .from('mytwenties_reports')
-        .update({ report_type: 'paid' })
-        .eq('id', reportId)
-        .eq('user_id', userId)
-    } else {
-      await admin
-        .from('mytwenties_reports')
-        .update({ report_type: 'paid' })
-        .eq('id', reportId)
+    const updateQuery = userId
+      ? admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId).eq('user_id', userId)
+      : admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId)
+    const { error: updateError } = await updateQuery
+    if (updateError) {
+      console.error('checkout/success: failed to mark report as paid:', updateError, { reportId, userId })
     }
 
     return NextResponse.redirect(new URL(`/report/${reportId}?unlocked=1`, req.url))

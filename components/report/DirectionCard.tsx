@@ -21,7 +21,7 @@ export default function DirectionCard({ direction, rank }: { direction: Directio
 
   return (
     <div style={{
-      background: '#ffffff', borderRadius: '20px', padding: '1.5rem',
+      background: 'var(--brand-card)', borderRadius: '20px', padding: '1.5rem',
       border: '1px solid #e2e8f0', position: 'relative',
       boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
     }}>

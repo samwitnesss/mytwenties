@@ -162,7 +162,7 @@ Remember: be specific to their exact answers. Reference what they actually said.
       system: SYSTEM_PROMPT
     })
 
-    const rawText = message.content[0].type === 'text' ? message.content[0].text : ''
+    const rawText = message.content.length > 0 && message.content[0].type === 'text' ? message.content[0].text : ''
 
     // Parse the JSON — strip any accidental markdown fences
     const jsonStr = rawText.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim()

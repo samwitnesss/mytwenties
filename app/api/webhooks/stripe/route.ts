@@ -31,17 +31,14 @@ export async function POST(req: NextRequest) {
 
     if (reportId) {
       const admin = createAdminClient()
-      if (userId) {
-        await admin
-          .from('mytwenties_reports')
-          .update({ report_type: 'paid' })
-          .eq('id', reportId)
-          .eq('user_id', userId)
-      } else {
-        await admin
-          .from('mytwenties_reports')
-          .update({ report_type: 'paid' })
-          .eq('id', reportId)
+      const updateQuery = userId
+        ? admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId).eq('user_id', userId)
+        : admin.from('mytwenties_reports').update({ report_type: 'paid' }).eq('id', reportId)
+      const { error: updateError } = await updateQuery
+      if (updateError) {
+        console.error('webhook: failed to mark report as paid:', updateError, { reportId, userId })
+        // Return 500 so Stripe retries the webhook
+        return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
       }
     }
   }
