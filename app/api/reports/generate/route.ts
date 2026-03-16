@@ -80,6 +80,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ reportId: existing.id })
     }
 
+    // Check for a recent pending record (<90s old) — another call is already in progress
+    const { data: recentPending } = await admin
+      .from('mytwenties_reports')
+      .select('id, created_at')
+      .eq('user_id', userId)
+      .eq('status', 'pending')
+      .gte('created_at', new Date(Date.now() - 90000).toISOString())
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (recentPending?.id) {
+      // Generation is already in flight — tell client to keep polling
+      return NextResponse.json({ pending: true })
+    }
+
+    // Delete any stale pending records (>90s old, meaning a prior call was killed)
+    await admin
+      .from('mytwenties_reports')
+      .delete()
+      .eq('user_id', userId)
+      .eq('status', 'pending')
+
     // Fetch all responses for this user
     const { data: responses, error: respError } = await admin
       .from('mytwenties_responses')
@@ -90,6 +113,25 @@ export async function POST(req: NextRequest) {
     if (respError || !responses || responses.length === 0) {
       return NextResponse.json({ error: 'No responses found' }, { status: 404 })
     }
+
+    // Insert a pending record immediately so status polling knows generation is in progress
+    const { data: pendingRecord, error: pendingError } = await admin
+      .from('mytwenties_reports')
+      .insert({
+        user_id: userId,
+        report_type: 'free',
+        report_data: {},
+        status: 'pending'
+      })
+      .select('id')
+      .single()
+
+    if (pendingError || !pendingRecord) {
+      console.error('Failed to insert pending record:', pendingError)
+      return NextResponse.json({ error: 'Failed to start report generation' }, { status: 500 })
+    }
+
+    const pendingId = pendingRecord.id
 
     // Format responses into readable prompt context
     const formattedResponses = formatResponses(responses)
@@ -130,6 +172,8 @@ Remember: be specific to their exact answers. Reference what they actually said.
       reportData = JSON.parse(jsonStr)
     } catch {
       console.error('Claude returned invalid JSON:', jsonStr.slice(0, 500))
+      // Mark pending record as failed by deleting it so client knows to retry
+      await admin.from('mytwenties_reports').delete().eq('id', pendingId)
       return NextResponse.json({ error: 'Report generation produced invalid data. Please try again.' }, { status: 500 })
     }
 
@@ -138,24 +182,21 @@ Remember: be specific to their exact answers. Reference what they actually said.
     reportData.firstName = firstName || 'You'
     reportData.generatedAt = new Date().toISOString()
 
-    // Insert report into Supabase
-    const { data: newReport, error: insertError } = await admin
+    // Update the pending record to ready with the report data
+    const { error: updateError } = await admin
       .from('mytwenties_reports')
-      .insert({
-        user_id: userId,
-        report_type: 'free',
+      .update({
         report_data: reportData,
         status: 'ready'
       })
-      .select('id')
-      .single()
+      .eq('id', pendingId)
 
-    if (insertError || !newReport) {
-      console.error('Insert error:', insertError)
+    if (updateError) {
+      console.error('Update error:', updateError)
       return NextResponse.json({ error: 'Failed to save report' }, { status: 500 })
     }
 
-    return NextResponse.json({ reportId: newReport.id })
+    return NextResponse.json({ reportId: pendingId })
 
   } catch (err) {
     console.error('Generate error:', err)

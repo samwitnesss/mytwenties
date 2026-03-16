@@ -44,6 +44,7 @@ export default function GeneratingPage() {
   // Track reportId so we can redirect as soon as generation completes
   const reportIdRef = useRef<string | null>(null)
   const redirectedRef = useRef(false)
+  const lastGenerateCallRef = useRef<number>(0)
 
   function doRedirect(reportId: string) {
     if (redirectedRef.current) return
@@ -52,6 +53,26 @@ export default function GeneratingPage() {
     setTimeout(() => {
       router.push(`/report/ready/${reportId}`)
     }, 600)
+  }
+
+  function callGenerate(userId: string, firstName: string | null) {
+    lastGenerateCallRef.current = Date.now()
+    fetch('/api/reports/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, firstName }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.reportId) {
+          reportIdRef.current = data.reportId
+          doRedirect(data.reportId)
+        }
+        // if { pending: true }, another call is in flight — just keep polling
+      })
+      .catch(() => {
+        // Fall back to polling
+      })
   }
 
   useEffect(() => {
@@ -64,25 +85,11 @@ export default function GeneratingPage() {
     }
 
     // Kick off report generation
-    fetch('/api/reports/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, firstName }),
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.reportId) {
-          reportIdRef.current = data.reportId
-          doRedirect(data.reportId)
-        }
-      })
-      .catch(() => {
-        // Fall back to polling below
-      })
+    callGenerate(userId, firstName)
 
-    // Visual progress animation — runs for up to 120s, caps at 95
+    // Visual progress animation — runs for up to 180s, caps at 95
     const startTime = Date.now()
-    const MAX_VISUAL_DURATION = 120000
+    const MAX_VISUAL_DURATION = 180000
 
     const progressInterval = setInterval(() => {
       const elapsed = Date.now() - startTime
@@ -107,7 +114,7 @@ export default function GeneratingPage() {
       })
     }, 100)
 
-    // Poll for readiness every 3s (backup if the generate call above failed/timed out)
+    // Poll for readiness every 3s
     const pollInterval = setInterval(async () => {
       if (redirectedRef.current) return
       try {
@@ -116,13 +123,19 @@ export default function GeneratingPage() {
         if (data.ready && data.reportId) {
           reportIdRef.current = data.reportId
           doRedirect(data.reportId)
+        } else if (!data.inProgress) {
+          // No active generation — retry if it's been >90s since last generate call
+          const timeSinceGenerate = Date.now() - lastGenerateCallRef.current
+          if (timeSinceGenerate > 90000) {
+            callGenerate(userId, firstName)
+          }
         }
       } catch {
         // ignore
       }
     }, 3000)
 
-    // Hard cap at 120s — do one final status check, then show error state
+    // Hard cap at 3 minutes — final check then show error
     const maxTimer = setTimeout(async () => {
       if (redirectedRef.current) return
       try {
@@ -136,7 +149,7 @@ export default function GeneratingPage() {
       } catch {
         setTimedOut(true)
       }
-    }, 120000)
+    }, 180000)
 
     // Message rotation every 2.5s
     const messageInterval = setInterval(() => {

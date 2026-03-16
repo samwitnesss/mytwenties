@@ -14,19 +14,26 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await supabase
       .from('mytwenties_reports')
-      .select('id, status, report_type')
+      .select('id, status, report_type, created_at')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(1)
       .single()
 
     if (error || !data) {
-      return NextResponse.json({ ready: false, reportId: null })
+      return NextResponse.json({ ready: false, reportId: null, inProgress: false })
     }
 
+    if (data.status === 'ready') {
+      return NextResponse.json({ ready: true, reportId: data.id, inProgress: false })
+    }
+
+    // Pending record — inProgress only if created within the last 90s
+    const ageMs = Date.now() - new Date(data.created_at).getTime()
     return NextResponse.json({
-      ready: data.status === 'ready',
-      reportId: data.status === 'ready' ? data.id : null,
+      ready: false,
+      reportId: null,
+      inProgress: ageMs < 90000,
       status: data.status
     })
   } catch (err) {
