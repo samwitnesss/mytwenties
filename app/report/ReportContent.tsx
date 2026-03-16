@@ -470,7 +470,7 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
               Book a MyTwenties Strategy Call
             </h3>
             <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '440px', margin: '0 auto' }}>
-              A free 30-minute call with Sam. We take what&apos;s in your report and map out exactly what to do next — specific to you.
+              This call is for people who&apos;ve read their report and are ready to take the next step. Sam will break down your results, map out your direction, and show you how the MyTwenties Accelerator can get you there in 12 weeks. Come ready to talk about where you&apos;re at and where you want to go.
             </p>
           </div>
           <iframe
