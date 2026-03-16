@@ -368,7 +368,7 @@ export default function LandingPage() {
               Your report
             </p>
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--brand-text)' }}>
-              This is your report.{' '}
+              This is your report,{' '}
               <span className="gradient-text">25 minutes from now.</span>
             </h2>
           </div>
@@ -664,56 +664,77 @@ export default function LandingPage() {
           </h2>
         </div>
 
-        {/* Constrain to max width so carousel is centered and always scrollable */}
-        <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative' }}>
-          <div style={{
-            position: 'absolute', left: 0, top: 0, bottom: 0, width: '40px', zIndex: 2, pointerEvents: 'none',
-            background: 'linear-gradient(to right, var(--brand-bg), transparent)'
-          }} />
-          <div style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0, width: '40px', zIndex: 2, pointerEvents: 'none',
-            background: 'linear-gradient(to left, var(--brand-bg), transparent)'
-          }} />
-
-          <div className="dm-carousel" style={{
-            display: 'flex', alignItems: 'center', gap: '1rem',
-            overflowX: 'auto', overflowY: 'hidden',
-            scrollSnapType: 'x mandatory',
-            WebkitOverflowScrolling: 'touch',
-            padding: '0.5rem 1.5rem 1.5rem',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}>
-            {[
-              '/testimonials/dm1.png',
-              '/testimonials/dm5.png',
-              '/testimonials/dm3.png',
-              '/testimonials/dm4.png',
-              '/testimonials/dm2.png',
-            ].map((src, i) => (
-              <div key={i} style={{
-                flex: '0 0 auto',
-                width: 'clamp(280px, 80vw, 420px)',
-                scrollSnapAlign: 'start',
-                borderRadius: '20px',
-                overflow: 'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                border: '1px solid var(--brand-border)',
-              }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={src}
-                  alt={`Testimonial ${i + 1}`}
-                  style={{ display: 'block', width: '100%', height: 'auto' }}
-                />
-              </div>
-            ))}
+        {isMobile ? (
+          /* ── Mobile: 2-row swipeable carousel ── */
+          <div style={{ position: 'relative' }}>
+            <div className="dm-carousel" style={{
+              display: 'grid',
+              gridTemplateRows: '1fr 1fr',
+              gridAutoFlow: 'column',
+              gridAutoColumns: 'calc(46vw - 1rem)',
+              gap: '0.75rem',
+              overflowX: 'auto',
+              overflowY: 'hidden',
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch',
+              padding: '0.5rem 1.25rem 1.25rem',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}>
+              {[
+                '/testimonials/dm1.png',
+                '/testimonials/dm5.png',
+                '/testimonials/dm3.png',
+                '/testimonials/dm4.png',
+                '/testimonials/dm2.png',
+              ].map((src, i) => (
+                <div key={i} style={{
+                  scrollSnapAlign: i % 2 === 0 ? 'start' : 'none',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 6px 24px rgba(0,0,0,0.12)',
+                  border: '1px solid var(--brand-border)',
+                }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
+                </div>
+              ))}
+            </div>
+            <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '0.25rem' }}>
+              Swipe to see more →
+            </p>
           </div>
-        </div>
-
-        <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '0.5rem' }}>
-          Swipe to see more →
-        </p>
+        ) : (
+          /* ── Desktop: 2-row grid, 3 per row ── */
+          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '1.25rem',
+            }}>
+              {[
+                '/testimonials/dm1.png',
+                '/testimonials/dm5.png',
+                '/testimonials/dm3.png',
+                '/testimonials/dm4.png',
+                '/testimonials/dm2.png',
+              ].map((src, i) => (
+                <div key={i} style={{
+                  ...(i === 3 ? { gridColumn: '1 / 2', marginLeft: 'auto', marginRight: '0' } : {}),
+                  ...(i === 4 ? { gridColumn: '2 / 3', marginLeft: '0', marginRight: 'auto' } : {}),
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                  border: '1px solid var(--brand-border)',
+                  width: '100%',
+                }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ─── FAQ ─────────────────────────────────────── */}
