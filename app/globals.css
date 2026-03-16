@@ -285,6 +285,11 @@ body {
   animation: testimonial-fade 3s ease-in-out forwards;
 }
 
+/* Hide scrollbar on testimonial carousel row */
+.dm-carousel::-webkit-scrollbar {
+  display: none;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
 }

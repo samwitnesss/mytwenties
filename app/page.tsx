@@ -654,42 +654,65 @@ export default function LandingPage() {
       </section>
 
       {/* ─── TESTIMONIALS ────────────────────────────── */}
-      <section style={{ padding: '6rem 1.5rem' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
-              What people say
-            </p>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: 'var(--brand-text)', letterSpacing: '-0.02em' }}>
-              Real results from real people.
-            </h2>
-          </div>
+      <section style={{ padding: '6rem 0' }}>
+        <div style={{ textAlign: 'center', marginBottom: '3rem', padding: '0 1.5rem' }}>
+          <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
+            What people say
+          </p>
+          <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: 'var(--brand-text)', letterSpacing: '-0.02em' }}>
+            Real messages from real people.
+          </h2>
+        </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+        {/* Scroll hint fade edges */}
+        <div style={{ position: 'relative' }}>
+          <div style={{
+            position: 'absolute', left: 0, top: 0, bottom: 0, width: '60px', zIndex: 2, pointerEvents: 'none',
+            background: 'linear-gradient(to right, var(--brand-bg), transparent)'
+          }} />
+          <div style={{
+            position: 'absolute', right: 0, top: 0, bottom: 0, width: '60px', zIndex: 2, pointerEvents: 'none',
+            background: 'linear-gradient(to left, var(--brand-bg), transparent)'
+          }} />
+
+          <div className="dm-carousel" style={{
+            display: 'flex', gap: '1.25rem',
+            overflowX: 'auto', overflowY: 'hidden',
+            scrollSnapType: 'x mandatory',
+            WebkitOverflowScrolling: 'touch',
+            padding: '0.5rem 1.5rem 1.5rem',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}>
             {[
-              { accentFrom: '#2563eb', accentTo: '#3b82f6', name: 'Mia, 23', quote: "I almost didn't finish it because I thought it would be like every other personality quiz. By section 3 I couldn't stop. The report called out things about me that I've never been able to put into words. Sent it to my best friend and she said 'that's literally you.'" },
-              { accentFrom: '#06b6d4', accentTo: '#0284c7', name: 'Jordan, 18', quote: "I've been going back and forth on what to do after uni for two years. The direction compass didn't just say 'be creative' like every other test. It gave me three actual paths with steps. I started on one of them the same week." },
-              { accentFrom: '#7c3aed', accentTo: '#2563eb', name: 'Jacob, 20', quote: "The blind spots section was hard to read. Not because it was mean, but because it was right. It connected dots between things I do that I never realised were related. I've read it four times now." },
-            ].map(({ accentFrom, accentTo, name, quote }) => (
-              <div key={name} style={{
-                background: 'var(--brand-card)', borderRadius: '20px', padding: '1.75rem',
+              '/testimonials/dm1.png',
+              '/testimonials/dm2.png',
+              '/testimonials/dm3.png',
+              '/testimonials/dm4.png',
+            ].map((src, i) => (
+              <div key={i} style={{
+                flex: '0 0 auto',
+                width: 'clamp(260px, 72vw, 340px)',
+                scrollSnapAlign: 'start',
+                borderRadius: '20px',
+                overflow: 'hidden',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
                 border: '1px solid var(--brand-border)',
-                boxShadow: '0 8px 40px rgba(0,0,0,0.1)',
-                position: 'relative', overflow: 'hidden'
               }}>
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
-                  background: `linear-gradient(to right, ${accentFrom}, ${accentTo})`
-                }} />
-                <div style={{ color: '#f59e0b', fontSize: '0.9rem', marginBottom: '1rem', letterSpacing: '2px' }}>★★★★★</div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-strong)', lineHeight: 1.7, marginBottom: '1.25rem', fontStyle: 'italic' }}>
-                  &ldquo;{quote}&rdquo;
-                </p>
-                <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--brand-text)' }}>{name}</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={`Testimonial ${i + 1}`}
+                  style={{ display: 'block', width: '100%', height: 'auto' }}
+                />
               </div>
             ))}
           </div>
         </div>
+
+        <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '0.5rem' }}>
+          Swipe to see more →
+        </p>
       </section>
 
       {/* ─── FAQ ─────────────────────────────────────── */}
