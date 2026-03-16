@@ -692,7 +692,7 @@ export default function LandingPage() {
             ].map((src, i) => (
               <div key={i} style={{
                 flex: '0 0 auto',
-                width: 'clamp(260px, 70vw, 300px)',
+                width: 'clamp(260px, 80vw, 300px)',
                 scrollSnapAlign: 'start',
                 borderRadius: '20px',
                 overflow: 'hidden',
