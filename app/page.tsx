@@ -665,7 +665,7 @@ export default function LandingPage() {
         </div>
 
         {/* Constrain to max width so carousel is centered and always scrollable */}
-        <div style={{ maxWidth: '960px', margin: '0 auto', position: 'relative' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative' }}>
           <div style={{
             position: 'absolute', left: 0, top: 0, bottom: 0, width: '40px', zIndex: 2, pointerEvents: 'none',
             background: 'linear-gradient(to right, var(--brand-bg), transparent)'
@@ -692,7 +692,7 @@ export default function LandingPage() {
             ].map((src, i) => (
               <div key={i} style={{
                 flex: '0 0 auto',
-                width: 'clamp(260px, 80vw, 300px)',
+                width: 'clamp(280px, 80vw, 420px)',
                 scrollSnapAlign: 'start',
                 borderRadius: '20px',
                 overflow: 'hidden',
