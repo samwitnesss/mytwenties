@@ -452,59 +452,11 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
           )}
         </div>
 
-        {/* Strategy Call CTA */}
-        <div style={{
-          maxWidth: '760px', margin: '0 auto', marginBottom: '3.5rem',
-          background: 'var(--brand-card)', borderRadius: '24px',
-          border: '1px solid rgba(37,99,235,0.2)',
-          boxShadow: '0 8px 40px rgba(37,99,235,0.08)', overflow: 'hidden'
-        }}>
-          <div style={{ padding: '2rem 2rem 1.5rem', textAlign: 'center', borderBottom: '1px solid var(--brand-border)' }}>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              background: 'rgba(37,99,235,0.07)', border: '1px solid rgba(37,99,235,0.2)',
-              borderRadius: '100px', padding: '5px 14px', marginBottom: '1rem',
-              fontSize: '0.7rem', color: '#2563eb', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 700
-            }}>Work with Sam</div>
-            <h3 style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
-              Book a MyTwenties Strategy Call
-            </h3>
-            <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '440px', margin: '0 auto' }}>
-              This call is for people who&apos;ve read their report and are ready to take the next step. Sam will break down your results, map out your direction, and show you how the MyTwenties Accelerator can get you there in 12 weeks. Come ready to talk about where you&apos;re at and where you want to go.
-            </p>
-          </div>
-          <iframe
-            src="https://api.leadconnectorhq.com/widget/booking/ibvCFYwaWf95LNjupgii"
-            style={{ width: '100%', height: '700px', border: 'none', display: 'block' }}
-            scrolling="yes"
-            title="Book a MyTwenties Strategy Call"
-          />
-        </div>
-
-        {/* 12 · SHARE */}
-        <div style={{ maxWidth: '760px', margin: '0 auto', marginBottom: '4rem' }}>
-          <SectionHeader label="12" title="Share Your Result" />
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <ShareableCard
-              archetype={report.shareable_card.archetype}
-              topStrength={report.shareable_card.top_strength}
-              cardHeadline={report.shareable_card.card_headline}
-              subtext={report.shareable_card.subtext}
-              mirrorHeadline={report.the_mirror.headline}
-              celebrity={report.famous_parallels[0]?.name}
-              radarScores={report.archetype.radar_scores}
-            />
-          </div>
-        </div>
-
-      </div>
-
-      {/* ─── GO DEEPER ─────────────────────────────── */}
-      <div style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', padding: '5rem 1.5rem' }}>
-        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+        {/* ─── GO DEEPER / ACCELERATOR ─────────────────── */}
+        <div style={{ maxWidth: '860px', margin: '0 auto', marginBottom: '4rem', background: 'var(--brand-bg-subtle)', borderRadius: '28px', border: '1px solid var(--brand-border)', padding: isMobile ? '2rem 1.25rem' : '3rem 2.5rem' }}>
 
           {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '6px',
               background: 'rgba(37,99,235,0.07)', border: '1px solid rgba(37,99,235,0.2)',
@@ -514,10 +466,10 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
               <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#2563eb', display: 'inline-block' }} />
               The MyTwenties Accelerator
             </div>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: 'var(--brand-text)', letterSpacing: '-0.02em', marginBottom: '0.875rem', lineHeight: 1.15 }}>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 900, color: 'var(--brand-text)', letterSpacing: '-0.02em', marginBottom: '0.875rem', lineHeight: 1.15 }}>
               Your report is the starting point.<br />The Accelerator is the full journey.
             </h2>
-            <p style={{ fontSize: '1rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '460px', margin: '0 auto' }}>
+            <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '440px', margin: '0 auto' }}>
               12 weeks. 6 calls with Sam. Every asset built from your situation.
             </p>
           </div>
@@ -549,18 +501,12 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
                 position: 'relative',
                 overflow: 'hidden',
               }}>
-                {/* Lock icon */}
-                <div style={{
-                  position: 'absolute', top: '0.875rem', right: '0.875rem',
-                  fontSize: '0.7rem', color: 'var(--brand-text-subtle)'
-                }}>🔒</div>
-
+                <div style={{ position: 'absolute', top: '0.875rem', right: '0.875rem', fontSize: '0.7rem', color: 'var(--brand-text-subtle)' }}>🔒</div>
                 <div style={{ fontSize: '1.4rem', marginBottom: '0.6rem' }}>{icon}</div>
                 <p style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.3rem', paddingRight: '1rem' }}>{name}</p>
                 <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-muted)', lineHeight: 1.55, marginBottom: '0.75rem' }}>{desc}</p>
                 <span style={{
-                  display: 'inline-block',
-                  fontSize: '0.65rem', fontWeight: 700, color: '#2563eb',
+                  display: 'inline-block', fontSize: '0.65rem', fontWeight: 700, color: '#2563eb',
                   background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.15)',
                   borderRadius: '100px', padding: '2px 10px', letterSpacing: '0.04em'
                 }}>{weeks}</span>
@@ -568,32 +514,45 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
             ))}
           </div>
 
-          {/* CTA */}
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: '0.88rem', color: 'var(--brand-text-muted)', marginBottom: '1.25rem', lineHeight: 1.6 }}>
+          {/* Embedded calendar */}
+          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+            <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.4rem' }}>
+              Book a free Strategy Call with Sam
+            </p>
+            <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-muted)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
               Every deliverable is built live, on a call, from your specific situation — not a course you watch and forget.
             </p>
-            <a
-              href="https://api.leadconnectorhq.com/widget/booking/ibvCFYwaWf95LNjupgii"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: 'none', display: 'inline-block' }}
-            >
-              <button className="gradient-btn" style={{
-                fontSize: '1rem', fontWeight: 700, color: '#ffffff',
-                padding: '0.9rem 2.25rem', borderRadius: '100px', border: 'none',
-                cursor: 'pointer', boxShadow: '0 8px 30px rgba(37,99,235,0.3)',
-                fontFamily: 'inherit'
-              }}>
-                Book a Free Strategy Call with Sam →
-              </button>
-            </a>
-            <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '0.75rem' }}>
-              Free 30-minute call · No pitch · Just your plan
-            </p>
           </div>
+          <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--brand-border)' }}>
+            <iframe
+              src="https://api.leadconnectorhq.com/widget/booking/ibvCFYwaWf95LNjupgii"
+              style={{ width: '100%', height: '700px', border: 'none', display: 'block' }}
+              scrolling="yes"
+              title="Book a Free Strategy Call with Sam"
+            />
+          </div>
+          <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '1rem' }}>
+            Free 30-minute call · No pitch · Just your plan
+          </p>
 
         </div>
+
+        {/* 13 · SHARE */}
+        <div style={{ maxWidth: '760px', margin: '0 auto', marginBottom: '4rem' }}>
+          <SectionHeader label="13" title="Share Your Result" />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <ShareableCard
+              archetype={report.shareable_card.archetype}
+              topStrength={report.shareable_card.top_strength}
+              cardHeadline={report.shareable_card.card_headline}
+              subtext={report.shareable_card.subtext}
+              mirrorHeadline={report.the_mirror.headline}
+              celebrity={report.famous_parallels[0]?.name}
+              radarScores={report.archetype.radar_scores}
+            />
+          </div>
+        </div>
+
       </div>
 
       <footer style={{ padding: '2rem 1.5rem', textAlign: 'center', borderTop: '1px solid var(--brand-border)', background: 'var(--brand-card)' }}>
