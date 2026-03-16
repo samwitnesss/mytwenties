@@ -565,11 +565,11 @@ function LockedSection({ onUnlock, unlocking }: { onUnlock: () => void; unlockin
               blur: `starting with one that almost no one in your position has read but that will immediately reframe the thing you\'ve been stuck on...`
             },
             {
-              title: 'AI Mentor Prompt',
-              icon: '🤖',
-              sell: 'A ready-to-paste system prompt that turns Claude or ChatGPT into a personal mentor who knows your full profile and advises you accordingly.',
-              preview: `Copy this into Claude or ChatGPT and it becomes a thinking partner that understands your archetype, knows your blind spots, and gives you advice calibrated to how you actually work — not generic coaching:`,
-              blur: `built from your full assessment data so every response it gives you is filtered through your specific psychology and not a one-size-fits-all playbook...`
+              title: 'Personal Mentor Prompt',
+              icon: '🧭',
+              sell: 'A custom mentoring framework built from your specific results and Sam\'s coaching methodology — not generic advice. Paste it anywhere and get guidance calibrated to how you actually work.',
+              preview: `Cross-referenced against your exact answers and built on a framework developed through 100+ real coaching conversations, this gives you a thinking partner that knows your archetype, blind spots, and direction:`,
+              blur: `structured so every response is filtered through your specific psychology and the direction that actually fits your wiring — not a one-size-fits-all playbook...`
             },
             {
               title: 'The Letter',
@@ -612,8 +612,11 @@ function LockedSection({ onUnlock, unlocking }: { onUnlock: () => void; unlockin
         <h3 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900, color: '#ffffff', marginBottom: '0.75rem' }}>
           Unlock your complete insights
         </h3>
-        <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: '440px', margin: '0 auto 1.75rem' }}>
-          Business Blueprint, Career Map, your Highest Leverage Move, Reading List, AI Mentor Prompt, and a personal letter written for you.
+        <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: '460px', margin: '0 auto 0.75rem' }}>
+          Business Blueprint, Career Map, your Highest Leverage Move, Reading List, Personal Mentor Prompt, and a letter written directly to you.
+        </p>
+        <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, maxWidth: '420px', margin: '0 auto 1.75rem' }}>
+          Every section is built from your specific answers — cross-referenced against a framework developed through 100+ real coaching conversations. Not a template. Not generic output. Yours.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.75rem' }}>
           {[
@@ -771,9 +774,9 @@ function PremiumSections({ report }: { report: MockReport }) {
 
       {report.ai_mentor_prompt && (
         <div>
-          <PremiumLabel icon="🤖" title="Your AI Mentor Prompt" />
+          <PremiumLabel icon="🧭" title="Your Personal Mentor Prompt" />
           <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, marginBottom: '1.25rem' }}>
-            This is a custom system prompt built from your full profile. Copy and paste it into <strong style={{ color: 'var(--brand-text-strong)', fontWeight: 600 }}>ChatGPT, Claude, or Gemini</strong> — it turns the AI into a personalised mentor who understands your exact archetype, strengths, blind spots, and direction. Every response it gives you will be filtered through how you actually work, not generic advice.
+            This is a custom mentoring framework built from your specific results and cross-referenced against Sam's coaching methodology — developed through 100+ real conversations. Paste it into any AI tool and it becomes a thinking partner that understands your exact archetype, strengths, blind spots, and direction. Every response is filtered through how you actually work, not a one-size-fits-all playbook.
           </p>
           <div style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(37,99,235,0.2)', boxShadow: C }}>
             <div style={{ background: '#0f172a', padding: '0.875rem 1.25rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
