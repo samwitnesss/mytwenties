@@ -686,9 +686,9 @@ export default function LandingPage() {
           }}>
             {[
               '/testimonials/dm1.png',
-              '/testimonials/dm2.png',
               '/testimonials/dm3.png',
               '/testimonials/dm4.png',
+              '/testimonials/dm2.png',
             ].map((src, i) => (
               <div key={i} style={{
                 flex: '0 0 auto',
