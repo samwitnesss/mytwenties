@@ -183,20 +183,39 @@ Remember: be specific to their exact answers. Reference what they actually said.
     reportData.generatedAt = new Date().toISOString()
 
     // Update the pending record to ready with the report data
-    const { error: updateError } = await admin
+    // Use .select() to confirm the row still exists — it may have been deleted by a concurrent retry
+    const { data: updatedReport, error: updateError } = await admin
       .from('mytwenties_reports')
       .update({
         report_data: reportData,
         status: 'ready'
       })
       .eq('id', pendingId)
+      .select('id')
+      .single()
 
-    if (updateError) {
-      console.error('Update error:', updateError)
-      return NextResponse.json({ error: 'Failed to save report' }, { status: 500 })
+    if (updateError || !updatedReport) {
+      // Row was deleted by a concurrent generate call — insert a fresh ready record
+      const { data: freshReport, error: insertError } = await admin
+        .from('mytwenties_reports')
+        .insert({
+          user_id: userId,
+          report_type: 'free',
+          report_data: reportData,
+          status: 'ready'
+        })
+        .select('id')
+        .single()
+
+      if (insertError || !freshReport) {
+        console.error('Insert fallback error:', insertError)
+        return NextResponse.json({ error: 'Failed to save report' }, { status: 500 })
+      }
+
+      return NextResponse.json({ reportId: freshReport.id })
     }
 
-    return NextResponse.json({ reportId: pendingId })
+    return NextResponse.json({ reportId: updatedReport.id })
 
   } catch (err) {
     console.error('Generate error:', err)
