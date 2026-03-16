@@ -124,9 +124,9 @@ export default function GeneratingPage() {
           reportIdRef.current = data.reportId
           doRedirect(data.reportId)
         } else if (!data.inProgress) {
-          // No active generation — retry if it's been >90s since last generate call
+          // No active generation — retry if it's been >270s since last generate call
           const timeSinceGenerate = Date.now() - lastGenerateCallRef.current
-          if (timeSinceGenerate > 90000) {
+          if (timeSinceGenerate > 270000) {
             callGenerate(userId, firstName)
           }
         }
@@ -135,7 +135,7 @@ export default function GeneratingPage() {
       }
     }, 3000)
 
-    // Hard cap at 3 minutes — final check then show error
+    // Hard cap at 5 minutes — if still inProgress keep waiting, otherwise show error
     const maxTimer = setTimeout(async () => {
       if (redirectedRef.current) return
       try {
@@ -143,6 +143,19 @@ export default function GeneratingPage() {
         const data = await res.json()
         if (data.ready && data.reportId) {
           doRedirect(data.reportId)
+        } else if (data.inProgress) {
+          // Still generating — check one final time after another 2 minutes
+          setTimeout(async () => {
+            if (redirectedRef.current) return
+            try {
+              const res2 = await fetch(`/api/reports/status?userId=${userId}`)
+              const data2 = await res2.json()
+              if (data2.ready && data2.reportId) doRedirect(data2.reportId)
+              else setTimedOut(true)
+            } catch {
+              setTimedOut(true)
+            }
+          }, 120000)
         } else {
           setTimedOut(true)
         }

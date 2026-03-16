@@ -80,13 +80,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ reportId: existing.id })
     }
 
-    // Check for a recent pending record (<90s old) — another call is already in progress
+    // Check for a recent pending record (<270s old) — another call is already in progress
     const { data: recentPending } = await admin
       .from('mytwenties_reports')
       .select('id, created_at')
       .eq('user_id', userId)
       .eq('status', 'pending')
-      .gte('created_at', new Date(Date.now() - 90000).toISOString())
+      .gte('created_at', new Date(Date.now() - 270000).toISOString())
       .order('created_at', { ascending: false })
       .limit(1)
       .single()

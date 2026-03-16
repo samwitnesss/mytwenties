@@ -28,12 +28,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ ready: true, reportId: data.id, inProgress: false })
     }
 
-    // Pending record — inProgress only if created within the last 90s
+    // Pending record — inProgress only if created within the last 270s (matches maxDuration)
     const ageMs = Date.now() - new Date(data.created_at).getTime()
     return NextResponse.json({
       ready: false,
       reportId: null,
-      inProgress: ageMs < 90000,
+      inProgress: ageMs < 270000,
       status: data.status
     })
   } catch (err) {
