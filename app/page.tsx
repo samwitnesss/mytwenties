@@ -676,7 +676,7 @@ export default function LandingPage() {
           }} />
 
           <div className="dm-carousel" style={{
-            display: 'flex', gap: '1.25rem',
+            display: 'flex', alignItems: 'center', gap: '1.25rem',
             overflowX: 'auto', overflowY: 'hidden',
             scrollSnapType: 'x mandatory',
             WebkitOverflowScrolling: 'touch',
