@@ -79,6 +79,24 @@ export default function AssessmentPage() {
     if (fn) setFirstName(fn)
   }, [router])
 
+  // Intercept browser back button — keep a history entry pushed so that
+  // pressing back triggers goBack() (previous question) instead of leaving the page
+  const goBackRef = useRef<() => void>(() => {})
+  useEffect(() => {
+    goBackRef.current = goBack
+  })
+  useEffect(() => {
+    // Push an initial entry so there is always something to pop back to
+    window.history.pushState({ assessment: true }, '')
+    const handlePopState = () => {
+      goBackRef.current()
+      // Re-push so the next browser back press is also intercepted
+      window.history.pushState({ assessment: true }, '')
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
   const saveResponse = useCallback(
     debounce(async (uid: string, section: number, questionId: string, type: string, value: ResponseValue) => {
       if (value === null || value === '' || (Array.isArray(value) && value.length === 0)) return
