@@ -134,15 +134,23 @@ export default function AssessmentPage() {
       return
     }
     if (currentQuestionIndex > 0) {
+      const prevStep = steps[currentQuestionIndex - 1]
+      const prevText = prevStep?.type === 'single' && prevStep.question.type === 'text'
+        ? (responses[prevStep.question.id] as string ?? '')
+        : ''
       setCurrentQuestionIndex(currentQuestionIndex - 1)
-      setTextValue('')
+      setTextValue(prevText)
       setOtherInputValue('')
     } else if (currentSection > 0) {
       const prevSteps = buildStepsForSection(currentSection - 1)
+      const prevStep = prevSteps[prevSteps.length - 1]
+      const prevText = prevStep?.type === 'single' && prevStep.question.type === 'text'
+        ? (responses[prevStep.question.id] as string ?? '')
+        : ''
       setCurrentSection(currentSection - 1)
       setCurrentQuestionIndex(prevSteps.length - 1)
       setScaleBatchIndex(0)
-      setTextValue('')
+      setTextValue(prevText)
       setOtherInputValue('')
     }
   }
@@ -194,7 +202,10 @@ export default function AssessmentPage() {
         if (q.type === 'text' || q.type === 'slider' || q.type === 'number') {
           const val = q.type === 'text' ? textValue : responses[q.id]
           if (val !== null && val !== undefined) {
-            if (q.type === 'text') handleResponse(q.id, 'text', textValue, q.section)
+            if (q.type === 'text') {
+              e.preventDefault() // prevent newline being inserted into textarea
+              handleResponse(q.id, 'text', textValue, q.section)
+            }
             advanceStep()
           }
         }
