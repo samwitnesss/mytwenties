@@ -714,9 +714,9 @@ export default function LandingPage() {
               '/testimonials/dm4.png',
               '/testimonials/dm2.png',
             ].map((src, i) => (
-              <div key={i} style={{ width: 'calc((100% - 2 * 1.25rem) / 3)', height: '200px', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
+              <div key={i} style={{ width: 'calc((100% - 2 * 1.25rem) / 3)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+                <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
               </div>
             ))}
           </div>
