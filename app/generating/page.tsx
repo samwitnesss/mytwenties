@@ -199,12 +199,12 @@ export default function GeneratingPage() {
             width: '64px', height: '64px', borderRadius: '50%', margin: '0 auto 1.5rem',
             background: 'rgba(37,99,235,0.08)', border: '2px solid rgba(37,99,235,0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.75rem'
-          }}>⏳</div>
+          }}>✨</div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--brand-text)', marginBottom: '0.75rem' }}>
-            This is taking longer than usual
+            Almost there — your report is nearly ready
           </h1>
           <p style={{ fontSize: '0.95rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, marginBottom: '2rem' }}>
-            Your report may still be generating. Refresh in a moment — your responses are safely saved.
+            We're putting the final touches on your report. Hit refresh and it should be waiting for you.
           </p>
           <button
             onClick={() => window.location.reload()}
@@ -214,10 +214,10 @@ export default function GeneratingPage() {
               color: '#fff', fontWeight: 700, fontSize: '0.95rem', fontFamily: 'inherit'
             }}
           >
-            Refresh page
+            See my report
           </button>
           <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
-            Still stuck? Email <a href="mailto:sam@samwitness.com" style={{ color: '#2563eb' }}>sam@samwitness.com</a>
+            Taking too long? Email <a href="mailto:sam@samwitness.com" style={{ color: '#2563eb' }}>sam@samwitness.com</a>
           </p>
         </div>
       </main>
