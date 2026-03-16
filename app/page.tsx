@@ -665,19 +665,15 @@ export default function LandingPage() {
         </div>
 
         {isMobile ? (
-          /* ── Mobile: 2-row swipeable carousel ── */
+          /* ── Mobile: full-width swipeable carousel ── */
           <div style={{ position: 'relative' }}>
             <div className="dm-carousel" style={{
-              display: 'grid',
-              gridTemplateRows: '1fr 1fr',
-              gridAutoFlow: 'column',
-              gridAutoColumns: 'calc(46vw - 1rem)',
-              gap: '0.75rem',
+              display: 'flex',
               overflowX: 'auto',
               overflowY: 'hidden',
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch',
-              padding: '0.5rem 1.25rem 1.25rem',
+              padding: '0.5rem 0 1.25rem',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
             }}>
@@ -689,14 +685,21 @@ export default function LandingPage() {
                 '/testimonials/dm2.png',
               ].map((src, i) => (
                 <div key={i} style={{
-                  scrollSnapAlign: i % 2 === 0 ? 'start' : 'none',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 24px rgba(0,0,0,0.12)',
-                  border: '1px solid var(--brand-border)',
+                  flex: '0 0 100vw',
+                  width: '100vw',
+                  scrollSnapAlign: 'start',
+                  padding: '0 1.25rem',
+                  boxSizing: 'border-box',
                 }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
+                  <div style={{
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    boxShadow: '0 6px 24px rgba(0,0,0,0.12)',
+                    border: '1px solid var(--brand-border)',
+                  }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
+                  </div>
                 </div>
               ))}
             </div>
@@ -705,31 +708,23 @@ export default function LandingPage() {
             </p>
           </div>
         ) : (
-          /* ── Desktop: 2-row grid, 3 per row ── */
-          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '1.25rem',
-            }}>
-              {[
-                '/testimonials/dm1.png',
-                '/testimonials/dm5.png',
-                '/testimonials/dm3.png',
-                '/testimonials/dm4.png',
-                '/testimonials/dm2.png',
-              ].map((src, i) => (
-                <div key={i} style={{
-                  ...(i === 3 ? { gridColumn: '1 / 2', marginLeft: 'auto', marginRight: '0' } : {}),
-                  ...(i === 4 ? { gridColumn: '2 / 3', marginLeft: '0', marginRight: 'auto' } : {}),
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                  border: '1px solid var(--brand-border)',
-                  width: '100%',
-                }}>
+          /* ── Desktop: 2-row grid, 3 per row, bottom row centred ── */
+          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {/* Row 1 — 3 items */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
+              {['/testimonials/dm1.png', '/testimonials/dm5.png', '/testimonials/dm3.png'].map((src, i) => (
+                <div key={i} style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
+                </div>
+              ))}
+            </div>
+            {/* Row 2 — 2 items, centred */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1.25rem' }}>
+              {['/testimonials/dm4.png', '/testimonials/dm2.png'].map((src, i) => (
+                <div key={i} style={{ width: 'calc((100% - 2 * 1.25rem) / 3)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={src} alt={`Testimonial ${i + 4}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
                 </div>
               ))}
             </div>
