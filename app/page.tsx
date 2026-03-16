@@ -665,15 +665,19 @@ export default function LandingPage() {
         </div>
 
         {isMobile ? (
-          /* ── Mobile: full-width swipeable carousel ── */
+          /* ── Mobile: 2-row carousel, full-width per card, same card size ── */
           <div style={{ position: 'relative' }}>
             <div className="dm-carousel" style={{
-              display: 'flex',
+              display: 'grid',
+              gridTemplateRows: 'auto auto',
+              gridAutoFlow: 'column',
+              gridAutoColumns: 'calc(100vw - 2.5rem)',
+              gap: '0.75rem',
               overflowX: 'auto',
               overflowY: 'hidden',
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch',
-              padding: '0.5rem 0 1.25rem',
+              padding: '0.5rem 1.25rem 1.25rem',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
             }}>
@@ -685,21 +689,14 @@ export default function LandingPage() {
                 '/testimonials/dm2.png',
               ].map((src, i) => (
                 <div key={i} style={{
-                  flex: '0 0 100vw',
-                  width: '100vw',
-                  scrollSnapAlign: 'start',
-                  padding: '0 1.25rem',
-                  boxSizing: 'border-box',
+                  scrollSnapAlign: i % 2 === 0 ? 'start' : 'none',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 6px 24px rgba(0,0,0,0.12)',
+                  border: '1px solid var(--brand-border)',
                 }}>
-                  <div style={{
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    boxShadow: '0 6px 24px rgba(0,0,0,0.12)',
-                    border: '1px solid var(--brand-border)',
-                  }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
                 </div>
               ))}
             </div>
@@ -708,26 +705,20 @@ export default function LandingPage() {
             </p>
           </div>
         ) : (
-          /* ── Desktop: 2-row grid, 3 per row, bottom row centred ── */
-          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {/* Row 1 — 3 items */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
-              {['/testimonials/dm1.png', '/testimonials/dm5.png', '/testimonials/dm3.png'].map((src, i) => (
-                <div key={i} style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
-                </div>
-              ))}
-            </div>
-            {/* Row 2 — 2 items, centred */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1.25rem' }}>
-              {['/testimonials/dm4.png', '/testimonials/dm2.png'].map((src, i) => (
-                <div key={i} style={{ width: 'calc((100% - 2 * 1.25rem) / 3)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt={`Testimonial ${i + 4}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
-                </div>
-              ))}
-            </div>
+          /* ── Desktop: flex-wrap, natural heights, bottom row centred ── */
+          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', display: 'flex', flexWrap: 'wrap', gap: '1.25rem', justifyContent: 'center', alignItems: 'flex-start' }}>
+            {[
+              '/testimonials/dm1.png',
+              '/testimonials/dm5.png',
+              '/testimonials/dm3.png',
+              '/testimonials/dm4.png',
+              '/testimonials/dm2.png',
+            ].map((src, i) => (
+              <div key={i} style={{ width: 'calc((100% - 2 * 1.25rem) / 3)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt={`Testimonial ${i + 1}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
+              </div>
+            ))}
           </div>
         )}
       </section>
