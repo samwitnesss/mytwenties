@@ -593,6 +593,7 @@ function SingleQuestion({
               onFocus={e => e.target.style.borderColor = '#3b82f6'}
               onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
               autoFocus={isSection8}
+              onKeyDown={e => { if (e.key === 'Enter') e.preventDefault() }}
             />
             <span style={{
               position: 'absolute', bottom: '8px', right: '12px',
