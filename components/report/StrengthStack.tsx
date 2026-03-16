@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 interface Strength {
   rank: number
   name: string
@@ -8,9 +10,21 @@ interface Strength {
   income_angle: string
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  return isMobile
+}
+
 export default function StrengthStack({ strengths }: { strengths: Strength[] }) {
+  const isMobile = useIsMobile()
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '1.25rem' }}>
       {strengths.map((s) => (
         <div key={s.rank} style={{
           background: 'var(--brand-card)', borderRadius: '20px', padding: '1.25rem 1.5rem',

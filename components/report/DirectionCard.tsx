@@ -104,7 +104,7 @@ export default function DirectionCard({ direction, rank }: { direction: Directio
               }}>
                 {label}
               </span>
-              <span style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.4 }}>{value}</span>
+              <span style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.4, flex: 1, wordBreak: 'break-word' }}>{value}</span>
             </div>
           ))}
         </div>

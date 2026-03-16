@@ -25,8 +25,8 @@ export default function BlindSpotCard({ blindspot }: { blindspot: BlindSpot }) {
       }} />
 
       <div style={{ paddingLeft: '0.5rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-          <h4 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--brand-text)', flex: 1, marginRight: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+          <h4 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--brand-text)', minWidth: 0 }}>
             {blindspot.name}
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>

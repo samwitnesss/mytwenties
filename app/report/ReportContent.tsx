@@ -100,7 +100,19 @@ function UnlockBanner() {
   )
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  return isMobile
+}
+
 export default function ReportContent({ report, reportType = 'free', unlocked = false }: { report: MockReport; reportType?: string; unlocked?: boolean }) {
+  const isMobile = useIsMobile()
   const [firstName, setFirstName] = useState(report.firstName || 'You')
   const [unlocking, setUnlocking] = useState(false)
   const [showConfetti, setShowConfetti] = useState(unlocked && reportType === 'paid')
@@ -146,7 +158,7 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
   const topStrength = report.strengths[0]?.name ?? 'Identified'
 
   return (
-    <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', color: 'var(--brand-text)' }}>
+    <main style={{ backgroundColor: 'var(--brand-bg)', minHeight: '100vh', color: 'var(--brand-text)', overflowX: 'hidden' }}>
       {showConfetti && <ConfettiEffect />}
       {unlocked && reportType === 'paid' && <UnlockBanner />}
 
@@ -306,9 +318,9 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
             <p style={{ fontSize: '0.72rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>
               Secondary Archetype · {Math.round(report.archetype.secondary.score * 100)}%
             </p>
-            <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '0.5rem' : '2rem', alignItems: 'flex-start' }}>
               <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0, flexShrink: 0 }}>{report.archetype.secondary.name}</h4>
-              <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0, flex: 1 }}>{report.archetype.secondary.description}</p>
+              <p style={{ fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, margin: 0 }}>{report.archetype.secondary.description}</p>
             </div>
           </div>
         </div>
@@ -704,7 +716,7 @@ function PremiumSections({ report }: { report: MockReport }) {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '8px' }}>
                     <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0 }}>{role.title}</h4>
-                    <span style={{ fontSize: '0.82rem', color: '#06b6d4', fontWeight: 700, background: 'rgba(6,182,212,0.1)', borderRadius: '100px', padding: '3px 12px', border: '1px solid rgba(6,182,212,0.25)', flexShrink: 0 }}>{role.income}</span>
+                    <span style={{ fontSize: '0.82rem', color: '#06b6d4', fontWeight: 700, background: 'rgba(6,182,212,0.1)', borderRadius: '100px', padding: '3px 12px', border: '1px solid rgba(6,182,212,0.25)', wordBreak: 'break-word' }}>{role.income}</span>
                   </div>
                   <p style={{ fontSize: '0.9rem', color: 'var(--brand-text-muted)', lineHeight: 1.75, margin: 0 }}>{role.description}</p>
                 </div>
