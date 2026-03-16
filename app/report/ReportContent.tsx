@@ -532,7 +532,7 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
             />
           </div>
           <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '1rem' }}>
-            Free 30-minute call · No pitch · Just your plan
+            Free 30-minute call with Sam
           </p>
 
         </div>
