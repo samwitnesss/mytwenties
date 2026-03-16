@@ -487,9 +487,6 @@ function WelcomeIntroScreen({ firstName, onStart }: { firstName: string, onStart
         >
           Let&apos;s go →
         </button>
-        <p style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: 'var(--brand-text-subtle)' }}>
-          Press Enter to begin
-        </p>
       </div>
     </div>
   )
@@ -934,9 +931,6 @@ function SectionCompleteScreen({
           {isLast ? 'See my results →' : 'Continue →'}
         </button>
 
-        <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: 'var(--brand-text-subtle)' }}>
-          Press Enter to continue
-        </p>
       </div>
     </div>
   )
