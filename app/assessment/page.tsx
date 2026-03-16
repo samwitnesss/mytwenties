@@ -113,6 +113,7 @@ export default function AssessmentPage() {
   }
 
   function advanceStep() {
+    window.scrollTo(0, 0)
     const nextIndex = currentQuestionIndex + 1
     if (nextIndex >= steps.length) {
       setShowSectionComplete(true)
@@ -157,6 +158,7 @@ export default function AssessmentPage() {
 
   function handleSectionContinue() {
     setShowSectionComplete(false)
+    window.scrollTo(0, 0)
     if (currentSection < SECTIONS.length - 1) {
       const nextSection = currentSection + 1
       setCurrentSection(nextSection)
@@ -735,6 +737,10 @@ function ScaleBatch({
 }) {
   const allAnswered = questions.every(q => responses[q.id] !== undefined && responses[q.id] !== null)
   const hasInteractedRef = useRef(false)
+  const isAgreementScale = questions[0]?.section === 3 || questions[0]?.section === 4
+  const scaleLabels = isAgreementScale
+    ? ['Strongly disagree', 'Neutral', 'Strongly agree']
+    : ['Not me', 'Somewhat me', 'Exactly me']
 
   useEffect(() => {
     // Only auto-advance after the user actually clicks something in this batch —
@@ -783,9 +789,9 @@ function ScaleBatch({
                 ))}
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
-                <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Not me</span>
-                <span style={{ fontSize: '0.65rem', color: '#94a3b8', textAlign: 'center' }}>Somewhat me</span>
-                <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Exactly me</span>
+                <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{scaleLabels[0]}</span>
+                <span style={{ fontSize: '0.65rem', color: '#94a3b8', textAlign: 'center' }}>{scaleLabels[1]}</span>
+                <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{scaleLabels[2]}</span>
               </div>
             </div>
           )
