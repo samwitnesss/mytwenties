@@ -499,6 +499,103 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
 
       </div>
 
+      {/* ─── GO DEEPER ─────────────────────────────── */}
+      <div style={{ background: 'var(--brand-bg-subtle)', borderTop: '1px solid var(--brand-border)', padding: '5rem 1.5rem' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              background: 'rgba(37,99,235,0.07)', border: '1px solid rgba(37,99,235,0.2)',
+              borderRadius: '100px', padding: '5px 14px', marginBottom: '1.25rem',
+              fontSize: '0.7rem', color: '#2563eb', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 700
+            }}>
+              <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#2563eb', display: 'inline-block' }} />
+              The MyTwenties Accelerator
+            </div>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: 'var(--brand-text)', letterSpacing: '-0.02em', marginBottom: '0.875rem', lineHeight: 1.15 }}>
+              Your report is the starting point.<br />The Accelerator is the full journey.
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'var(--brand-text-mid)', lineHeight: 1.7, maxWidth: '460px', margin: '0 auto' }}>
+              12 weeks. 6 calls with Sam. Every asset built from your situation.
+            </p>
+          </div>
+
+          {/* Locked asset grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+            gap: '0.875rem',
+            marginBottom: '2.5rem'
+          }}>
+            {[
+              { icon: '🗺️', name: '30-Day High-Leverage Plan', desc: 'Your first move, sequenced and prioritised.', weeks: 'Weeks 1–2' },
+              { icon: '📋', name: 'Your Business Plan', desc: 'A real plan built around your wiring, not a template.', weeks: 'Weeks 3–4' },
+              { icon: '💰', name: 'Offer & Pricing Strategy', desc: 'What to sell, what to charge, and why it works for you.', weeks: 'Weeks 3–4' },
+              { icon: '🎯', name: 'Client Acquisition Playbook', desc: 'How to get your first paying clients without guessing.', weeks: 'Weeks 5–6' },
+              { icon: '✨', name: 'Personal Brand Blueprint', desc: 'How to show up online in a way that attracts the right people.', weeks: 'Weeks 7–8' },
+              { icon: '🗂️', name: 'Portfolio Builder', desc: 'Turn what you\'ve done into proof that you\'re the right choice.', weeks: 'Weeks 7–8' },
+              { icon: '📊', name: 'Progress Review & Updated Roadmap', desc: 'A mid-program recalibration based on what\'s actually working.', weeks: 'Weeks 9–10' },
+              { icon: '📅', name: '90-Day Strategic Plan', desc: 'Your next quarter mapped out with clear priorities.', weeks: 'Weeks 11–12' },
+              { icon: '📈', name: 'Growth Roadmap', desc: 'The long-game plan — where you go after the 12 weeks.', weeks: 'Weeks 11–12' },
+            ].map(({ icon, name, desc, weeks }) => (
+              <div key={name} style={{
+                background: 'var(--brand-card)',
+                borderRadius: '16px',
+                padding: '1.25rem',
+                border: '1px solid var(--brand-border)',
+                opacity: 0.6,
+                position: 'relative',
+                overflow: 'hidden',
+              }}>
+                {/* Lock icon */}
+                <div style={{
+                  position: 'absolute', top: '0.875rem', right: '0.875rem',
+                  fontSize: '0.7rem', color: 'var(--brand-text-subtle)'
+                }}>🔒</div>
+
+                <div style={{ fontSize: '1.4rem', marginBottom: '0.6rem' }}>{icon}</div>
+                <p style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.3rem', paddingRight: '1rem' }}>{name}</p>
+                <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-muted)', lineHeight: 1.55, marginBottom: '0.75rem' }}>{desc}</p>
+                <span style={{
+                  display: 'inline-block',
+                  fontSize: '0.65rem', fontWeight: 700, color: '#2563eb',
+                  background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.15)',
+                  borderRadius: '100px', padding: '2px 10px', letterSpacing: '0.04em'
+                }}>{weeks}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--brand-text-muted)', marginBottom: '1.25rem', lineHeight: 1.6 }}>
+              Every deliverable is built live, on a call, from your specific situation — not a course you watch and forget.
+            </p>
+            <a
+              href="https://api.leadconnectorhq.com/widget/booking/ibvCFYwaWf95LNjupgii"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', display: 'inline-block' }}
+            >
+              <button className="gradient-btn" style={{
+                fontSize: '1rem', fontWeight: 700, color: '#ffffff',
+                padding: '0.9rem 2.25rem', borderRadius: '100px', border: 'none',
+                cursor: 'pointer', boxShadow: '0 8px 30px rgba(37,99,235,0.3)',
+                fontFamily: 'inherit'
+              }}>
+                Book a Free Strategy Call with Sam →
+              </button>
+            </a>
+            <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '0.75rem' }}>
+              Free 30-minute call · No pitch · Just your plan
+            </p>
+          </div>
+
+        </div>
+      </div>
+
       <footer style={{ padding: '2rem 1.5rem', textAlign: 'center', borderTop: '1px solid var(--brand-border)', background: 'var(--brand-card)' }}>
         <p style={{ color: 'var(--brand-text-subtle)', fontSize: '0.8rem' }}>© 2026 MyTwenties · Your data is private.</p>
       </footer>
