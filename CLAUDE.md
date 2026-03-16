@@ -36,7 +36,7 @@ User identity is stored in `localStorage` only (`mt_user_id`, `mt_first_name`, `
 - Reads all responses for a user, formats them by section, sends to `claude-sonnet-4-6` with an 8000-token limit
 - Returns a large JSON object matching a strict schema (archetypes, strengths, blind spots, directions, dream day, premium sections, etc.)
 - Strips markdown fences before `JSON.parse()` — wrapped in try/catch
-- `maxDuration = 120` (Vercel limit for serverless)
+- `maxDuration = 300` (Vercel Pro limit for serverless)
 - On success, inserts into `mytwenties_reports` with `status: 'ready'`, `report_type: 'free'`
 
 ### Styling conventions

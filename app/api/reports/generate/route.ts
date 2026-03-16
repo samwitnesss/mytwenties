@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/server'
 import { SECTIONS } from '@/lib/questions'
 
-export const maxDuration = 120
+export const maxDuration = 300
 
 // Build a flat lookup: questionId -> { label, section, type }
 const QUESTION_MAP = Object.fromEntries(
