@@ -664,19 +664,19 @@ export default function LandingPage() {
           </h2>
         </div>
 
-        {/* Scroll hint fade edges */}
-        <div style={{ position: 'relative' }}>
+        {/* Constrain to max width so carousel is centered and always scrollable */}
+        <div style={{ maxWidth: '960px', margin: '0 auto', position: 'relative' }}>
           <div style={{
-            position: 'absolute', left: 0, top: 0, bottom: 0, width: '60px', zIndex: 2, pointerEvents: 'none',
+            position: 'absolute', left: 0, top: 0, bottom: 0, width: '40px', zIndex: 2, pointerEvents: 'none',
             background: 'linear-gradient(to right, var(--brand-bg), transparent)'
           }} />
           <div style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0, width: '60px', zIndex: 2, pointerEvents: 'none',
+            position: 'absolute', right: 0, top: 0, bottom: 0, width: '40px', zIndex: 2, pointerEvents: 'none',
             background: 'linear-gradient(to left, var(--brand-bg), transparent)'
           }} />
 
           <div className="dm-carousel" style={{
-            display: 'flex', alignItems: 'center', gap: '1.25rem',
+            display: 'flex', alignItems: 'center', gap: '1rem',
             overflowX: 'auto', overflowY: 'hidden',
             scrollSnapType: 'x mandatory',
             WebkitOverflowScrolling: 'touch',
@@ -692,7 +692,7 @@ export default function LandingPage() {
             ].map((src, i) => (
               <div key={i} style={{
                 flex: '0 0 auto',
-                width: 'clamp(260px, 72vw, 340px)',
+                width: 'clamp(260px, 70vw, 300px)',
                 scrollSnapAlign: 'start',
                 borderRadius: '20px',
                 overflow: 'hidden',
