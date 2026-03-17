@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { LayoutDashboard, FolderOpen, FileText, Settings } from 'lucide-react'
+import { LayoutDashboard, FileText, Settings } from 'lucide-react'
 import type { PortalUser } from '@/lib/accelerator-data'
 
 // ─────────────────────────────────────────────
@@ -37,11 +37,6 @@ function useNavItems(): NavItem[] {
       label: 'Dashboard',
       href: '/portal',
       icon: <LayoutDashboard size={16} />,
-    },
-    {
-      label: 'My Assets',
-      href: '/portal/assets',
-      icon: <FolderOpen size={16} />,
     },
     {
       label: 'My Report',
@@ -137,11 +132,11 @@ function SidebarContent({
     >
       {/* Logo */}
       <div style={{ marginBottom: '32px', paddingLeft: '4px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <span
             className="gradient-text"
             style={{
-              fontSize: '1.125rem',
+              fontSize: '1rem',
               fontWeight: 800,
               letterSpacing: '-0.03em',
             }}
@@ -150,13 +145,13 @@ function SidebarContent({
           </span>
           <span
             style={{
-              fontSize: '0.625rem',
+              fontSize: '0.58rem',
               fontWeight: 700,
               letterSpacing: '0.05em',
               textTransform: 'uppercase' as const,
               background: 'rgba(37,99,235,0.1)',
               color: '#2563eb',
-              padding: '2px 7px',
+              padding: '2px 6px',
               borderRadius: '4px',
               border: '1px solid rgba(37,99,235,0.18)',
               whiteSpace: 'nowrap' as const,

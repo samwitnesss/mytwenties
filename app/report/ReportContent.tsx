@@ -269,13 +269,15 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
           position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10,
           display: 'flex', gap: '8px', alignItems: 'center'
         }}>
-          <a href="/portal" style={{
-            background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
-            borderRadius: '100px', padding: '7px 18px',
-            fontSize: '0.8rem', color: '#ffffff', cursor: 'pointer',
-            fontFamily: 'inherit', fontWeight: 600, textDecoration: 'none',
-            boxShadow: '0 2px 8px rgba(37,99,235,0.25)'
-          }}>Accelerator</a>
+          {isAccelerator && (
+            <a href="/portal" style={{
+              background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
+              borderRadius: '100px', padding: '7px 18px',
+              fontSize: '0.8rem', color: '#ffffff', cursor: 'pointer',
+              fontFamily: 'inherit', fontWeight: 600, textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(37,99,235,0.25)'
+            }}>Accelerator →</a>
+          )}
           <button onClick={handleLogout} style={{
             background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
             borderRadius: '100px', padding: '7px 18px',
