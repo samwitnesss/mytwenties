@@ -766,24 +766,34 @@ function ScaleBatch({
     }
   }, [allAnswered, onComplete])
 
+  const answeredCount = questions.filter(q => responses[q.id] !== undefined && responses[q.id] !== null).length
+  const someAnswered = answeredCount > 0 && !allAnswered
+
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
         {questions.map(q => {
           const val = responses[q.id] as number | undefined
+          const unanswered = someAnswered && !val
           return (
             <div key={q.id} style={{
-              background: 'var(--brand-card)',
+              background: val ? 'var(--brand-card)' : unanswered ? 'rgba(37,99,235,0.03)' : 'var(--brand-card)',
               borderRadius: '14px', padding: '1rem',
-              border: `1px solid ${val ? 'rgba(37,99,235,0.3)' : 'var(--brand-border)'}`,
-              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              border: `1px solid ${val ? 'rgba(37,99,235,0.3)' : unanswered ? 'rgba(37,99,235,0.35)' : 'var(--brand-border)'}`,
+              boxShadow: val ? '0 1px 3px rgba(0,0,0,0.04)' : unanswered ? '0 0 0 1px rgba(37,99,235,0.15), 0 2px 8px rgba(37,99,235,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
               transition: 'all 0.2s ease'
             }}>
               <p style={{
                 fontSize: '0.875rem', color: 'var(--brand-text)',
-                lineHeight: 1.55, marginBottom: '0.75rem', fontWeight: 500
+                lineHeight: 1.55, marginBottom: '0.75rem', fontWeight: 500,
+                display: 'flex', alignItems: 'flex-start', gap: '6px'
               }}>
-                {q.label}
+                <span style={{ flex: 1 }}>{q.label}</span>
+                {val ? (
+                  <span style={{ color: '#06b6d4', fontSize: '0.75rem', flexShrink: 0, marginTop: '1px' }}>✓</span>
+                ) : unanswered ? (
+                  <span style={{ color: '#3b82f6', fontSize: '0.65rem', fontWeight: 600, flexShrink: 0, marginTop: '2px', letterSpacing: '0.02em' }}>answer ↑</span>
+                ) : null}
               </p>
               <div style={{ display: 'flex', gap: '6px' }}>
                 {[1, 2, 3, 4, 5].map(n => (
