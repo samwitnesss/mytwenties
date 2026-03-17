@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     const { data: user } = await supabase
       .from('mytwenties_users')
-      .select('id, email, first_name')
+      .select('id, email, first_name, tier')
       .eq('email', email.toLowerCase().trim())
       .single()
 
@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
       userId: user.id,
       email: user.email,
       firstName: user.first_name,
+      tier: user.tier ?? 'free',
       reportId: report?.status === 'ready' ? report.id : null,
       pendingReportId: report?.status === 'pending' ? report.id : null,
     })

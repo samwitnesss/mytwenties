@@ -38,12 +38,14 @@ export default function LoginPage() {
       localStorage.setItem('mt_first_name', data.firstName)
       localStorage.setItem('mt_email', data.email)
 
-      // Route based on report state
+      // Route based on report state + tier
       if (data.reportId) {
         localStorage.setItem('mt_report_id', data.reportId)
         router.push(`/report/ready/${data.reportId}`)
       } else if (data.pendingReportId) {
         router.push('/generating')
+      } else if (data.tier === 'accelerator') {
+        router.push('/portal')
       } else {
         setError('no_report')
         setLoading(false)

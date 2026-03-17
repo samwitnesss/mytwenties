@@ -1,10 +1,10 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PortalUserContext } from '@/app/portal/layout'
-import { ASSET_CONFIG, AssetType, SAMPLE_SESSION_NOTES, SAMPLE_ROADMAP } from '@/lib/accelerator-data'
+import { ASSET_CONFIG, AssetType, SessionNotesData, RoadmapData } from '@/lib/accelerator-data'
 import SessionNotesRenderer from '@/app/portal/assets/renderers/SessionNotes'
 import RoadmapRenderer from '@/app/portal/assets/renderers/Roadmap'
 
@@ -104,6 +104,39 @@ function PageTopBar({ icon, title, description }: { icon: string; title: string;
 }
 
 // ─────────────────────────────────────────────
+// Loading state
+// ─────────────────────────────────────────────
+
+function LoadingState() {
+  return (
+    <div
+      style={{
+        minHeight: 'calc(100vh - 200px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <style>{`
+        @keyframes asset-spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
+      <div
+        style={{
+          width: '32px',
+          height: '32px',
+          borderRadius: '50%',
+          border: '3px solid #e2e8f0',
+          borderTopColor: '#2563eb',
+          animation: 'asset-spin 0.75s linear infinite',
+        }}
+      />
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────
 // Coming Soon state
 // ─────────────────────────────────────────────
 
@@ -191,7 +224,7 @@ function ComingSoon({ icon, title, weekUnlock }: { icon: string; title: string; 
             lineHeight: 1.6,
           }}
         >
-          Your coach is preparing this deliverable. You'll see it here as soon as it's ready.
+          Your coach is preparing this deliverable. You&apos;ll see it here as soon as it&apos;s ready.
         </p>
 
         <Link
@@ -259,7 +292,7 @@ function NotFound() {
             lineHeight: 1.6,
           }}
         >
-          This asset type doesn't exist. Head back to the dashboard to see your available assets.
+          This asset type doesn&apos;t exist. Head back to the dashboard to see your available assets.
         </p>
         <Link
           href="/portal"
@@ -292,8 +325,36 @@ export default function AssetPage() {
   const user = useContext(PortalUserContext)
   const type = params?.type as AssetType
 
+  const [loading, setLoading] = useState(true)
+  const [assetContent, setAssetContent] = useState<unknown>(null)
+
   // Validate type against known asset types
   const config = type ? ASSET_CONFIG[type] : null
+
+  useEffect(() => {
+    if (!config) {
+      setLoading(false)
+      return
+    }
+
+    const userId = localStorage.getItem('mt_user_id')
+    if (!userId) {
+      setLoading(false)
+      return
+    }
+
+    fetch(`/api/portal/assets/${type}?userId=${userId}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.content) {
+          setAssetContent(data.content)
+        }
+        setLoading(false)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
+  }, [type, config])
 
   if (!config) {
     return <NotFound />
@@ -301,19 +362,29 @@ export default function AssetPage() {
 
   const { title, description, icon, week_unlock } = config
 
-  // Render the appropriate asset content
   const renderContent = () => {
+    if (loading) {
+      return <LoadingState />
+    }
+
+    if (!assetContent) {
+      return <ComingSoon icon={icon} title={title} weekUnlock={week_unlock} />
+    }
+
     if (type === 'session_notes') {
-      return <SessionNotesRenderer data={SAMPLE_SESSION_NOTES} />
+      return <SessionNotesRenderer data={assetContent as SessionNotesData} />
     }
 
     if (type === 'roadmap') {
-      return <RoadmapRenderer data={SAMPLE_ROADMAP} />
+      return <RoadmapRenderer data={assetContent as RoadmapData} />
     }
 
-    // All other asset types — coming soon
+    // Other asset types — coming soon until renderers are built
     return <ComingSoon icon={icon} title={title} weekUnlock={week_unlock} />
   }
+
+  // suppress unused warning — user is available via context for future use
+  void user
 
   return (
     <div

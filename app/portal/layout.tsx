@@ -278,69 +278,86 @@ function AccessRequired() {
     setReportId(localStorage.getItem('mt_report_id'))
   }, [])
 
+  const assets = [
+    { icon: '\u{1F5FA}\uFE0F', name: '30-Day High-Leverage Plan', desc: 'Your first move, sequenced and prioritised.', weeks: 'Weeks 1\u20132' },
+    { icon: '\u{1F4CB}', name: 'Your Business Plan', desc: 'A real plan built around your wiring, not a template.', weeks: 'Weeks 3\u20134' },
+    { icon: '\u{1F4B0}', name: 'Offer & Pricing Strategy', desc: 'What to sell, what to charge, and why it works for you.', weeks: 'Weeks 3\u20134' },
+    { icon: '\u{1F3AF}', name: 'Client Acquisition Playbook', desc: 'How to get your first paying clients without guessing.', weeks: 'Weeks 5\u20136' },
+    { icon: '\u2728', name: 'Personal Brand Blueprint', desc: 'How to show up online in a way that attracts the right people.', weeks: 'Weeks 7\u20138' },
+    { icon: '\u{1F5C2}\uFE0F', name: 'Portfolio Builder', desc: "Turn what you've done into proof that you're the right choice.", weeks: 'Weeks 7\u20138' },
+    { icon: '\u{1F4CA}', name: 'Session Notes', desc: 'Key moments, reframes, and next steps from your coaching sessions.', weeks: 'Weeks 1\u201312' },
+    { icon: '\u{1F4C5}', name: '90-Day Strategic Plan', desc: 'Your next quarter mapped out with clear priorities.', weeks: 'Weeks 11\u201312' },
+    { icon: '\u{1F4C8}', name: 'Growth Roadmap', desc: 'The long-game plan \u2014 where you go after the 12 weeks.', weeks: 'Weeks 11\u201312' },
+  ]
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        background: '#ffffff',
-        padding: '2rem',
-      }}
-    >
-      <div style={{ maxWidth: '400px', textAlign: 'center' }}>
-        <div
-          style={{
-            width: '56px',
-            height: '56px',
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 24px',
-            fontSize: '1.5rem',
-          }}
-        >
-          🔒
-        </div>
-        <h1
-          style={{
-            fontSize: '1.5rem',
-            fontWeight: 800,
-            color: '#0f172a',
-            letterSpacing: '-0.03em',
-            marginBottom: '12px',
-          }}
-        >
-          Access Required
-        </h1>
-        <p
-          style={{
-            fontSize: '0.9375rem',
-            color: '#475569',
-            lineHeight: 1.6,
-            marginBottom: '28px',
-          }}
-        >
-          The Accelerator portal is for Accelerator members only. Upgrade your plan to get access.
-        </p>
-        <a
-          href={reportId ? `/report/${reportId}` : '/'}
-          className="gradient-btn"
-          style={{
-            display: 'inline-block',
-            padding: '12px 28px',
-            borderRadius: '10px',
-            fontSize: '0.9375rem',
-            fontWeight: 700,
-            color: '#ffffff',
-            textDecoration: 'none',
-          }}
-        >
-          Back to my report
+    <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: 'var(--font-geist-sans), system-ui, sans-serif' }}>
+      <div style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: '1rem', fontWeight: 800 }}>
+          <span className="gradient-text">MyTwenties</span>{' '}
+          <span style={{ color: '#64748b', fontWeight: 500 }}>Accelerator</span>
+        </span>
+        <a href={reportId ? `/report/${reportId}` : '/'} style={{ fontSize: '0.85rem', color: '#475569', textDecoration: 'none', fontWeight: 500 }}>
+          \u2190 Back to report
         </a>
+      </div>
+
+      <div style={{ maxWidth: '860px', margin: '0 auto', padding: '48px 24px 64px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            background: 'rgba(37,99,235,0.07)', border: '1px solid rgba(37,99,235,0.2)',
+            borderRadius: '100px', padding: '5px 14px', marginBottom: '20px',
+            fontSize: '0.7rem', color: '#2563eb', letterSpacing: '0.06em', textTransform: 'uppercase' as const, fontWeight: 700
+          }}>
+            The MyTwenties Accelerator
+          </div>
+          <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '12px', lineHeight: 1.15 }}>
+            12 weeks. 6 calls with Sam.<br />Every asset built from your situation.
+          </h1>
+          <p style={{ fontSize: '0.95rem', color: '#64748b', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto' }}>
+            The Accelerator gives you a personal portal with every deliverable built live on a call \u2014 not a course you watch and forget.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '14px', marginBottom: '48px' }}>
+          {assets.map(({ icon, name, desc, weeks }) => (
+            <div key={name} style={{
+              background: '#ffffff', borderRadius: '16px', padding: '20px',
+              border: '1px solid #e2e8f0', opacity: 0.6, position: 'relative'
+            }}>
+              <div style={{ position: 'absolute', top: '14px', right: '14px', fontSize: '0.7rem', color: '#94a3b8' }}>🔒</div>
+              <div style={{ fontSize: '1.4rem', marginBottom: '8px' }}>{icon}</div>
+              <p style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a', marginBottom: '4px', paddingRight: '1rem' }}>{name}</p>
+              <p style={{ fontSize: '0.78rem', color: '#64748b', lineHeight: 1.55, marginBottom: '10px' }}>{desc}</p>
+              <span style={{
+                display: 'inline-block', fontSize: '0.65rem', fontWeight: 700, color: '#2563eb',
+                background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.15)',
+                borderRadius: '100px', padding: '2px 10px', letterSpacing: '0.04em'
+              }}>{weeks}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+            Book a free Strategy Call with Sam
+          </h2>
+          <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 24px' }}>
+            Every deliverable is built live, on a call, from your specific situation.
+          </p>
+        </div>
+        <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+          <iframe
+            src="https://api.leadconnectorhq.com/widget/booking/ibvCFYwaWf95LNjupgii"
+            style={{ width: '100%', height: '700px', border: 'none', display: 'block' }}
+            scrolling="yes"
+            title="Book a Free Strategy Call with Sam"
+          />
+        </div>
+        <p style={{ textAlign: 'center', fontSize: '0.75rem', color: '#94a3b8', marginTop: '12px' }}>
+          Free 30-minute call with Sam
+        </p>
       </div>
     </div>
   )

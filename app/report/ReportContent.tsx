@@ -191,10 +191,22 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
   const [firstName, setFirstName] = useState(report.firstName || 'You')
   const [unlocking, setUnlocking] = useState(false)
   const [showConfetti, setShowConfetti] = useState(unlocked && reportType === 'paid')
+  const [isAccelerator, setIsAccelerator] = useState(false)
 
   useEffect(() => {
     const stored = localStorage.getItem('mt_first_name')
     if (stored) setFirstName(stored)
+  }, [])
+
+  useEffect(() => {
+    const userId = localStorage.getItem('mt_user_id')
+    if (!userId) return
+    fetch(`/api/portal/me?userId=${userId}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.tier === 'accelerator') setIsAccelerator(true)
+      })
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -253,13 +265,24 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
           background: 'radial-gradient(ellipse, rgba(37,99,235,0.1) 0%, transparent 65%)',
           filter: 'blur(40px)', borderRadius: '50%', pointerEvents: 'none'
         }} />
-        <button onClick={handleLogout} style={{
+        <div style={{
           position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10,
-          background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
-          borderRadius: '100px', padding: '7px 18px',
-          fontSize: '0.8rem', color: 'var(--brand-text-mid)', cursor: 'pointer',
-          fontFamily: 'inherit', fontWeight: 500, boxShadow: '0 1px 4px rgba(0,0,0,0.06)'
-        }}>Log out</button>
+          display: 'flex', gap: '8px', alignItems: 'center'
+        }}>
+          <a href="/portal" style={{
+            background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
+            borderRadius: '100px', padding: '7px 18px',
+            fontSize: '0.8rem', color: '#ffffff', cursor: 'pointer',
+            fontFamily: 'inherit', fontWeight: 600, textDecoration: 'none',
+            boxShadow: '0 2px 8px rgba(37,99,235,0.25)'
+          }}>Accelerator</a>
+          <button onClick={handleLogout} style={{
+            background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+            borderRadius: '100px', padding: '7px 18px',
+            fontSize: '0.8rem', color: 'var(--brand-text-mid)', cursor: 'pointer',
+            fontFamily: 'inherit', fontWeight: 500, boxShadow: '0 1px 4px rgba(0,0,0,0.06)'
+          }}>Log out</button>
+        </div>
 
         <div style={{ position: 'relative', maxWidth: '820px', margin: '0 auto' }}>
           <div style={{
@@ -551,7 +574,7 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
             </p>
           </div>
 
-          {/* Locked asset grid */}
+          {/* Asset grid — unlocked for Accelerator members, locked otherwise */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
@@ -559,58 +582,103 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
             marginBottom: '2.5rem'
           }}>
             {[
-              { icon: '🗺️', name: '30-Day High-Leverage Plan', desc: 'Your first move, sequenced and prioritised.', weeks: 'Weeks 1–2' },
-              { icon: '📋', name: 'Your Business Plan', desc: 'A real plan built around your wiring, not a template.', weeks: 'Weeks 3–4' },
-              { icon: '💰', name: 'Offer & Pricing Strategy', desc: 'What to sell, what to charge, and why it works for you.', weeks: 'Weeks 3–4' },
-              { icon: '🎯', name: 'Client Acquisition Playbook', desc: 'How to get your first paying clients without guessing.', weeks: 'Weeks 5–6' },
-              { icon: '✨', name: 'Personal Brand Blueprint', desc: 'How to show up online in a way that attracts the right people.', weeks: 'Weeks 7–8' },
-              { icon: '🗂️', name: 'Portfolio Builder', desc: 'Turn what you\'ve done into proof that you\'re the right choice.', weeks: 'Weeks 7–8' },
-              { icon: '📊', name: 'Progress Review & Updated Roadmap', desc: 'A mid-program recalibration based on what\'s actually working.', weeks: 'Weeks 9–10' },
-              { icon: '📅', name: '90-Day Strategic Plan', desc: 'Your next quarter mapped out with clear priorities.', weeks: 'Weeks 11–12' },
-              { icon: '📈', name: 'Growth Roadmap', desc: 'The long-game plan — where you go after the 12 weeks.', weeks: 'Weeks 11–12' },
-            ].map(({ icon, name, desc, weeks }) => (
-              <div key={name} style={{
-                background: 'var(--brand-card)',
-                borderRadius: '16px',
-                padding: '1.25rem',
-                border: '1px solid var(--brand-border)',
-                opacity: 0.6,
-                position: 'relative',
-                overflow: 'hidden',
-              }}>
-                <div style={{ position: 'absolute', top: '0.875rem', right: '0.875rem', fontSize: '0.7rem', color: 'var(--brand-text-subtle)' }}>🔒</div>
-                <div style={{ fontSize: '1.4rem', marginBottom: '0.6rem' }}>{icon}</div>
-                <p style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.3rem', paddingRight: '1rem' }}>{name}</p>
-                <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-muted)', lineHeight: 1.55, marginBottom: '0.75rem' }}>{desc}</p>
-                <span style={{
-                  display: 'inline-block', fontSize: '0.65rem', fontWeight: 700, color: '#2563eb',
-                  background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.15)',
-                  borderRadius: '100px', padding: '2px 10px', letterSpacing: '0.04em'
-                }}>{weeks}</span>
-              </div>
+              { icon: '🗺️', name: '30-Day High-Leverage Plan', desc: 'Your first move, sequenced and prioritised.', weeks: 'Weeks 1–2', assetType: 'roadmap' },
+              { icon: '📋', name: 'Your Business Plan', desc: 'A real plan built around your wiring, not a template.', weeks: 'Weeks 3–4', assetType: 'business_plan' },
+              { icon: '💰', name: 'Offer & Pricing Strategy', desc: 'What to sell, what to charge, and why it works for you.', weeks: 'Weeks 3–4', assetType: 'offer_strategy' },
+              { icon: '🎯', name: 'Client Acquisition Playbook', desc: 'How to get your first paying clients without guessing.', weeks: 'Weeks 5–6', assetType: 'client_playbook' },
+              { icon: '✨', name: 'Personal Brand Blueprint', desc: 'How to show up online in a way that attracts the right people.', weeks: 'Weeks 7–8', assetType: 'brand_blueprint' },
+              { icon: '🗂️', name: 'Portfolio Builder', desc: 'Turn what you\'ve done into proof that you\'re the right choice.', weeks: 'Weeks 7–8', assetType: 'portfolio_builder' },
+              { icon: '📊', name: 'Session Notes', desc: 'Key moments, reframes, and next steps from your coaching sessions.', weeks: 'Weeks 1–12', assetType: 'session_notes' },
+              { icon: '📅', name: '90-Day Strategic Plan', desc: 'Your next quarter mapped out with clear priorities.', weeks: 'Weeks 11–12', assetType: 'strategic_plan' },
+              { icon: '📈', name: 'Growth Roadmap', desc: 'The long-game plan — where you go after the 12 weeks.', weeks: 'Weeks 11–12', assetType: 'growth_roadmap' },
+            ].map(({ icon, name, desc, weeks, assetType }) => (
+              isAccelerator ? (
+                <a key={name} href={`/portal/assets/${assetType}`} style={{
+                  display: 'block',
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  padding: '1.25rem',
+                  border: '1.5px solid #bfdbfe',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 24px rgba(37,99,235,0.07)',
+                  transition: 'box-shadow 0.15s ease',
+                }}>
+                  <div style={{ fontSize: '1.4rem', marginBottom: '0.6rem' }}>{icon}</div>
+                  <p style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.3rem' }}>{name}</p>
+                  <p style={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55, marginBottom: '0.75rem' }}>{desc}</p>
+                  <span style={{
+                    display: 'inline-block', fontSize: '0.65rem', fontWeight: 700, color: '#16a34a',
+                    background: '#dcfce7', border: '1px solid #bbf7d0',
+                    borderRadius: '100px', padding: '2px 10px', letterSpacing: '0.04em'
+                  }}>Open →</span>
+                </a>
+              ) : (
+                <div key={name} style={{
+                  background: 'var(--brand-card)',
+                  borderRadius: '16px',
+                  padding: '1.25rem',
+                  border: '1px solid var(--brand-border)',
+                  opacity: 0.6,
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}>
+                  <div style={{ position: 'absolute', top: '0.875rem', right: '0.875rem', fontSize: '0.7rem', color: 'var(--brand-text-subtle)' }}>🔒</div>
+                  <div style={{ fontSize: '1.4rem', marginBottom: '0.6rem' }}>{icon}</div>
+                  <p style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.3rem', paddingRight: '1rem' }}>{name}</p>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--brand-text-muted)', lineHeight: 1.55, marginBottom: '0.75rem' }}>{desc}</p>
+                  <span style={{
+                    display: 'inline-block', fontSize: '0.65rem', fontWeight: 700, color: '#2563eb',
+                    background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.15)',
+                    borderRadius: '100px', padding: '2px 10px', letterSpacing: '0.04em'
+                  }}>{weeks}</span>
+                </div>
+              )
             ))}
           </div>
 
-          {/* Embedded calendar */}
-          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-            <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.4rem' }}>
-              Book a free Strategy Call with Sam
-            </p>
-            <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-muted)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-              Every deliverable is built live, on a call, from your specific situation — not a course you watch and forget.
-            </p>
-          </div>
-          <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--brand-border)' }}>
-            <iframe
-              src="https://api.leadconnectorhq.com/widget/booking/ibvCFYwaWf95LNjupgii"
-              style={{ width: '100%', height: '700px', border: 'none', display: 'block' }}
-              scrolling="yes"
-              title="Book a Free Strategy Call with Sam"
-            />
-          </div>
-          <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '1rem' }}>
-            Free 30-minute call with Sam
-          </p>
+          {/* Portal CTA (accelerator) or Booking calendar (non-accelerator) */}
+          {isAccelerator ? (
+            <div style={{ textAlign: 'center' }}>
+              <a href="/portal" style={{
+                display: 'inline-block',
+                padding: '14px 32px',
+                background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
+                color: '#ffffff',
+                borderRadius: '12px',
+                fontSize: '1rem',
+                fontWeight: 700,
+                textDecoration: 'none',
+                letterSpacing: '0.01em',
+                boxShadow: '0 4px 16px rgba(37,99,235,0.3)',
+              }}>
+                Go to My Portal →
+              </a>
+            </div>
+          ) : (
+            <>
+              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.4rem' }}>
+                  Book a free Strategy Call with Sam
+                </p>
+                <p style={{ fontSize: '0.82rem', color: 'var(--brand-text-muted)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+                  Every deliverable is built live, on a call, from your specific situation — not a course you watch and forget.
+                </p>
+              </div>
+              <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--brand-border)' }}>
+                <iframe
+                  src="https://api.leadconnectorhq.com/widget/booking/ibvCFYwaWf95LNjupgii"
+                  style={{ width: '100%', height: '700px', border: 'none', display: 'block' }}
+                  scrolling="yes"
+                  title="Book a Free Strategy Call with Sam"
+                />
+              </div>
+              <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '1rem' }}>
+                Free 30-minute call with Sam
+              </p>
+            </>
+          )}
 
         </div>
 
