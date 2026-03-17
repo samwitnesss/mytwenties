@@ -112,7 +112,7 @@ function StartPageInner() {
             borderRadius: '100px', padding: '6px 16px', marginBottom: '1.5rem',
             fontSize: '0.8rem', color: '#2563eb', letterSpacing: '0.05em', fontWeight: 600
           }}>
-            Step 1 of 1 to begin
+            Takes 30 seconds · Then we begin
           </div>
           <h1 style={{ fontSize: '1.9rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '0.75rem', color: 'var(--brand-text)' }}>
             Let&apos;s find out what you&apos;re{' '}
