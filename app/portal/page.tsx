@@ -15,6 +15,7 @@ interface AssetEntry {
   description: string
   icon: string
   weekUnlock: number
+  weekLabel: string
 }
 
 // ─────────────────────────────────────────────
@@ -78,7 +79,7 @@ function AssetCard({ asset, programWeek }: { asset: AssetEntry; programWeek: num
           color: unlocked ? '#16a34a' : '#94a3b8',
           whiteSpace: 'nowrap',
         }}>
-          Week {asset.weekUnlock}
+          {asset.weekLabel}
         </span>
       </div>
 
@@ -119,7 +120,7 @@ function AssetCard({ asset, programWeek }: { asset: AssetEntry; programWeek: num
           color: '#94a3b8',
           fontWeight: 600,
         }}>
-          Coming Week {asset.weekUnlock}
+          Coming {asset.weekLabel}
         </p>
       )}
     </div>
@@ -255,6 +256,7 @@ export default function PortalPage() {
     description: config.description,
     icon: config.icon,
     weekUnlock: config.week_unlock,
+    weekLabel: config.week_label,
   }))
 
   return (

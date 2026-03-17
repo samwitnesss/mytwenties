@@ -104,6 +104,7 @@ export interface AssetConfig {
   description: string;
   icon: string;
   week_unlock: number;
+  week_label: string;
 }
 
 // ─────────────────────────────────────────────
@@ -532,53 +533,62 @@ export const ASSET_CONFIG: Record<AssetType, AssetConfig> = {
     description: 'Key moments, reframes, and next steps from your coaching sessions.',
     icon: '📋',
     week_unlock: 1,
+    week_label: 'Weeks 1–12',
   },
   roadmap: {
     title: 'Roadmap',
     description: 'Your week-by-week action plan with tasks, milestones, and checkpoints.',
     icon: '🗺️',
-    week_unlock: 2,
+    week_unlock: 1,
+    week_label: 'Weeks 1–2',
   },
   business_plan: {
     title: 'Business Plan',
     description: 'A structured plan covering your model, revenue targets, and path to profitability.',
     icon: '📊',
     week_unlock: 3,
+    week_label: 'Weeks 3–4',
   },
   offer_strategy: {
     title: 'Offer Strategy',
     description: 'Your pricing structure, packaging decisions, and positioning rationale.',
     icon: '💰',
-    week_unlock: 4,
+    week_unlock: 3,
+    week_label: 'Weeks 3–4',
   },
   client_playbook: {
     title: 'Client Playbook',
     description: 'Scripts, frameworks, and templates for discovery calls, proposals, and onboarding.',
     icon: '🤝',
     week_unlock: 5,
+    week_label: 'Weeks 5–6',
   },
   brand_blueprint: {
     title: 'Brand Blueprint',
     description: 'Your visual identity, voice, and positioning assets for showing up consistently.',
     icon: '🎨',
-    week_unlock: 7,
+    week_unlock: 5,
+    week_label: 'Weeks 5–6',
   },
   portfolio_builder: {
     title: 'Portfolio Builder',
     description: 'A guided framework for curating and presenting your work to attract ideal clients.',
     icon: '🖼️',
     week_unlock: 8,
+    week_label: 'Week 8',
   },
   strategic_plan: {
     title: 'Strategic Plan',
     description: 'A longer-horizon plan for scaling, hiring, and evolving your business model.',
     icon: '🎯',
-    week_unlock: 11,
+    week_unlock: 10,
+    week_label: 'Week 10',
   },
   growth_roadmap: {
     title: 'Growth Roadmap',
     description: 'Month-by-month targets and initiatives for your next phase of growth.',
     icon: '📈',
     week_unlock: 12,
+    week_label: 'Week 12',
   },
 };
