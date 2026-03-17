@@ -677,6 +677,20 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
               <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginTop: '1rem' }}>
                 Free 30-minute call with Sam
               </p>
+              <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  style={{
+                    background: 'none', border: '1px solid var(--brand-border)',
+                    borderRadius: '10px', padding: '10px 24px',
+                    fontSize: '0.88rem', fontWeight: 600, color: 'var(--brand-text-mid)',
+                    cursor: 'pointer', fontFamily: 'inherit',
+                    transition: 'border-color 0.2s'
+                  }}
+                >
+                  ← Back to My Report
+                </button>
+              </div>
             </>
           )}
 
