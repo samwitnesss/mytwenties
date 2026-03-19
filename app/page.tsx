@@ -381,8 +381,6 @@ export default function LandingPage() {
             border: '1px solid var(--brand-border)', boxShadow: '0 24px 80px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)',
             position: 'relative'
           }}>
-            <div className="shimmer-card-shine" />
-
             {/* ── Report header ── */}
             <div style={{
               background: 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, var(--brand-card) 100%)',
