@@ -3,26 +3,48 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [showChoice, setShowChoice] = useState(false)
   const [choiceData, setChoiceData] = useState<{ firstName: string; reportId: string } | null>(null)
+  const [showForgot, setShowForgot] = useState(false)
+  const [resetSent, setResetSent] = useState(false)
+  const [resetLoading, setResetLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim()) {
-      setError('Please enter your email.')
+    if (!email.trim() || !password) {
+      setError('Please enter your email and password.')
       return
     }
     setLoading(true)
     setError('')
 
     try {
-      // Look up user by email
+      // Authenticate with Supabase
+      const supabase = createClient()
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim().toLowerCase(),
+        password,
+      })
+
+      if (signInError) {
+        if (signInError.message?.toLowerCase().includes('invalid login')) {
+          setError('Incorrect email or password. Please try again.')
+        } else {
+          setError(signInError.message || 'Login failed. Please try again.')
+        }
+        setLoading(false)
+        return
+      }
+
+      // Authenticated — look up user in mytwenties_users
       const res = await fetch('/api/users/lookup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -64,6 +86,36 @@ export default function LoginPage() {
     } catch {
       setError('Something went wrong. Please try again.')
       setLoading(false)
+    }
+  }
+
+  async function handleForgotPassword(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email.trim()) {
+      setError('Please enter your email first.')
+      return
+    }
+    setResetLoading(true)
+    setError('')
+
+    try {
+      const supabase = createClient()
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email.trim().toLowerCase(),
+        { redirectTo: `${window.location.origin}/auth/reset-password` }
+      )
+
+      if (resetError) {
+        setError(resetError.message || 'Failed to send reset email. Please try again.')
+        setResetLoading(false)
+        return
+      }
+
+      setResetSent(true)
+      setResetLoading(false)
+    } catch {
+      setError('Something went wrong. Please try again.')
+      setResetLoading(false)
     }
   }
 
@@ -208,7 +260,7 @@ export default function LoginPage() {
                 <span className="gradient-text">report</span>
               </h1>
               <p style={{ color: 'var(--brand-text-mid)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                Enter the email you used when you took the assessment.
+                Log in with your email and password.
               </p>
             </div>
 
@@ -224,6 +276,40 @@ export default function LoginPage() {
                   placeholder="your@email.com"
                   autoComplete="email"
                   autoFocus
+                  style={{
+                    width: '100%', padding: '14px 16px',
+                    background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                    borderRadius: '12px', color: 'var(--brand-text)', fontSize: '1rem',
+                    outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit'
+                  }}
+                  onFocus={e => e.target.style.borderColor = '#3b82f6'}
+                  onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
+                />
+              </div>
+
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--brand-text-muted)' }}>
+                    Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => { setShowForgot(true); setError(''); setResetSent(false) }}
+                    style={{
+                      background: 'none', border: 'none', color: '#2563eb',
+                      fontSize: '0.82rem', fontWeight: 500, cursor: 'pointer',
+                      fontFamily: 'inherit', padding: 0
+                    }}
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="Your password"
+                  autoComplete="current-password"
                   style={{
                     width: '100%', padding: '14px 16px',
                     background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
@@ -271,7 +357,7 @@ export default function LoginPage() {
                   opacity: loading ? 0.7 : 1, fontFamily: 'inherit'
                 }}
               >
-                {loading ? 'Looking up your account...' : 'Access My Report →'}
+                {loading ? 'Logging in...' : 'Log In →'}
               </button>
             </form>
 
@@ -281,6 +367,116 @@ export default function LoginPage() {
                 Start here →
               </Link>
             </p>
+
+            {/* Forgot password overlay */}
+            {showForgot && (
+              <div style={{
+                position: 'fixed', inset: 0, zIndex: 50,
+                background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                padding: '1.5rem'
+              }}
+                onClick={e => { if (e.target === e.currentTarget) setShowForgot(false) }}
+              >
+                <div style={{
+                  background: 'var(--brand-bg)', borderRadius: '16px',
+                  padding: '2rem', width: '100%', maxWidth: '400px',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.12)'
+                }}>
+                  {resetSent ? (
+                    <>
+                      <div style={{
+                        width: '48px', height: '48px', borderRadius: '12px',
+                        background: 'rgba(34,197,94,0.1)', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center',
+                        fontSize: '1.4rem', marginBottom: '1.25rem'
+                      }}>
+                        ✓
+                      </div>
+                      <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.5rem' }}>
+                        Check your email
+                      </h2>
+                      <p style={{ color: 'var(--brand-text-mid)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                        We sent a password reset link to{' '}
+                        <strong style={{ color: 'var(--brand-text)' }}>{email}</strong>.
+                        Click the link in the email to set a new password.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => { setShowForgot(false); setResetSent(false) }}
+                        className="gradient-btn"
+                        style={{
+                          width: '100%', fontSize: '1rem', fontWeight: 700, color: '#ffffff',
+                          padding: '0.85rem', borderRadius: '12px', border: 'none',
+                          cursor: 'pointer', fontFamily: 'inherit'
+                        }}
+                      >
+                        Back to Login
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '0.5rem' }}>
+                        Reset your password
+                      </h2>
+                      <p style={{ color: 'var(--brand-text-mid)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                        Enter your email and we&apos;ll send you a link to reset your password.
+                      </p>
+                      <form onSubmit={handleForgotPassword} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          placeholder="your@email.com"
+                          autoComplete="email"
+                          autoFocus
+                          style={{
+                            width: '100%', padding: '14px 16px',
+                            background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                            borderRadius: '12px', color: 'var(--brand-text)', fontSize: '1rem',
+                            outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit'
+                          }}
+                          onFocus={e => e.target.style.borderColor = '#3b82f6'}
+                          onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
+                        />
+
+                        {error && (
+                          <p style={{ color: '#dc2626', fontSize: '0.85rem', padding: '10px 14px', background: 'rgba(220,38,38,0.06)', borderRadius: '8px', border: '1px solid rgba(220,38,38,0.15)', margin: 0 }}>
+                            {error}
+                          </p>
+                        )}
+
+                        <button
+                          type="submit"
+                          disabled={resetLoading}
+                          className="gradient-btn"
+                          style={{
+                            width: '100%', fontSize: '1rem', fontWeight: 700, color: '#ffffff',
+                            padding: '0.85rem', borderRadius: '12px', border: 'none',
+                            cursor: resetLoading ? 'not-allowed' : 'pointer',
+                            opacity: resetLoading ? 0.7 : 1, fontFamily: 'inherit'
+                          }}
+                        >
+                          {resetLoading ? 'Sending...' : 'Send Reset Link'}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => { setShowForgot(false); setError('') }}
+                          style={{
+                            background: 'none', border: 'none', color: 'var(--brand-text-mid)',
+                            fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'inherit',
+                            padding: '4px 0'
+                          }}
+                        >
+                          ← Back to login
+                        </button>
+                      </form>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

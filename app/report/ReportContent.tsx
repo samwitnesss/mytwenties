@@ -194,10 +194,12 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
   const [isAccelerator, setIsAccelerator] = useState(false)
 
   useEffect(() => {
-    const stored = localStorage.getItem('mt_first_name')
-    if (stored) setFirstName(stored)
-  }, [])
-
+    // Only fall back to localStorage if the report does not include a name
+    if (!report.firstName) {
+      const stored = localStorage.getItem('mt_first_name')
+      if (stored) setFirstName(stored)
+    }
+  }, [report.firstName])
   useEffect(() => {
     const userId = localStorage.getItem('mt_user_id')
     if (!userId) return

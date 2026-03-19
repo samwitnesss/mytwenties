@@ -11,6 +11,7 @@ function StartPageInner() {
   const searchParams = useSearchParams()
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [error, setError] = useState('')
@@ -42,7 +43,6 @@ function StartPageInner() {
         setError('Google sign-in failed. Please try again.')
         setGoogleLoading(false)
       }
-      // On success, browser redirects to Google — no further action needed here
     } catch {
       setError('Something went wrong. Please try again.')
       setGoogleLoading(false)
@@ -51,14 +51,35 @@ function StartPageInner() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!firstName.trim() || !email.trim()) {
-      setError('Please fill in both fields.')
+    if (!firstName.trim() || !email.trim() || !password) {
+      setError('Please fill in all fields.')
+      return
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.')
       return
     }
     setLoading(true)
     setError('')
 
     try {
+      const supabase = createClient()
+      const { error: signUpError } = await supabase.auth.signUp({
+        email: email.trim().toLowerCase(),
+        password,
+      })
+
+      if (signUpError) {
+        if (signUpError.message?.toLowerCase().includes('already registered')) {
+          setError('An account with this email already exists. Try logging in instead.')
+        } else {
+          setError(signUpError.message || 'Failed to create account. Please try again.')
+        }
+        setLoading(false)
+        return
+      }
+
+      // Auth account created — now create user in mytwenties_users
       const res = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -202,9 +223,33 @@ function StartPageInner() {
             />
           </div>
 
+          <div>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: 'var(--brand-text-muted)', marginBottom: '8px' }}>
+              Create Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="At least 6 characters"
+              autoComplete="new-password"
+              style={{
+                width: '100%', padding: '14px 16px',
+                background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                borderRadius: '12px', color: 'var(--brand-text)', fontSize: '1rem',
+                outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit'
+              }}
+              onFocus={e => e.target.style.borderColor = '#3b82f6'}
+              onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
+            />
+          </div>
+
           {error && (
             <p style={{ color: '#dc2626', fontSize: '0.85rem', padding: '10px 14px', background: 'rgba(220,38,38,0.06)', borderRadius: '8px', border: '1px solid rgba(220,38,38,0.15)' }}>
               {error}
+              {error.includes('logging in') && (
+                <span> <Link href="/login" style={{ color: '#2563eb', fontWeight: 600 }}>Log in →</Link></span>
+              )}
             </p>
           )}
 
@@ -219,12 +264,15 @@ function StartPageInner() {
               opacity: loading ? 0.7 : 1, fontFamily: 'inherit'
             }}
           >
-            {loading ? 'Starting...' : 'Begin →'}
+            {loading ? 'Creating account...' : 'Begin →'}
           </button>
         </form>
 
         <p style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.78rem', color: 'var(--brand-text-subtle)', lineHeight: 1.6 }}>
-          Your responses are private. We don&apos;t share your data.
+          Already have an account?{' '}
+          <Link href="/login" style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'none' }}>
+            Log in →
+          </Link>
         </p>
       </div>
     </main>
