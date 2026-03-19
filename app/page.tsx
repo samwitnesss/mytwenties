@@ -688,6 +688,8 @@ export default function LandingPage() {
                 '/testimonials/dm6.png',
                 '/testimonials/dm4.png',
                 '/testimonials/dm2.png',
+                '/testimonials/dm7.png',
+                '/testimonials/dm8.png',
               ].map((src, i) => (
                 <div key={i} style={{
                   scrollSnapAlign: i % 2 === 0 ? 'start' : 'none',
@@ -715,6 +717,8 @@ export default function LandingPage() {
               '/testimonials/dm6.png',
               '/testimonials/dm4.png',
               '/testimonials/dm2.png',
+              '/testimonials/dm7.png',
+              '/testimonials/dm8.png',
             ].map((src, i) => (
               <div key={i} style={{ width: 'calc((100% - 2 * 1.25rem) / 3)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', border: '1px solid var(--brand-border)' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
