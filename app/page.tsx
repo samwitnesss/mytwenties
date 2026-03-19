@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 function useIsMobile() {
@@ -18,6 +18,8 @@ export default function LandingPage() {
   const isMobile = useIsMobile()
   const [reportId, setReportId] = useState<string | null>(null)
   const [firstName, setFirstName] = useState<string | null>(null)
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const rid = localStorage.getItem('mt_report_id')
@@ -681,6 +683,51 @@ export default function LandingPage() {
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
             }}>
+              {/* Video testimonial */}
+              <div style={{
+                scrollSnapAlign: 'start',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 6px 24px rgba(0,0,0,0.12)',
+                border: '1px solid var(--brand-border)',
+                position: 'relative',
+                cursor: 'pointer',
+                gridRow: 'span 2',
+              }} onClick={() => {
+                if (videoRef.current) {
+                  if (videoRef.current.paused) { videoRef.current.play(); setVideoPlaying(true) }
+                  else { videoRef.current.pause(); setVideoPlaying(false) }
+                }
+              }}>
+                <video
+                  ref={videoRef}
+                  src="/testimonials/video%20test%201.MOV"
+                  playsInline
+                  onEnded={() => setVideoPlaying(false)}
+                  style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                {!videoPlaying && (
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(0,0,0,0.25)',
+                  }}>
+                    <div style={{
+                      width: 56, height: 56, borderRadius: '50%',
+                      background: 'rgba(255,255,255,0.9)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <div style={{
+                        width: 0, height: 0,
+                        borderTop: '10px solid transparent',
+                        borderBottom: '10px solid transparent',
+                        borderLeft: '18px solid #0f172a',
+                        marginLeft: '3px',
+                      }} />
+                    </div>
+                  </div>
+                )}
+              </div>
               {[
                 '/testimonials/dm1.png',
                 '/testimonials/dm5.png',
@@ -711,6 +758,50 @@ export default function LandingPage() {
         ) : (
           /* ── Desktop: flex-wrap, natural heights, bottom row centred ── */
           <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', display: 'flex', flexWrap: 'wrap', gap: '1.25rem', justifyContent: 'center', alignItems: 'flex-start' }}>
+            {/* Video testimonial */}
+            <div style={{
+              width: 'calc((100% - 2 * 1.25rem) / 3)',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+              border: '1px solid var(--brand-border)',
+              position: 'relative',
+              cursor: 'pointer',
+            }} onClick={() => {
+              if (videoRef.current) {
+                if (videoRef.current.paused) { videoRef.current.play(); setVideoPlaying(true) }
+                else { videoRef.current.pause(); setVideoPlaying(false) }
+              }
+            }}>
+              <video
+                ref={videoRef}
+                src="/testimonials/video%20test%201.MOV"
+                playsInline
+                onEnded={() => setVideoPlaying(false)}
+                style={{ display: 'block', width: '100%', height: 'auto' }}
+              />
+              {!videoPlaying && (
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'rgba(0,0,0,0.25)',
+                }}>
+                  <div style={{
+                    width: 64, height: 64, borderRadius: '50%',
+                    background: 'rgba(255,255,255,0.9)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <div style={{
+                      width: 0, height: 0,
+                      borderTop: '12px solid transparent',
+                      borderBottom: '12px solid transparent',
+                      borderLeft: '20px solid #0f172a',
+                      marginLeft: '4px',
+                    }} />
+                  </div>
+                </div>
+              )}
+            </div>
             {[
               '/testimonials/dm1.png',
               '/testimonials/dm5.png',
