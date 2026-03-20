@@ -258,7 +258,7 @@ export default function AdminPage() {
                     <td style={{ padding: '14px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>
                       {new Date(u.completedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right' }}>
+                    <td style={{ padding: '14px 16px', textAlign: 'right', whiteSpace: 'nowrap' }}>
                       <a
                         href={'/report/' + u.reportId + '?unlocked=1'}
                         target="_blank"
@@ -273,6 +273,24 @@ export default function AdminPage() {
                       >
                         View Report
                       </a>
+                      {u.tier === 'accelerator' && (
+                        <a
+                          href={'/portal?preview_user=' + u.userId}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-block', padding: '8px 16px',
+                            color: '#06b6d4', borderRadius: '8px',
+                            fontSize: '0.85rem', fontWeight: 600,
+                            textDecoration: 'none', whiteSpace: 'nowrap',
+                            marginLeft: '8px',
+                            background: 'rgba(6,182,212,0.08)',
+                            border: '1px solid rgba(6,182,212,0.2)',
+                          }}
+                        >
+                          View Portal
+                        </a>
+                      )}
                     </td>
                   </tr>
                 ))

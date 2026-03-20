@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { PortalUserContext } from '@/app/portal/layout'
 import { ASSET_CONFIG, AssetType } from '@/lib/accelerator-data'
 
@@ -22,7 +23,7 @@ interface AssetEntry {
 // Asset Card
 // ─────────────────────────────────────────────
 
-function AssetCard({ asset, programWeek }: { asset: AssetEntry; programWeek: number }) {
+function AssetCard({ asset, programWeek, previewUser }: { asset: AssetEntry; programWeek: number; previewUser?: string | null }) {
   const unlocked = asset.weekUnlock <= programWeek
 
   return (
@@ -96,7 +97,7 @@ function AssetCard({ asset, programWeek }: { asset: AssetEntry; programWeek: num
 
       {/* Action */}
       {unlocked ? (
-        <Link href={`/portal/assets/${asset.type}`} style={{
+        <Link href={`/portal/assets/${asset.type}${previewUser ? `?preview_user=${previewUser}` : ''}`} style={{
           display: 'inline-block',
           marginTop: 4,
           padding: '9px 18px',
@@ -244,6 +245,8 @@ function ReportBanner() {
 
 export default function PortalPage() {
   const user = useContext(PortalUserContext)
+  const searchParams = useSearchParams()
+  const previewUser = searchParams.get('preview_user')
 
   // Layout handles loading; if user is null after load, show nothing meaningful
   if (!user) return null
@@ -338,7 +341,7 @@ export default function PortalPage() {
             gap: 16,
           }}>
             {assets.map(asset => (
-              <AssetCard key={asset.type} asset={asset} programWeek={programWeek} />
+              <AssetCard key={asset.type} asset={asset} programWeek={programWeek} previewUser={previewUser} />
             ))}
           </div>
         </section>

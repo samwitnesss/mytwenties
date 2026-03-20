@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PortalUserContext } from '@/app/portal/layout'
@@ -322,6 +322,7 @@ function NotFound() {
 
 export default function AssetPage() {
   const params = useParams()
+  const searchParams = useSearchParams()
   const user = useContext(PortalUserContext)
   const type = params?.type as AssetType
 
@@ -337,7 +338,7 @@ export default function AssetPage() {
       return
     }
 
-    const userId = localStorage.getItem('mt_user_id')
+    const userId = searchParams.get('preview_user') || localStorage.getItem('mt_user_id')
     if (!userId) {
       setLoading(false)
       return

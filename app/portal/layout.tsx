@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { LayoutDashboard, FileText, Settings } from 'lucide-react'
 import type { PortalUser } from '@/lib/accelerator-data'
 
@@ -402,13 +402,18 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [user, setUser] = useState<PortalUser | null>(null)
   const [loading, setLoading] = useState(true)
   const [accessDenied, setAccessDenied] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [adminPreview, setAdminPreview] = useState(false)
 
   useEffect(() => {
-    const userId = localStorage.getItem('mt_user_id')
+    const previewUserId = searchParams.get('preview_user')
+    const userId = previewUserId || localStorage.getItem('mt_user_id')
+
+    if (previewUserId) setAdminPreview(true)
 
     if (!userId) {
       router.replace('/')
@@ -448,6 +453,20 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
   return (
     <PortalUserContext.Provider value={user}>
+      {adminPreview && (
+        <div style={{
+          position: 'sticky', top: 0, zIndex: 100,
+          background: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
+          color: '#ffffff', textAlign: 'center',
+          padding: '8px 16px', fontSize: '0.8rem', fontWeight: 600,
+          letterSpacing: '0.02em',
+        }}>
+          Admin Preview — Viewing {user?.firstName}&apos;s Portal
+          <a href="/admin" style={{ color: '#ffffff', marginLeft: '16px', textDecoration: 'underline', fontWeight: 700 }}>
+            ← Back to Admin
+          </a>
+        </div>
+      )}
       <style>{`
         @media (min-width: 768px) {
           .portal-mobile-sidebar { display: none !important; }
