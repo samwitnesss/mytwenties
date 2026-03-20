@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams, useSearchParams } from 'next/navigation'
-import { useContext, useEffect, useState } from 'react'
+import { Suspense, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PortalUserContext } from '@/app/portal/layout'
 import { ASSET_CONFIG, AssetType, SessionNotesData, RoadmapData } from '@/lib/accelerator-data'
@@ -321,6 +321,14 @@ function NotFound() {
 // ─────────────────────────────────────────────
 
 export default function AssetPage() {
+  return (
+    <Suspense>
+      <AssetPageInner />
+    </Suspense>
+  )
+}
+
+function AssetPageInner() {
   const params = useParams()
   const searchParams = useSearchParams()
   const user = useContext(PortalUserContext)

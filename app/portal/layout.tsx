@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { Suspense, createContext, useContext, useEffect, useState } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { LayoutDashboard, FileText, Settings } from 'lucide-react'
 import type { PortalUser } from '@/lib/accelerator-data'
@@ -401,6 +401,14 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
 // ─────────────────────────────────────────────
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <PortalLayoutInner>{children}</PortalLayoutInner>
+    </Suspense>
+  )
+}
+
+function PortalLayoutInner({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [user, setUser] = useState<PortalUser | null>(null)

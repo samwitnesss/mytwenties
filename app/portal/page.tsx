@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import { Suspense, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { PortalUserContext } from '@/app/portal/layout'
@@ -244,6 +244,14 @@ function ReportBanner() {
 // ─────────────────────────────────────────────
 
 export default function PortalPage() {
+  return (
+    <Suspense>
+      <PortalPageInner />
+    </Suspense>
+  )
+}
+
+function PortalPageInner() {
   const user = useContext(PortalUserContext)
   const searchParams = useSearchParams()
   const previewUser = searchParams.get('preview_user')
