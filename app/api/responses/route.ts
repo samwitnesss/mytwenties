@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
+import { rateLimit } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, 'responses', 50, 60)
+  if (limited) return limited
+
   try {
     const { userId, section, questionId, responseType, responseValue } = await req.json()
 
