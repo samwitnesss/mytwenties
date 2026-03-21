@@ -873,7 +873,7 @@ export default function LandingPage() {
             boxShadow: '0 8px 32px rgba(0,0,0,0.08)'
           }}>
             <img
-              src="/Smiling headshot.png"
+              src="/sam-headshot.png"
               alt="Sam Witness"
               style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
             />
@@ -883,7 +883,7 @@ export default function LandingPage() {
             <strong>Sam Witness</strong> is a filmmaker, mentor, and creator who helps young people escape the University Tunnel and design lives of freedom, creativity, and purpose.
           </p>
           <p style={{ fontSize: '1.05rem', color: 'var(--brand-text)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto 1.25rem' }}>
-            After dropping out of university at 20 with no plan, just a camera and a calling, Sam turned his passion into a global movement inspiring thousands to choose a different path. Through his videos, writing, and mentorship, he equips young adults to ditch the script and build a life that&apos;s truly their own.
+            After dropping out of university at 19 with no plan, just a camera and a calling, Sam turned his passion into a global movement inspiring thousands to choose a different path. Through his videos, writing, and mentorship, he equips young adults to ditch the script and build a life that&apos;s truly their own.
           </p>
           <p style={{ fontSize: '1.05rem', color: 'var(--brand-text)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
             <span className="gradient-text" style={{ fontWeight: 700, fontStyle: 'italic' }}>MyTwenties</span>{' '}
