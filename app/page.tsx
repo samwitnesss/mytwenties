@@ -861,9 +861,10 @@ export default function LandingPage() {
       {/* ─── MEET THE FOUNDER ─────────────────────────── */}
       <section style={{ padding: '5rem 1.5rem', maxWidth: '720px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
-            Meet the Founder
-          </p>
+          <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.02em' }}>
+            <span style={{ color: 'var(--brand-text)' }}>Meet the </span>
+            <span className="gradient-text">Founder.</span>
+          </h2>
         </div>
 
         <div style={{ textAlign: 'center' }}>
