@@ -2,9 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-
-const AnalyticsPanel = dynamic(() => import('@/components/admin/AnalyticsPanel'), { ssr: false })
 
 interface UserReport {
   reportId: string
@@ -37,6 +34,29 @@ interface AnalyticsData {
   }[]
 }
 
+function rateColor(rate: number): string {
+  if (rate >= 70) return '#16a34a'
+  if (rate >= 40) return '#d97706'
+  return '#dc2626'
+}
+
+function StatCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
+  return (
+    <div style={{
+      background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+      borderRadius: '14px', padding: '1.25rem 1.5rem'
+    }}>
+      <div style={{ fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--brand-text-mid)', marginBottom: '8px' }}>
+        {label}
+      </div>
+      <div style={{ fontSize: '1.8rem', fontWeight: 800, color: color || 'var(--brand-text)' }}>
+        {value}
+      </div>
+      {sub && <div style={{ fontSize: '0.8rem', color: 'var(--brand-text-mid)', marginTop: '4px' }}>{sub}</div>}
+    </div>
+  )
+}
+
 export default function AdminPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -51,7 +71,6 @@ export default function AdminPage() {
   const [analyticsError, setAnalyticsError] = useState('')
   const [analyticsFetched, setAnalyticsFetched] = useState(false)
 
-  // Store credentials for analytics fetch
   const [authEmail, setAuthEmail] = useState('')
   const [authPassword, setAuthPassword] = useState('')
 
@@ -267,7 +286,6 @@ export default function AdminPage() {
         {/* Reports Tab */}
         {activeTab === 'reports' && (
           <>
-            {/* Search */}
             <div style={{ marginBottom: '1.5rem' }}>
               <input
                 type="text"
@@ -285,7 +303,6 @@ export default function AdminPage() {
               />
             </div>
 
-            {/* Table */}
             <div style={{
               overflowX: 'auto', borderRadius: '14px',
               border: '1px solid var(--brand-border)',
@@ -418,7 +435,135 @@ export default function AdminPage() {
             )}
 
             {analytics && !analyticsLoading && (
-              <AnalyticsPanel analytics={analytics} />
+              <>
+                {/* Stat Cards */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                  <StatCard
+                    label="Total Users"
+                    value={String(analytics.funnel.totalUsers)}
+                    sub="All signups"
+                  />
+                  <StatCard
+                    label="Completion Rate"
+                    value={`${analytics.funnel.completionRate}%`}
+                    sub={`${analytics.funnel.completedReports} of ${analytics.funnel.totalUsers} completed`}
+                    color={rateColor(analytics.funnel.completionRate)}
+                  />
+                  <StatCard
+                    label="Conversion Rate"
+                    value={analytics.funnel.completedReports > 0 ? `${analytics.funnel.conversionRate}%` : '\u2014'}
+                    sub={analytics.funnel.completedReports > 0 ? `${analytics.funnel.paidReports} paid of ${analytics.funnel.completedReports}` : 'No completed reports yet'}
+                    color={analytics.funnel.completedReports > 0 ? rateColor(analytics.funnel.conversionRate) : undefined}
+                  />
+                  <StatCard
+                    label="Call Bookings"
+                    value="\u2014"
+                    sub="Coming soon"
+                  />
+                </div>
+
+                {/* Drop-off by Section */}
+                <div style={{
+                  background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                  borderRadius: '14px', padding: '1.5rem', marginBottom: '1.5rem'
+                }}>
+                  <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '0 0 1rem 0', color: 'var(--brand-text)' }}>
+                    Drop-off by Section
+                  </h3>
+                  {analytics.dropOffBySection.length > 0 ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {analytics.dropOffBySection.map(d => {
+                        const maxCount = Math.max(...analytics.dropOffBySection.map(x => x.count), 1)
+                        return (
+                          <div key={d.section} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '140px', flexShrink: 0, fontSize: '0.82rem', color: 'var(--brand-text-mid)', textAlign: 'right' }}>
+                              {d.section}
+                            </div>
+                            <div style={{ flex: 1, background: 'var(--brand-border)', borderRadius: '4px', height: '24px', overflow: 'hidden' }}>
+                              <div style={{
+                                width: `${(d.count / maxCount) * 100}%`,
+                                height: '100%',
+                                background: 'linear-gradient(90deg, #2563eb, #06b6d4)',
+                                borderRadius: '4px',
+                                minWidth: d.count > 0 ? '2px' : '0'
+                              }} />
+                            </div>
+                            <div style={{ width: '30px', fontSize: '0.82rem', fontWeight: 600, color: 'var(--brand-text)' }}>
+                              {d.count}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <p style={{ color: 'var(--brand-text-mid)', fontSize: '0.9rem' }}>Not enough data yet</p>
+                  )}
+                </div>
+
+                {/* Recent Drop-offs Table */}
+                <div style={{
+                  background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                  borderRadius: '14px', overflow: 'hidden'
+                }}>
+                  <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--brand-border)' }}>
+                    <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: 0, color: 'var(--brand-text)' }}>
+                      Recent Drop-offs
+                    </h3>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-mid)', marginTop: '4px' }}>
+                      Users who signed up but haven&#39;t completed the assessment
+                    </p>
+                  </div>
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid var(--brand-border)' }}>
+                          <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</th>
+                          <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</th>
+                          <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Questions</th>
+                          <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Last Section</th>
+                          <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Signed Up</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {analytics.recentDropOffs.length === 0 ? (
+                          <tr>
+                            <td colSpan={5} style={{ padding: '2rem 16px', textAlign: 'center', color: 'var(--brand-text-mid)', fontSize: '0.9rem' }}>
+                              No drop-offs &#8212; everyone completed!
+                            </td>
+                          </tr>
+                        ) : (
+                          analytics.recentDropOffs.map((d, i) => (
+                            <tr key={i} style={{ borderBottom: '1px solid var(--brand-border)' }}>
+                              <td style={{ padding: '12px 16px', fontWeight: 600, fontSize: '0.9rem', color: 'var(--brand-text)' }}>
+                                {d.firstName}
+                              </td>
+                              <td style={{ padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>
+                                {d.email}
+                              </td>
+                              <td style={{ padding: '12px 16px' }}>
+                                <span style={{
+                                  display: 'inline-block', padding: '3px 10px',
+                                  background: d.questionsAnswered === 0 ? 'rgba(220,38,38,0.08)' : 'rgba(37,99,235,0.08)',
+                                  color: d.questionsAnswered === 0 ? '#dc2626' : '#2563eb',
+                                  borderRadius: '6px', fontSize: '0.8rem', fontWeight: 500
+                                }}>
+                                  {d.questionsAnswered} / 75
+                                </span>
+                              </td>
+                              <td style={{ padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>
+                                {d.lastSection || '\u2014'}
+                              </td>
+                              <td style={{ padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>
+                                {new Date(d.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })}
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         )}
