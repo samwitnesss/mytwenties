@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { rateLimit } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, 'checkout', 5, 60) // 5 checkout attempts per minute
+  if (limited) return limited
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-02-25.clover' })
   try {
     const { reportId, userId } = await req.json()

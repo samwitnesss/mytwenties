@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
-
-const ADMIN_PASSWORD = 'Witness.change1'
-const ADMIN_EMAIL = 'sam@samwitness.com'
+import { rateLimit } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, 'admin', 5, 60) // 5 attempts per minute
+  if (limited) return limited
+
   try {
     const { email, password } = await req.json()
 
-    if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+    const adminEmail = process.env.ADMIN_EMAIL || 'sam@samwitness.com'
+    const adminPassword = process.env.ADMIN_SECRET
+    if (!adminPassword || email !== adminEmail || password !== adminPassword) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
