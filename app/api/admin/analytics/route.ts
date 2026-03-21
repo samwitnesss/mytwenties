@@ -94,11 +94,11 @@ export async function POST(req: NextRequest) {
         if (responses) allDroppedResponses.push(...responses)
       }
 
-      // Group responses by user
-      const responsesByUser = new Map<string, string[]>()
+      // Group responses by user (deduplicate by question_id)
+      const responsesByUser = new Map<string, Set<string>>()
       for (const r of allDroppedResponses) {
-        const existing = responsesByUser.get(r.user_id) ?? []
-        existing.push(r.question_id)
+        const existing = responsesByUser.get(r.user_id) ?? new Set<string>()
+        existing.add(r.question_id)
         responsesByUser.set(r.user_id, existing)
       }
 
@@ -106,10 +106,10 @@ export async function POST(req: NextRequest) {
       const droppedUsersMap = new Map(allUsers.filter(u => !userReportMap.has(u.id)).map(u => [u.id, u]))
 
       for (const userId of droppedUserIds) {
-        const questionIds = responsesByUser.get(userId) ?? []
+        const questionIds = responsesByUser.get(userId) ?? new Set<string>()
         const user = droppedUsersMap.get(userId)
 
-        if (questionIds.length === 0) {
+        if (questionIds.size === 0) {
           sectionCounts['Never Started']++
           if (user) {
             droppedUserDetails.push({
@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
           // Find the highest section index among answered questions
           let maxSectionIndex = 0
           let maxSectionTitle = SECTIONS[0].title
-          for (const qid of questionIds) {
+          for (const qid of Array.from(questionIds)) {
             const mapping = QUESTION_SECTION_MAP[qid]
             if (mapping && mapping.index >= maxSectionIndex) {
               maxSectionIndex = mapping.index
@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
             droppedUserDetails.push({
               firstName: user.first_name ?? 'Unknown',
               email: user.email ?? 'Unknown',
-              questionsAnswered: questionIds.length,
+              questionsAnswered: questionIds.size,
               lastSection: maxSectionTitle,
               signedUp: user.created_at,
             })
