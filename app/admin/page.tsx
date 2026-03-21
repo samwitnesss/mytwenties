@@ -24,6 +24,13 @@ export default function AdminPage() {
   const [users, setUsers] = useState<UserReport[]>([])
   const [search, setSearch] = useState('')
   const [activeTab, setActiveTab] = useState<'reports' | 'analytics'>('reports')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [analytics, setAnalytics] = useState<any>(null)
+  const [analyticsLoading, setAnalyticsLoading] = useState(false)
+  const [analyticsError, setAnalyticsError] = useState('')
+  const [analyticsFetched, setAnalyticsFetched] = useState(false)
+  const [authEmail, setAuthEmail] = useState('')
+  const [authPassword, setAuthPassword] = useState('')
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -49,12 +56,37 @@ export default function AdminPage() {
       }
 
       setUsers(data.users)
+      setAuthEmail(email.trim())
+      setAuthPassword(password)
       setAuthed(true)
       setLoading(false)
     } catch {
       setError('Something went wrong.')
       setLoading(false)
     }
+  }
+
+  async function fetchAnalytics() {
+    if (analyticsFetched) return
+    setAnalyticsLoading(true)
+    setAnalyticsError('')
+    try {
+      const res = await fetch('/api/admin/analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: authEmail, password: authPassword })
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setAnalyticsError(data.error || 'Failed to load analytics.')
+      } else {
+        setAnalytics(data)
+        setAnalyticsFetched(true)
+      }
+    } catch {
+      setAnalyticsError('Something went wrong loading analytics.')
+    }
+    setAnalyticsLoading(false)
   }
 
   const filtered = users.filter(u => {
@@ -206,8 +238,113 @@ export default function AdminPage() {
         </div>
 
         {activeTab === 'analytics' && (
-          <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--brand-text-mid)' }}>
-            Analytics coming soon.
+          <div>
+            {!analyticsFetched && !analyticsLoading && !analyticsError && (
+              <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                <button
+                  onClick={fetchAnalytics}
+                  className="gradient-btn"
+                  style={{ padding: '12px 28px', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+                >
+                  Load Analytics
+                </button>
+              </div>
+            )}
+
+            {analyticsLoading && (
+              <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--brand-text-mid)' }}>Loading analytics...</div>
+            )}
+
+            {analyticsError && (
+              <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                <p style={{ color: '#dc2626', fontSize: '0.9rem' }}>{analyticsError}</p>
+                <button onClick={() => { setAnalyticsFetched(false); setAnalyticsError(''); fetchAnalytics() }} style={{ marginTop: '1rem', padding: '8px 20px', background: 'var(--brand-card)', border: '1px solid var(--brand-border)', borderRadius: '8px', color: 'var(--brand-text)', cursor: 'pointer', fontFamily: 'inherit' }}>Retry</button>
+              </div>
+            )}
+
+            {analytics && (
+              <>
+                {/* Stat Cards */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                  <div style={{ background: 'var(--brand-card)', border: '1px solid var(--brand-border)', borderRadius: '14px', padding: '1.25rem 1.5rem' }}>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--brand-text-mid)', marginBottom: '8px' }}>Total Users</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--brand-text)' }}>{analytics.funnel?.totalUsers ?? 0}</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--brand-text-mid)', marginTop: '4px' }}>All signups</div>
+                  </div>
+                  <div style={{ background: 'var(--brand-card)', border: '1px solid var(--brand-border)', borderRadius: '14px', padding: '1.25rem 1.5rem' }}>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--brand-text-mid)', marginBottom: '8px' }}>Completion Rate</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, color: (analytics.funnel?.completionRate ?? 0) >= 70 ? '#16a34a' : (analytics.funnel?.completionRate ?? 0) >= 40 ? '#d97706' : '#dc2626' }}>{analytics.funnel?.completionRate ?? 0}%</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--brand-text-mid)', marginTop: '4px' }}>{analytics.funnel?.usersWithReport ?? 0} of {analytics.funnel?.totalUsers ?? 0} completed</div>
+                  </div>
+                  <div style={{ background: 'var(--brand-card)', border: '1px solid var(--brand-border)', borderRadius: '14px', padding: '1.25rem 1.5rem' }}>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--brand-text-mid)', marginBottom: '8px' }}>Conversion Rate</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, color: (analytics.funnel?.conversionRate ?? 0) >= 70 ? '#16a34a' : (analytics.funnel?.conversionRate ?? 0) >= 40 ? '#d97706' : '#dc2626' }}>{analytics.funnel?.conversionRate ?? 0}%</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--brand-text-mid)', marginTop: '4px' }}>{analytics.funnel?.paidReports ?? 0} paid of {analytics.funnel?.usersWithReport ?? 0}</div>
+                  </div>
+                  <div style={{ background: 'var(--brand-card)', border: '1px solid var(--brand-border)', borderRadius: '14px', padding: '1.25rem 1.5rem' }}>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--brand-text-mid)', marginBottom: '8px' }}>Call Bookings</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--brand-text)' }}>{'\u2014'}</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--brand-text-mid)', marginTop: '4px' }}>Coming soon</div>
+                  </div>
+                </div>
+
+                {/* Drop-off by Section */}
+                {Array.isArray(analytics.dropOff) && analytics.dropOff.length > 0 && (
+                  <div style={{ background: 'var(--brand-card)', border: '1px solid var(--brand-border)', borderRadius: '14px', padding: '1.5rem', marginBottom: '1.5rem' }}>
+                    <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '0 0 1rem 0', color: 'var(--brand-text)' }}>Drop-off by Section</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {analytics.dropOff.map((d: { section: string; count: number }) => (
+                        <div key={d.section} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <div style={{ width: '140px', flexShrink: 0, fontSize: '0.82rem', color: 'var(--brand-text-mid)', textAlign: 'right' }}>{d.section}</div>
+                          <div style={{ flex: 1, background: 'var(--brand-border)', borderRadius: '4px', height: '24px', overflow: 'hidden' }}>
+                            <div style={{ width: `${Math.max(1, (d.count / Math.max(...analytics.dropOff.map((x: { count: number }) => x.count), 1)) * 100)}%`, height: '100%', background: 'linear-gradient(90deg, #2563eb, #06b6d4)', borderRadius: '4px', minWidth: d.count > 0 ? '2px' : '0' }} />
+                          </div>
+                          <div style={{ width: '30px', fontSize: '0.82rem', fontWeight: 600, color: 'var(--brand-text)' }}>{d.count}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Recent Drop-offs Table */}
+                {Array.isArray(analytics.recentDropOffs) && analytics.recentDropOffs.length > 0 && (
+                  <div style={{ background: 'var(--brand-card)', border: '1px solid var(--brand-border)', borderRadius: '14px', overflow: 'hidden' }}>
+                    <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--brand-border)' }}>
+                      <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: 0, color: 'var(--brand-text)' }}>Recent Drop-offs</h3>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-mid)', marginTop: '4px' }}>Users who signed up but have not completed the assessment</p>
+                    </div>
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid var(--brand-border)' }}>
+                            <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</th>
+                            <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</th>
+                            <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Questions</th>
+                            <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Last Section</th>
+                            <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--brand-text-mid)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Signed Up</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {analytics.recentDropOffs.map((d: { firstName: string; email: string; questionsAnswered: number; lastSection: string; signedUp: string }, i: number) => (
+                            <tr key={i} style={{ borderBottom: '1px solid var(--brand-border)' }}>
+                              <td style={{ padding: '12px 16px', fontWeight: 600, fontSize: '0.9rem', color: 'var(--brand-text)' }}>{d.firstName}</td>
+                              <td style={{ padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>{d.email}</td>
+                              <td style={{ padding: '12px 16px' }}>
+                                <span style={{ display: 'inline-block', padding: '3px 10px', background: d.questionsAnswered === 0 ? 'rgba(220,38,38,0.08)' : 'rgba(37,99,235,0.08)', color: d.questionsAnswered === 0 ? '#dc2626' : '#2563eb', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 500 }}>
+                                  {d.questionsAnswered} / 75
+                                </span>
+                              </td>
+                              <td style={{ padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>{d.lastSection || '\u2014'}</td>
+                              <td style={{ padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>{new Date(d.signedUp).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         )}
 
