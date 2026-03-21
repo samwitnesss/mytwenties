@@ -858,6 +858,40 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ─── MEET THE FOUNDER ─────────────────────────── */}
+      <section style={{ padding: '5rem 1.5rem', maxWidth: '720px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <p style={{ fontSize: '0.73rem', color: 'var(--brand-text-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.75rem', fontWeight: 600 }}>
+            Meet the Founder
+          </p>
+        </div>
+
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '220px', height: '220px', borderRadius: '50%', margin: '0 auto 2rem',
+            overflow: 'hidden', border: '3px solid var(--brand-border)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.08)'
+          }}>
+            <img
+              src="/Smiling headshot.png"
+              alt="Sam Witness"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+            />
+          </div>
+
+          <p style={{ fontSize: '1.05rem', color: 'var(--brand-text)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto 1.25rem' }}>
+            <strong>Sam Witness</strong> is a filmmaker, mentor, and creator who helps young people escape the University Tunnel and design lives of freedom, creativity, and purpose.
+          </p>
+          <p style={{ fontSize: '1.05rem', color: 'var(--brand-text)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto 1.25rem' }}>
+            After dropping out of university at 20 with no plan, just a camera and a calling, Sam turned his passion into a global movement inspiring thousands to choose a different path. Through his videos, writing, and mentorship, he equips young adults to ditch the script and build a life that&apos;s truly their own.
+          </p>
+          <p style={{ fontSize: '1.05rem', color: 'var(--brand-text)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
+            <span className="gradient-text" style={{ fontWeight: 700, fontStyle: 'italic' }}>MyTwenties</span>{' '}
+            <strong>is the tool he wished existed when he was figuring it all out.</strong>
+          </p>
+        </div>
+      </section>
+
       {/* ─── FINAL CTA ───────────────────────────────── */}
       <section style={{ padding: '7rem 1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="animate-pulse-glow" style={{
@@ -892,9 +926,6 @@ export default function LandingPage() {
           </Link>
           <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
             Free · 25 min · Your data is private.
-          </p>
-          <p style={{ marginTop: '2.5rem', fontSize: '0.78rem', color: 'var(--brand-text-subtle)', lineHeight: 1.6 }}>
-            Built by Sam — a 22-year-old who dropped out at 19 and has since coached 100+ young people through this exact problem.
           </p>
         </div>
       </section>
