@@ -46,10 +46,10 @@ export async function POST(req: NextRequest) {
       if (userId) {
         const { data: user } = await admin
           .from('mytwenties_users')
-          .select('email, first_name')
+          .select('email, first_name, phone')
           .eq('id', userId)
           .single()
-        if (user?.email) notifyGHL(user.email, user.first_name || 'Unknown', ['mytwenties-paid'])
+        if (user?.email) notifyGHL('paid', user.email, user.first_name || 'Unknown', user.phone)
       }
     }
   }

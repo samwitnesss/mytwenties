@@ -179,7 +179,7 @@ Remember: be specific to their exact answers. Reference what they actually said.
     // Look up user email for GHL notification
     const { data: userData } = await admin
       .from('mytwenties_users')
-      .select('email')
+      .select('email, phone')
       .eq('id', userId)
       .single()
 
@@ -210,12 +210,12 @@ Remember: be specific to their exact answers. Reference what they actually said.
         return NextResponse.json({ error: 'Failed to save report' }, { status: 500 })
       }
 
-      if (userData?.email) notifyGHL(userData.email, firstName || 'Unknown', ['mytwenties-completed'])
+      if (userData?.email) notifyGHL('completed', userData.email, firstName || 'Unknown', userData.phone)
       return NextResponse.json({ reportId: freshReport.id })
     }
 
     // Notify GHL — report completed
-    if (userData?.email) notifyGHL(userData.email, firstName || 'Unknown', ['mytwenties-completed'])
+    if (userData?.email) notifyGHL('completed', userData.email, firstName || 'Unknown', userData.phone)
 
     return NextResponse.json({ reportId: updatedReport.id })
 

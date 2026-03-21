@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Notify GHL — new account created
-    notifyGHL(data.email, data.first_name, ['mytwenties-started'], data.phone)
+    notifyGHL('started', data.email, data.first_name, data.phone)
 
     return NextResponse.json({
       userId: data.id,
