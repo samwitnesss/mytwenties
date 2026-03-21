@@ -119,7 +119,7 @@ Use the profile above so every paid section directly references their archetype,
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-6',
-      max_tokens: 4500,
+      max_tokens: 5500,
       messages: [{ role: 'user', content: userMessage }],
       system: PAID_SYSTEM_PROMPT,
     })
