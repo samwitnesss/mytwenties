@@ -52,11 +52,11 @@ export default function PreCallThirdPath() {
 
         {/* Step 1 */}
         <div style={{
-          background: 'var(--brand-card)',
-          border: '1px solid rgba(37,99,235,0.15)',
-          borderRadius: '20px', padding: '2rem', marginBottom: '1.5rem',
+          background: 'linear-gradient(135deg, #0f172a, #1e293b)',
+          border: '1px solid rgba(37,99,235,0.25)',
+          borderRadius: '20px', padding: '2.25rem', marginBottom: '1.5rem',
           position: 'relative', overflow: 'hidden',
-          boxShadow: '0 4px 24px rgba(37,99,235,0.08), 0 1px 3px rgba(0,0,0,0.04)'
+          boxShadow: '0 8px 32px rgba(15,23,42,0.4), 0 2px 8px rgba(37,99,235,0.15)'
         }}>
           {/* Top accent line */}
           <div style={{
@@ -85,22 +85,22 @@ export default function PreCallThirdPath() {
             <span style={{
               width: '36px', height: '36px', borderRadius: '50%', flexShrink: 0,
               background: hasReport
-                ? 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(22,163,74,0.08))'
-                : 'linear-gradient(135deg, rgba(37,99,235,0.12), rgba(6,182,212,0.08))',
-              border: hasReport ? '1.5px solid rgba(34,197,94,0.3)' : '1.5px solid rgba(37,99,235,0.25)',
+                ? 'linear-gradient(135deg, rgba(34,197,94,0.2), rgba(22,163,74,0.12))'
+                : 'linear-gradient(135deg, rgba(37,99,235,0.2), rgba(6,182,212,0.12))',
+              border: hasReport ? '1.5px solid rgba(34,197,94,0.4)' : '1.5px solid rgba(37,99,235,0.35)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '0.85rem', fontWeight: 800,
               color: hasReport ? '#16a34a' : '#2563eb'
             }}>1</span>
             <h2 style={{
-              fontSize: '1.25rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0
+              fontSize: '1.25rem', fontWeight: 700, color: '#f1f5f9', margin: 0
             }}>
               Take the MyTwenties Assessment
             </h2>
           </div>
 
           <p style={{
-            fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7,
+            fontSize: '0.92rem', color: '#94a3b8', lineHeight: 1.7,
             marginBottom: hasReport ? '0' : '1.5rem', paddingLeft: '50px'
           }}>
             In 25 minutes you&apos;ll have more clarity on your situation than school ever gave you. We&apos;ll both have a crystal-clear picture of where you are and where you should be heading, so we can make the absolute most of our time together.
@@ -108,7 +108,7 @@ export default function PreCallThirdPath() {
 
           {hasReport ? (
             <p style={{
-              fontSize: '0.9rem', color: '#16a34a', fontWeight: 600,
+              fontSize: '0.9rem', color: '#4ade80', fontWeight: 600,
               paddingLeft: '50px', margin: 0
             }}>
               Completed
@@ -133,11 +133,11 @@ export default function PreCallThirdPath() {
 
         {/* Step 2 */}
         <div style={{
-          background: 'var(--brand-card)',
-          border: '1px solid rgba(6,182,212,0.15)',
-          borderRadius: '20px', padding: '2rem', marginBottom: '2.5rem',
+          background: 'linear-gradient(135deg, #0f172a, #1e293b)',
+          border: '1px solid rgba(6,182,212,0.25)',
+          borderRadius: '20px', padding: '2.25rem', marginBottom: '2.5rem',
           position: 'relative', overflow: 'hidden',
-          boxShadow: '0 4px 24px rgba(6,182,212,0.08), 0 1px 3px rgba(0,0,0,0.04)'
+          boxShadow: '0 8px 32px rgba(15,23,42,0.4), 0 2px 8px rgba(6,182,212,0.15)'
         }}>
           {/* Top accent line */}
           <div style={{
@@ -151,20 +151,20 @@ export default function PreCallThirdPath() {
           }}>
             <span style={{
               width: '36px', height: '36px', borderRadius: '50%', flexShrink: 0,
-              background: 'linear-gradient(135deg, rgba(6,182,212,0.12), rgba(37,99,235,0.08))',
-              border: '1.5px solid rgba(6,182,212,0.25)',
+              background: 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(37,99,235,0.12))',
+              border: '1.5px solid rgba(6,182,212,0.35)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '0.85rem', fontWeight: 800, color: '#0891b2'
             }}>2</span>
             <h2 style={{
-              fontSize: '1.25rem', fontWeight: 700, color: 'var(--brand-text)', margin: 0
+              fontSize: '1.25rem', fontWeight: 700, color: '#f1f5f9', margin: 0
             }}>
               Watch this before our call
             </h2>
           </div>
 
           <p style={{
-            fontSize: '0.92rem', color: 'var(--brand-text-mid)', lineHeight: 1.7,
+            fontSize: '0.92rem', color: '#94a3b8', lineHeight: 1.7,
             marginBottom: '1.5rem', paddingLeft: '50px'
           }}>
             What to expect on our call, how the MyTwenties Accelerator works, and why this isn&apos;t like anything you&apos;ve done before. Watch this so you come in ready to move, not just listen.
@@ -174,15 +174,15 @@ export default function PreCallThirdPath() {
           <div style={{ paddingLeft: '50px' }}>
             <div style={{
               width: '100%', aspectRatio: '16/9', borderRadius: '14px',
-              background: 'linear-gradient(135deg, rgba(37,99,235,0.04), rgba(6,182,212,0.06))',
-              border: '1px solid rgba(6,182,212,0.15)',
+              background: 'linear-gradient(135deg, rgba(37,99,235,0.08), rgba(6,182,212,0.1))',
+              border: '1px solid rgba(6,182,212,0.2)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               overflow: 'hidden',
-              boxShadow: '0 2px 12px rgba(6,182,212,0.06)'
+              boxShadow: '0 2px 12px rgba(6,182,212,0.08)'
             }}>
               {/* Replace this div with an iframe or video element when the URL is ready */}
               <p style={{
-                fontSize: '0.85rem', color: 'var(--brand-text-subtle)', fontWeight: 500
+                fontSize: '0.85rem', color: '#64748b', fontWeight: 500
               }}>
                 Video coming soon
               </p>
