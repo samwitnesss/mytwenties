@@ -122,7 +122,7 @@ export default function LandingPage() {
                   cursor: 'pointer', letterSpacing: '0.01em',
                   boxShadow: '0 8px 32px rgba(37,99,235,0.3)', fontFamily: 'inherit'
                 }}>
-                  Find Out What I&apos;m Built For →
+                  Start Free Assessment →
                 </button>
               </Link>
               <p style={{ fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
@@ -285,7 +285,7 @@ export default function LandingPage() {
               cursor: 'pointer', width: '100%', maxWidth: '400px',
               boxShadow: '0 8px 32px rgba(37,99,235,0.25)', fontFamily: 'inherit'
             }}>
-              Find Out What I&apos;m Built For →
+              Start Free Assessment →
             </button>
           </Link>
           <p style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--brand-text-subtle)' }}>
@@ -887,7 +887,7 @@ export default function LandingPage() {
               cursor: 'pointer', boxShadow: '0 8px 40px rgba(37,99,235,0.3)',
               fontFamily: 'inherit'
             }}>
-              Find Out What I&apos;m Built For →
+              Start Free Assessment →
             </button>
           </Link>
           <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--brand-text-subtle)' }}>
