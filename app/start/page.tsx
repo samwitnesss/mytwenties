@@ -232,7 +232,7 @@ function StartPageInner() {
               type="tel"
               value={phone}
               onChange={e => setPhone(e.target.value)}
-              placeholder="04XX XXX XXX"
+              placeholder="(+61) 4XX XXX XXX"
               autoComplete="tel"
               style={{
                 width: '100%', padding: '14px 16px',

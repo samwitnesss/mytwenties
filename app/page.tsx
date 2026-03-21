@@ -834,19 +834,19 @@ export default function LandingPage() {
           {[
             {
               q: "Is this just another MBTI or Enneagram?",
-              a: "No. Those categorise you into a type and leave you there. This analyses you — your wiring, your patterns, your specific situation — and tells you what to actually do with it."
+              a: "No. Those categorise you into a type and leave you there. This actually analyses your wiring, your patterns, and your specific situation, then tells you what to do with it."
             },
             {
               q: "How is a 25-minute assessment this accurate?",
-              a: "It's not about time — it's about the right questions. Every question in this assessment was built from real coaching conversations, not academic theory. They're designed to surface the things you already know but haven't articulated."
+              a: "It's not about time, it's about the right questions. Every question in this assessment was built from real coaching conversations, not academic theory. They're designed to surface the things you already know but haven't articulated."
             },
             {
               q: "Is it free?",
-              a: "Yes — the full assessment and your complete report are free. You won't be asked for a card or charged anything to get your results. Once you've read your report, you have the option to upgrade for $29 to unlock a deeper set of results: more detailed analysis, extended sections, and expanded direction guidance. That upgrade is entirely optional — the free report stands on its own."
+              a: "Yes. The full assessment and your complete report are free. You won't be asked for a card or charged anything to get your results. Once you've read your report, you have the option to upgrade for $29 to unlock a deeper set of results: more detailed analysis, extended sections, and expanded direction guidance. That upgrade is entirely optional and the free report stands on its own."
             },
             {
               q: "Will this actually tell me something useful?",
-              a: "Yes. The free report alone covers your core archetypes, strengths, blind spots, and direction compass. If you read it and think it's generic, you haven't lost a thing. The $29 upgrade goes further — but most people find the free version more than enough to get clarity."
+              a: "Yes. The free report alone covers your core archetypes, strengths, blind spots, and direction compass. If you read it and think it's generic, you haven't lost a thing. The $29 upgrade goes further, but most people find the free version more than enough to get clarity."
             },
             {
               q: "What happens to my answers?",
