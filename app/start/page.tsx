@@ -11,6 +11,7 @@ function StartPageInner() {
   const searchParams = useSearchParams()
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
@@ -51,7 +52,7 @@ function StartPageInner() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!firstName.trim() || !email.trim() || !password) {
+    if (!firstName.trim() || !email.trim() || !phone.trim() || !password) {
       setError('Please fill in all fields.')
       return
     }
@@ -83,7 +84,7 @@ function StartPageInner() {
       const res = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName: firstName.trim(), email: email.trim() })
+        body: JSON.stringify({ firstName: firstName.trim(), email: email.trim(), phone: phone.trim() || undefined })
       })
       const data = await res.json()
 
@@ -212,6 +213,27 @@ function StartPageInner() {
               onChange={e => setEmail(e.target.value)}
               placeholder="your@email.com"
               autoComplete="email"
+              style={{
+                width: '100%', padding: '14px 16px',
+                background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
+                borderRadius: '12px', color: 'var(--brand-text)', fontSize: '1rem',
+                outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit'
+              }}
+              onFocus={e => e.target.style.borderColor = '#3b82f6'}
+              onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: 'var(--brand-text-muted)', marginBottom: '8px' }}>
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+              placeholder="04XX XXX XXX"
+              autoComplete="tel"
               style={{
                 width: '100%', padding: '14px 16px',
                 background: 'var(--brand-card)', border: '1px solid var(--brand-border)',

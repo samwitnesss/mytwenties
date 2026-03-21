@@ -4,13 +4,16 @@ const GHL_WEBHOOK_URL =
 export async function notifyGHL(
   email: string,
   firstName: string,
-  tags: string[]
+  tags: string[],
+  phone?: string | null
 ): Promise<void> {
   try {
+    const payload: Record<string, unknown> = { email, firstName, tags }
+    if (phone) payload.phone = phone
     await fetch(GHL_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, firstName, tags }),
+      body: JSON.stringify(payload),
     })
   } catch {
     // Never block user flow if GHL is down

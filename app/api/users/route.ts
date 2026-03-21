@@ -8,10 +8,10 @@ export async function POST(req: NextRequest) {
   if (limited) return limited
 
   try {
-    const { firstName, email } = await req.json()
+    const { firstName, email, phone } = await req.json()
 
-    if (!firstName || !email) {
-      return NextResponse.json({ error: 'First name and email are required.' }, { status: 400 })
+    if (!firstName || !email || !phone) {
+      return NextResponse.json({ error: 'First name, email, and phone number are required.' }, { status: 400 })
     }
 
     const supabase = createAdminClient()
@@ -35,9 +35,10 @@ export async function POST(req: NextRequest) {
       .from('mytwenties_users')
       .insert({
         first_name: firstName.trim(),
-        email: email.toLowerCase().trim()
+        email: email.toLowerCase().trim(),
+        phone: phone.trim(),
       })
-      .select('id, email, first_name')
+      .select('id, email, first_name, phone')
       .single()
 
     if (error) {
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Notify GHL — new account created
-    notifyGHL(data.email, data.first_name, ['mytwenties-started'])
+    notifyGHL(data.email, data.first_name, ['mytwenties-started'], data.phone)
 
     return NextResponse.json({
       userId: data.id,
