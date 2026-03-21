@@ -165,7 +165,7 @@ function PaidGeneratingState({ reportId }: { reportId: string }) {
         Building your full report{dots}
       </h3>
       <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: '420px', margin: '0 auto 2rem' }}>
-        Your Business Blueprint, Career Map, Highest Leverage Move, Reading List, Personal Mentor Prompt, and The Letter are being generated now. Usually takes 15–30 seconds.
+        Your Business Blueprint, Career Map, Highest Leverage Move, Reading List, Personal Mentor Prompt, and The Letter are being generated now. Usually takes 1–2 minutes.
       </p>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
         {[0, 1, 2].map(i => (
@@ -879,6 +879,53 @@ function PremiumLabel({ icon, title }: { icon: string; title: string }) {
   )
 }
 
+function ReadingListBook({ book, index }: { book: { title: string; author: string; why: string; key_quotes?: string[] }; index: number }) {
+  const [open, setOpen] = useState(false)
+  const hasQuotes = book.key_quotes && book.key_quotes.length > 0
+  return (
+    <div style={{ background: 'var(--brand-card)', borderRadius: '16px', border: '1px solid var(--brand-border)', boxShadow: CARD, overflow: 'hidden' }}>
+      <div style={{ padding: '1.25rem 1.5rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+        <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #2563eb, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.75rem', color: '#ffffff', fontWeight: 800 }}>{index + 1}</div>
+        <div style={{ flex: 1 }}>
+          <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1px' }}>{book.title}</p>
+          <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginBottom: '5px' }}>{book.author}</p>
+          <p style={{ fontSize: '0.88rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, margin: 0 }}>{book.why}</p>
+        </div>
+      </div>
+      {hasQuotes && (
+        <>
+          <button
+            onClick={() => setOpen(!open)}
+            style={{
+              width: '100%', padding: '0.75rem 1.5rem',
+              background: open ? 'rgba(37,99,235,0.04)' : 'transparent',
+              border: 'none', borderTop: '1px solid var(--brand-border)',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              fontFamily: 'inherit', transition: 'background 0.2s'
+            }}
+          >
+            <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#2563eb' }}>
+              Key quotes for you
+            </span>
+            <span style={{ fontSize: '0.75rem', color: '#2563eb', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}>▼</span>
+          </button>
+          {open && (
+            <div style={{ padding: '0 1.5rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {book.key_quotes!.map((quote, qi) => (
+                <div key={qi} style={{ borderLeft: '3px solid rgba(37,99,235,0.3)', paddingLeft: '1rem' }}>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
+                    &ldquo;{quote}&rdquo;
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  )
+}
+
 function boldTimeMarkers(text: string): React.ReactNode {
   // Bold time markers like "— this week", "— week 2", "— month 1", "— day 90" etc.
   const parts = text.split(/(—\s*(?:this week|week \d+|month \d+|day \d+|\d+\s*weeks?|\d+\s*months?)[^—]*)/gi)
@@ -978,14 +1025,7 @@ function PremiumSections({ report }: { report: MockReport }) {
           <PremiumLabel icon="📚" title="Your Reading List" />
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {report.reading_list.map((book, i) => (
-              <div key={i} style={{ background: 'var(--brand-card)', borderRadius: '16px', padding: '1.25rem 1.5rem', border: '1px solid var(--brand-border)', boxShadow: C, display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #2563eb, #06b6d4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.75rem', color: '#ffffff', fontWeight: 800 }}>{i + 1}</div>
-                <div>
-                  <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--brand-text)', marginBottom: '1px' }}>{book.title}</p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--brand-text-subtle)', marginBottom: '5px' }}>{book.author}</p>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--brand-text-muted)', lineHeight: 1.7, margin: 0 }}>{book.why}</p>
-                </div>
-              </div>
+              <ReadingListBook key={i} book={book} index={i} />
             ))}
           </div>
         </div>

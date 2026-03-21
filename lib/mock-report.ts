@@ -204,7 +204,7 @@ export type MockReport = typeof mockReport & {
     how_to_start: string
     worst_case: string
   }
-  reading_list?: Array<{ title: string; author: string; why: string }>
+  reading_list?: Array<{ title: string; author: string; why: string; key_quotes?: string[] }>
   ai_mentor_prompt?: string
   the_letter?: string[]
 }
