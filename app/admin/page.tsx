@@ -23,6 +23,7 @@ export default function AdminPage() {
   const [error, setError] = useState('')
   const [users, setUsers] = useState<UserReport[]>([])
   const [search, setSearch] = useState('')
+  const [activeTab, setActiveTab] = useState<'reports' | 'analytics'>('reports')
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -176,6 +177,41 @@ export default function AdminPage() {
           </Link>
         </div>
 
+        {/* Tab Bar */}
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--brand-border)', marginBottom: '1.5rem' }}>
+          <button
+            onClick={() => setActiveTab('reports')}
+            style={{
+              padding: '12px 24px', background: 'none', border: 'none',
+              borderBottom: activeTab === 'reports' ? '2px solid #2563eb' : '2px solid transparent',
+              color: activeTab === 'reports' ? 'var(--brand-text)' : 'var(--brand-text-mid)',
+              fontWeight: activeTab === 'reports' ? 700 : 500,
+              fontSize: '0.95rem', cursor: 'pointer', fontFamily: 'inherit'
+            }}
+          >
+            Reports
+          </button>
+          <button
+            onClick={() => setActiveTab('analytics')}
+            style={{
+              padding: '12px 24px', background: 'none', border: 'none',
+              borderBottom: activeTab === 'analytics' ? '2px solid #2563eb' : '2px solid transparent',
+              color: activeTab === 'analytics' ? 'var(--brand-text)' : 'var(--brand-text-mid)',
+              fontWeight: activeTab === 'analytics' ? 700 : 500,
+              fontSize: '0.95rem', cursor: 'pointer', fontFamily: 'inherit'
+            }}
+          >
+            Analytics
+          </button>
+        </div>
+
+        {activeTab === 'analytics' && (
+          <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--brand-text-mid)' }}>
+            Analytics coming soon.
+          </div>
+        )}
+
+        {activeTab === 'reports' && (<>
         {/* Search */}
         <div style={{ marginBottom: '1.5rem' }}>
           <input
@@ -298,6 +334,7 @@ export default function AdminPage() {
             </tbody>
           </table>
         </div>
+        </>)}
       </div>
     </main>
   )
