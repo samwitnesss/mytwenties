@@ -52,6 +52,7 @@ RULES:
 4. Return ONLY valid JSON. No markdown, no preamble, no code fences.
 5. Be concise in each field — quality over length.
 6. NEVER fabricate quotes, statements, or specific details the person did not provide. If they didn't say it, don't put it in quotes or attribute it to them. Only reference what is explicitly in their responses.
+7. NEVER reference scores, ratings, or numbers from their answers (e.g. "you scored 5/5", "you rated yourself 4 out of 5", "your 5/5 on..."). Instead, describe what the pattern MEANS — talk like a mentor who knows them, not a system recounting data points. Say "you're intensely competitive" not "you scored 5/5 on competitiveness". Say "you pick up new skills faster than almost anyone" not "you rated yourself 5 out of 5 on skill acquisition". The person already answered the questions — they don't need their scores read back to them.
 
 ARCHETYPES: The Architect, The Connector, The Creator, The Disruptor, The Performer, The Analyst, The Caretaker, The Explorer
 
