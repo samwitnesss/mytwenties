@@ -3,6 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/server'
 import { SECTIONS } from '@/lib/questions'
 import { rateLimit } from '@/lib/rate-limit'
+import { notifyGHL } from '@/lib/ghl'
 
 export const maxDuration = 300
 
@@ -175,6 +176,13 @@ Remember: be specific to their exact answers. Reference what they actually said.
     reportData.firstName = firstName || 'You'
     reportData.generatedAt = new Date().toISOString()
 
+    // Look up user email for GHL notification
+    const { data: userData } = await admin
+      .from('mytwenties_users')
+      .select('email')
+      .eq('id', userId)
+      .single()
+
     const { data: updatedReport, error: updateError } = await admin
       .from('mytwenties_reports')
       .update({
@@ -202,8 +210,12 @@ Remember: be specific to their exact answers. Reference what they actually said.
         return NextResponse.json({ error: 'Failed to save report' }, { status: 500 })
       }
 
+      if (userData?.email) notifyGHL(userData.email, firstName || 'Unknown', ['mytwenties-completed'])
       return NextResponse.json({ reportId: freshReport.id })
     }
+
+    // Notify GHL — report completed
+    if (userData?.email) notifyGHL(userData.email, firstName || 'Unknown', ['mytwenties-completed'])
 
     return NextResponse.json({ reportId: updatedReport.id })
 

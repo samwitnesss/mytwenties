@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { rateLimit } from '@/lib/rate-limit'
+import { notifyGHL } from '@/lib/ghl'
 
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, 'signup', 10, 60) // 10 signups per minute
@@ -43,6 +44,9 @@ export async function POST(req: NextRequest) {
       console.error('Error creating user:', error)
       return NextResponse.json({ error: 'Failed to create user.' }, { status: 500 })
     }
+
+    // Notify GHL — new account created
+    notifyGHL(data.email, data.first_name, ['mytwenties-started'])
 
     return NextResponse.json({
       userId: data.id,

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createAdminClient } from '@/lib/supabase/server'
+import { notifyGHL } from '@/lib/ghl'
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -39,6 +40,16 @@ export async function POST(req: NextRequest) {
       if (updateError) {
         console.error('webhook: failed to mark report as paid_pending:', updateError, { reportId, userId })
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
+      }
+
+      // Notify GHL — payment completed
+      if (userId) {
+        const { data: user } = await admin
+          .from('mytwenties_users')
+          .select('email, first_name')
+          .eq('id', userId)
+          .single()
+        if (user?.email) notifyGHL(user.email, user.first_name || 'Unknown', ['mytwenties-paid'])
       }
     }
   }
