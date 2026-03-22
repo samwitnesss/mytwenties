@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   if (limited) return limited
 
   try {
-    const { email, password } = await req.json()
+    const { email, password, date } = await req.json()
 
     const adminEmail = process.env.ADMIN_EMAIL || 'sam@samwitness.com'
     const adminPassword = process.env.ADMIN_SECRET
@@ -204,6 +204,28 @@ export async function POST(req: NextRequest) {
     droppedUserDetails.sort((a, b) => b.signedUp.localeCompare(a.signedUp))
     const recentDropOffs = droppedUserDetails.slice(0, 10)
 
+    // 6. Daily stats (when date is provided)
+    let daily = null
+    if (date && typeof date === 'string') {
+      const dayStart = `${date}T00:00:00.000Z`
+      const nextDay = new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000)
+      const dayEnd = nextDay.toISOString().split('T')[0] + 'T00:00:00.000Z'
+
+      const daySignups = allUsers.filter(u => u.created_at >= dayStart && u.created_at < dayEnd).length
+      const dayReports = allReports.filter(r => r.created_at >= dayStart && r.created_at < dayEnd)
+      const dayCompletions = dayReports.length
+      const dayPaid = dayReports.filter(r => r.report_type === 'paid' || r.report_type === 'paid_pending').length
+
+      daily = {
+        signups: daySignups,
+        completions: dayCompletions,
+        completionRate: daySignups > 0 ? Math.round((dayCompletions / daySignups) * 100) : 0,
+        paid: dayPaid,
+        revenue: dayPaid * 29,
+        conversionRate: dayCompletions > 0 ? Math.round((dayPaid / dayCompletions) * 100) : 0,
+      }
+    }
+
     return NextResponse.json({
       funnel: {
         totalUsers,
@@ -211,11 +233,13 @@ export async function POST(req: NextRequest) {
         paidReports,
         completionRate,
         conversionRate,
+        totalRevenue: paidReports * 29,
       },
       dropOff: dropOffBySectionArr,
       signupsOverTime,
       recentActivity,
       recentDropOffs,
+      ...(daily ? { daily } : {}),
     })
   } catch (err) {
     console.error('Analytics error:', err)
