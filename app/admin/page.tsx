@@ -32,6 +32,7 @@ export default function AdminPage() {
   const [analyticsLoading, setAnalyticsLoading] = useState(false)
   const [analyticsError, setAnalyticsError] = useState('')
   const [analyticsFetched, setAnalyticsFetched] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const [authEmail, setAuthEmail] = useState('')
   const [authPassword, setAuthPassword] = useState('')
 
@@ -320,15 +321,15 @@ export default function AdminPage() {
         )}
 
         {activeTab === 'reports' && (<>
-        {/* Search */}
-        <div style={{ marginBottom: '1.5rem' }}>
+        {/* Search + Refresh */}
+        <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
           <input
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search by name or email..."
             style={{
-              width: '100%', maxWidth: '400px', padding: '12px 16px',
+              flex: '1 1 300px', maxWidth: '400px', padding: '12px 16px',
               background: 'var(--brand-card)', border: '1px solid var(--brand-border)',
               borderRadius: '12px', color: 'var(--brand-text)', fontSize: '0.95rem',
               outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s'
@@ -336,6 +337,24 @@ export default function AdminPage() {
             onFocus={e => e.target.style.borderColor = '#3b82f6'}
             onBlur={e => e.target.style.borderColor = 'var(--brand-border)'}
           />
+          <button
+            onClick={async () => {
+              setRefreshing(true)
+              await loginWithCredentials(authEmail, authPassword)
+              setRefreshing(false)
+            }}
+            disabled={refreshing}
+            style={{
+              padding: '12px 18px', borderRadius: '12px', border: '1px solid var(--brand-border)',
+              background: 'var(--brand-card)', color: 'var(--brand-text)', fontSize: '0.85rem',
+              fontWeight: 600, cursor: refreshing ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
+              opacity: refreshing ? 0.6 : 1, transition: 'opacity 0.15s',
+              display: 'flex', alignItems: 'center', gap: '6px',
+            }}
+          >
+            <span style={{ display: 'inline-block', transition: 'transform 0.3s', transform: refreshing ? 'rotate(360deg)' : 'none' }}>↻</span>
+            {refreshing ? 'Refreshing...' : 'Refresh'}
+          </button>
         </div>
 
         {/* Table */}
