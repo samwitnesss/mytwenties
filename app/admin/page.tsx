@@ -276,8 +276,10 @@ export default function AdminPage() {
                     completionRate: analytics.funnel?.completionRate ?? 0,
                     conversionRate: analytics.funnel?.conversionRate ?? 0,
                     totalRevenue: analytics.funnel?.totalRevenue ?? 0,
+                    daysActive: analytics.funnel?.daysActive ?? 1,
                   },
                   dropOffBySection: (analytics.dropOff ?? []).map((d: { section: string; count: number }) => ({ section: d.section, count: d.count })),
+                  totalDropped: analytics.totalDropped ?? 0,
                   signupsOverTime: analytics.signupsOverTime ?? [],
                   recentDropOffs: (analytics.recentDropOffs ?? []).map((d: { firstName: string; email: string; questionsAnswered: number; lastSection: string; signedUp: string }) => ({
                     firstName: d.firstName,
@@ -286,6 +288,9 @@ export default function AdminPage() {
                     lastSection: d.lastSection,
                     createdAt: d.signedUp,
                   })),
+                  dailyTracker: analytics.dailyTracker ?? [],
+                  archetypes: analytics.archetypes ?? [],
+                  directions: analytics.directions ?? [],
                   daily: analytics.daily ?? undefined,
                 }}
                 onDateChange={(date) => fetchAnalytics(date)}
