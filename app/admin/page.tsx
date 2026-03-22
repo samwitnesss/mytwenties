@@ -255,7 +255,7 @@ export default function AdminPage() {
               </div>
             )}
 
-            {analyticsLoading && (
+            {!analytics && analyticsLoading && (
               <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--brand-text-mid)' }}>Loading analytics...</div>
             )}
 
@@ -266,7 +266,7 @@ export default function AdminPage() {
               </div>
             )}
 
-            {analytics && !analyticsLoading && (
+            {analytics && (
               <AnalyticsPanel
                 analytics={{
                   funnel: {
