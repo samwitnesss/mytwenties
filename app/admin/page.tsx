@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
@@ -35,38 +35,58 @@ export default function AdminPage() {
   const [authEmail, setAuthEmail] = useState('')
   const [authPassword, setAuthPassword] = useState('')
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault()
-    if (!email.trim() || !password) {
-      setError('Please enter email and password.')
-      return
+  // Restore session on mount
+  useEffect(() => {
+    const savedEmail = sessionStorage.getItem('mt_admin_email')
+    const savedPassword = sessionStorage.getItem('mt_admin_password')
+    if (savedEmail && savedPassword) {
+      setAuthEmail(savedEmail)
+      setAuthPassword(savedPassword)
+      loginWithCredentials(savedEmail, savedPassword)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function loginWithCredentials(loginEmail: string, loginPassword: string) {
     setLoading(true)
     setError('')
-
     try {
       const res = await fetch('/api/admin/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password })
+        body: JSON.stringify({ email: loginEmail, password: loginPassword })
       })
       const data = await res.json()
 
       if (!res.ok) {
+        // If saved session is invalid, clear it
+        sessionStorage.removeItem('mt_admin_email')
+        sessionStorage.removeItem('mt_admin_password')
         setError(data.error === 'Unauthorized' ? 'Invalid credentials.' : data.error)
         setLoading(false)
         return
       }
 
       setUsers(data.users)
-      setAuthEmail(email.trim())
-      setAuthPassword(password)
+      setAuthEmail(loginEmail)
+      setAuthPassword(loginPassword)
+      sessionStorage.setItem('mt_admin_email', loginEmail)
+      sessionStorage.setItem('mt_admin_password', loginPassword)
       setAuthed(true)
       setLoading(false)
     } catch {
       setError('Something went wrong.')
       setLoading(false)
     }
+  }
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email.trim() || !password) {
+      setError('Please enter email and password.')
+      return
+    }
+    await loginWithCredentials(email.trim(), password)
   }
 
   const fetchAnalytics = useCallback(async (date?: string | null) => {
