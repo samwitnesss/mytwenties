@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/server'
 export async function GET(req: NextRequest) {
   const { searchParams, origin } = new URL(req.url)
   const code = searchParams.get('code')
+  const next = searchParams.get('next')
 
   if (!code) {
     return NextResponse.redirect(`${origin}/start?error=no_code`)
@@ -15,7 +16,17 @@ export async function GET(req: NextRequest) {
     const { data: { session }, error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (error || !session) {
+      // If this was a password reset attempt, redirect to login with a message
+      if (next === '/auth/reset-password') {
+        return NextResponse.redirect(`${origin}/login?error=reset_expired`)
+      }
       return NextResponse.redirect(`${origin}/start?error=auth_failed`)
+    }
+
+    // If this is a password recovery flow, redirect straight to the reset page
+    // The session is now established in cookies, so updateUser will work
+    if (next === '/auth/reset-password') {
+      return NextResponse.redirect(`${origin}/auth/reset-password`)
     }
 
     const user = session.user

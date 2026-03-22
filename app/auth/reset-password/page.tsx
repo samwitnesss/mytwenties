@@ -1,44 +1,33 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Suspense } from 'react'
 
-function ResetPasswordInner() {
+export default function ResetPasswordPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [exchanging, setExchanging] = useState(true)
+  const [checking, setChecking] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [hasSession, setHasSession] = useState(false)
 
   useEffect(() => {
-    async function exchangeCode() {
-      const code = searchParams.get('code')
-      if (!code) {
-        setError('Invalid or expired reset link. Please request a new one.')
-        setExchanging(false)
-        return
+    async function checkSession() {
+      const supabase = createClient()
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        setHasSession(true)
+      } else {
+        setError('Invalid or expired reset link. Please request a new one from the login page.')
       }
-
-      try {
-        const supabase = createClient()
-        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
-        if (exchangeError) {
-          setError('This reset link has expired. Please request a new one.')
-        }
-      } catch {
-        setError('Something went wrong. Please request a new reset link.')
-      }
-      setExchanging(false)
+      setChecking(false)
     }
-
-    exchangeCode()
-  }, [searchParams])
+    checkSession()
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -90,7 +79,7 @@ function ResetPasswordInner() {
       </div>
 
       <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '420px' }}>
-        {exchanging ? (
+        {checking ? (
           <div style={{ textAlign: 'center' }}>
             <div style={{
               width: '40px', height: '40px', borderRadius: '50%', margin: '0 auto 16px',
@@ -129,7 +118,7 @@ function ResetPasswordInner() {
               Log In →
             </button>
           </div>
-        ) : error && !password ? (
+        ) : !hasSession ? (
           <div style={{ textAlign: 'center' }}>
             <div style={{
               width: '56px', height: '56px', borderRadius: '14px', margin: '0 auto 1.5rem',
@@ -244,13 +233,5 @@ function ResetPasswordInner() {
         )}
       </div>
     </main>
-  )
-}
-
-export default function ResetPasswordPage() {
-  return (
-    <Suspense>
-      <ResetPasswordInner />
-    </Suspense>
   )
 }
