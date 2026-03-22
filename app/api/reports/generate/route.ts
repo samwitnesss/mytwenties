@@ -153,22 +153,32 @@ Remember: be specific to their exact answers. Reference what they actually said.
       apiKey: process.env.ANTHROPIC_API_KEY
     })
 
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 6000,
-      messages: [{ role: 'user', content: userMessage }],
-      system: SYSTEM_PROMPT
-    })
+    let reportData: Record<string, unknown> | null = null
+    let lastJsonError = ''
 
-    const rawText = message.content.length > 0 && message.content[0].type === 'text' ? message.content[0].text : ''
+    // Retry up to 2 times if Claude returns invalid JSON
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const message = await anthropic.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 6000,
+        messages: [{ role: 'user', content: userMessage }],
+        system: SYSTEM_PROMPT
+      })
 
-    const jsonStr = rawText.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim()
+      const rawText = message.content.length > 0 && message.content[0].type === 'text' ? message.content[0].text : ''
+      const jsonStr = rawText.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim()
 
-    let reportData: Record<string, unknown>
-    try {
-      reportData = JSON.parse(jsonStr)
-    } catch {
-      console.error('Claude returned invalid JSON:', jsonStr.slice(0, 500))
+      try {
+        reportData = JSON.parse(jsonStr)
+        break // Success — exit retry loop
+      } catch {
+        lastJsonError = jsonStr.slice(0, 500)
+        console.error(`Claude returned invalid JSON (attempt ${attempt + 1}):`, lastJsonError)
+      }
+    }
+
+    if (!reportData) {
+      console.error('All generation attempts failed. Last error:', lastJsonError)
       await admin.from('mytwenties_reports').delete().eq('id', pendingId)
       return NextResponse.json({ error: 'Report generation produced invalid data. Please try again.' }, { status: 500 })
     }

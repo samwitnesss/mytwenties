@@ -117,22 +117,32 @@ Use the profile above so every paid section directly references their archetype,
 
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 5500,
-      messages: [{ role: 'user', content: userMessage }],
-      system: PAID_SYSTEM_PROMPT,
-    })
+    let paidData: Record<string, unknown> | null = null
+    let lastJsonError = ''
 
-    const rawText = message.content.length > 0 && message.content[0].type === 'text' ? message.content[0].text : ''
-    const jsonStr = rawText.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim()
+    // Retry up to 2 times if Claude returns invalid JSON
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const message = await anthropic.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 5500,
+        messages: [{ role: 'user', content: userMessage }],
+        system: PAID_SYSTEM_PROMPT,
+      })
 
-    let paidData: Record<string, unknown>
-    try {
-      paidData = JSON.parse(jsonStr)
-    } catch {
-      console.error('generate-paid: Claude returned invalid JSON:', jsonStr.slice(0, 500))
-      // Reset back to paid_pending so it can be retried
+      const rawText = message.content.length > 0 && message.content[0].type === 'text' ? message.content[0].text : ''
+      const jsonStr = rawText.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim()
+
+      try {
+        paidData = JSON.parse(jsonStr)
+        break
+      } catch {
+        lastJsonError = jsonStr.slice(0, 500)
+        console.error(`generate-paid: invalid JSON (attempt ${attempt + 1}):`, lastJsonError)
+      }
+    }
+
+    if (!paidData) {
+      console.error('generate-paid: all attempts failed. Last error:', lastJsonError)
       await admin
         .from('mytwenties_reports')
         .update({ report_type: 'paid_pending' })
