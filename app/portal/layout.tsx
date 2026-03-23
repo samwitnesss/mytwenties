@@ -2,7 +2,7 @@
 
 import React, { Suspense, createContext, useContext, useEffect, useState } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import { LayoutDashboard, FileText, Settings } from 'lucide-react'
+import { LayoutDashboard, FileText, Zap, Settings } from 'lucide-react'
 import type { PortalUser } from '@/lib/accelerator-data'
 
 // ─────────────────────────────────────────────
@@ -44,6 +44,11 @@ function useNavItems(): NavItem[] {
       icon: <FileText size={16} />,
     },
     {
+      label: 'Fast Tracks',
+      href: 'https://the-3rd-path-os-cedef8.circle.so/join?invitation_token=cfdecd901fde42dd730667495f8923272a3c8dbf-5c8001bb-bccf-4406-8c74-549c36e672cb',
+      icon: <Zap size={16} />,
+    },
+    {
       label: 'Settings',
       href: '/portal/settings',
       icon: <Settings size={16} />,
@@ -65,6 +70,7 @@ function SidebarNavItem({
   onClick?: () => void
 }) {
   const [hovered, setHovered] = useState(false)
+  const isExternal = item.href.startsWith('http')
 
   return (
     <a
@@ -72,6 +78,7 @@ function SidebarNavItem({
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       style={{
         display: 'flex',
         alignItems: 'center',
