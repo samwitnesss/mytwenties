@@ -201,7 +201,7 @@ export default function ReportContent({ report, reportType = 'free', unlocked = 
     }
   }, [report.firstName])
   useEffect(() => {
-    const userId = localStorage.getItem('mt_user_id')
+    const userId = localStorage.getItem('mt_user_id') || (report as MockReport & { userId?: string }).userId
     if (!userId) return
     fetch(`/api/portal/me?userId=${userId}`)
       .then((res) => (res.ok ? res.json() : null))
