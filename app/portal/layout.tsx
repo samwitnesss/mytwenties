@@ -455,6 +455,7 @@ function PortalLayoutInner({ children }: { children: React.ReactNode }) {
           tier: data.tier,
           programWeek: data.programWeek,
           programStartDate: data.programStartDate,
+          previewUserId: previewUserId || null,
         })
         setLoading(false)
       })

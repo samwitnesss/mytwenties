@@ -2,7 +2,6 @@
 
 import { Suspense, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 import { PortalUserContext } from '@/app/portal/layout'
 import { ASSET_CONFIG, AssetType } from '@/lib/accelerator-data'
 
@@ -253,13 +252,12 @@ export default function PortalPage() {
 
 function PortalPageInner() {
   const user = useContext(PortalUserContext)
-  const searchParams = useSearchParams()
-  const previewUser = searchParams.get('preview_user')
 
   // Layout handles loading; if user is null after load, show nothing meaningful
   if (!user) return null
 
-  const { firstName, programWeek } = user
+  const { firstName, programWeek, previewUserId } = user
+  const previewUser = previewUserId || null
 
   const assets: AssetEntry[] = Object.entries(ASSET_CONFIG).map(([type, config]) => ({
     type: type as AssetType,

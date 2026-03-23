@@ -1,21 +1,24 @@
 'use client'
 
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { Suspense, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PortalUserContext } from '@/app/portal/layout'
-import { ASSET_CONFIG, AssetType, SessionNotesData, RoadmapData } from '@/lib/accelerator-data'
+import { ASSET_CONFIG, AssetType, SessionNotesData, RoadmapData, BrandBlueprintData, ClientPlaybookData } from '@/lib/accelerator-data'
 import SessionNotesRenderer from '@/app/portal/assets/renderers/SessionNotes'
 import RoadmapRenderer from '@/app/portal/assets/renderers/Roadmap'
+import BrandBlueprintRenderer from '@/app/portal/assets/renderers/BrandBlueprint'
+import ClientPlaybookRenderer from '@/app/portal/assets/renderers/ClientPlaybook'
 
 // ─────────────────────────────────────────────
 // Back link
 // ─────────────────────────────────────────────
 
-function BackLink() {
+function BackLink({ previewUserId }: { previewUserId?: string | null }) {
+  const href = previewUserId ? `/portal?preview_user=${previewUserId}` : '/portal'
   return (
     <Link
-      href="/portal"
+      href={href}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
@@ -43,7 +46,7 @@ function BackLink() {
 // Page top bar
 // ─────────────────────────────────────────────
 
-function PageTopBar({ icon, title, description }: { icon: string; title: string; description: string }) {
+function PageTopBar({ icon, title, description, previewUserId }: { icon: string; title: string; description: string; previewUserId?: string | null }) {
   return (
     <div
       style={{
@@ -54,7 +57,7 @@ function PageTopBar({ icon, title, description }: { icon: string; title: string;
     >
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         <div style={{ marginBottom: '16px' }}>
-          <BackLink />
+          <BackLink previewUserId={previewUserId} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div
@@ -330,7 +333,6 @@ export default function AssetPage() {
 
 function AssetPageInner() {
   const params = useParams()
-  const searchParams = useSearchParams()
   const user = useContext(PortalUserContext)
   const type = params?.type as AssetType
 
@@ -340,30 +342,39 @@ function AssetPageInner() {
   // Validate type against known asset types
   const config = type ? ASSET_CONFIG[type] : null
 
+  // Use previewUserId from context (set once in layout), fall back to localStorage
+  const resolvedUserId = user?.previewUserId || user?.id || null
+
+  // Reset state when asset type changes
+  useEffect(() => {
+    setLoading(true)
+    setAssetContent(null)
+  }, [type])
+
   useEffect(() => {
     if (!config) {
       setLoading(false)
       return
     }
 
-    const userId = searchParams.get('preview_user') || localStorage.getItem('mt_user_id')
+    const userId = resolvedUserId || localStorage.getItem('mt_user_id')
     if (!userId) {
       setLoading(false)
       return
     }
 
+    setLoading(true)
     fetch(`/api/portal/assets/${type}?userId=${userId}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data?.content) {
-          setAssetContent(data.content)
-        }
+        setAssetContent(data?.content ?? null)
         setLoading(false)
       })
       .catch(() => {
+        setAssetContent(null)
         setLoading(false)
       })
-  }, [type, config])
+  }, [type, config, resolvedUserId])
 
   if (!config) {
     return <NotFound />
@@ -388,12 +399,17 @@ function AssetPageInner() {
       return <RoadmapRenderer data={assetContent as RoadmapData} />
     }
 
+    if (type === 'brand_blueprint') {
+      return <BrandBlueprintRenderer data={assetContent as BrandBlueprintData} />
+    }
+
+    if (type === 'client_playbook') {
+      return <ClientPlaybookRenderer data={assetContent as ClientPlaybookData} />
+    }
+
     // Other asset types — coming soon until renderers are built
     return <ComingSoon icon={icon} title={title} weekUnlock={week_unlock} />
   }
-
-  // suppress unused warning — user is available via context for future use
-  void user
 
   return (
     <div
@@ -403,7 +419,7 @@ function AssetPageInner() {
         fontFamily: 'var(--font-geist-sans), system-ui, sans-serif',
       }}
     >
-      <PageTopBar icon={icon} title={title} description={description} />
+      <PageTopBar icon={icon} title={title} description={description} previewUserId={user?.previewUserId} />
 
       <main
         style={{

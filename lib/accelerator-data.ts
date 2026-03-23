@@ -25,6 +25,7 @@ export interface PortalUser {
   tier: Tier;
   programWeek: number;
   programStartDate?: string;
+  previewUserId?: string | null;
 }
 
 // ── Session Notes ──────────────────────────────
@@ -95,6 +96,166 @@ export interface RoadmapData {
   personal_note: string;
   weeks: RoadmapWeek[];
   contingency: Contingency;
+}
+
+// ── Brand Blueprint ───────────────────────────────
+
+export interface BrandValue {
+  value: string;
+  what_it_means: string;
+}
+
+export interface BrandPersonality {
+  if_your_brand_were_a_person: string;
+  voice_attributes: string[];
+  do_say: string[];
+  dont_say: string[];
+}
+
+export interface BrandIdentity {
+  brand_name: string | null;
+  one_liner: string;
+  brand_essence: string;
+  brand_values: BrandValue[];
+  brand_personality: BrandPersonality;
+}
+
+export interface PrimaryAudience {
+  who: string;
+  age_range: string;
+  psychographics: string;
+  where_they_are: string;
+  what_they_need_to_hear: string;
+}
+
+export interface TargetAudience {
+  primary_audience: PrimaryAudience;
+  audience_insight: string;
+}
+
+export interface ContentPillar {
+  pillar: string;
+  description: string;
+  formats: string[];
+  frequency: string;
+  purpose: string;
+  example_ideas: string[];
+}
+
+export interface PostingRhythm {
+  posts_per_week: number;
+  best_formats: string[];
+  batch_day: string | null;
+  posting_schedule: string;
+}
+
+export interface ContentStrategy {
+  content_pillars: ContentPillar[];
+  posting_rhythm: PostingRhythm;
+  content_rules: string[];
+}
+
+export interface VisualIdentity {
+  current_aesthetic: string;
+  color_mood: string;
+  photo_style: string;
+  visual_dont: string[];
+  tools: string[];
+}
+
+export interface BrandEvolution {
+  where_you_are_now: string;
+  three_month_vision: string;
+  six_month_vision: string;
+  the_bridge: string;
+}
+
+export interface BrandBlueprintData {
+  brand_identity: BrandIdentity;
+  target_audience: TargetAudience;
+  content_strategy: ContentStrategy;
+  visual_identity: VisualIdentity;
+  brand_evolution: BrandEvolution;
+  personal_note: string;
+}
+
+// ── Client Acquisition Playbook ──────────────────
+
+export interface AcquisitionOverview {
+  primary_channel: string;
+  secondary_channels: string[];
+  current_funnel: string;
+  target_funnel: string;
+}
+
+export interface ChannelKPI {
+  metric: string;
+  current: string | null;
+  target_30_day: string;
+  why_it_matters: string;
+}
+
+export interface ChannelContentPillar {
+  pillar: string;
+  description: string;
+  frequency: string;
+  why_it_works: string;
+}
+
+export interface AcquisitionChannel {
+  channel: string;
+  role: string;
+  current_performance: string;
+  strategy: string;
+  content_pillars: ChannelContentPillar[];
+  kpis: ChannelKPI[];
+}
+
+export interface OutreachScript {
+  scenario: string;
+  script: string;
+  notes: string;
+}
+
+export interface FlywheelStep {
+  action: string;
+  description: string;
+}
+
+export interface ContentToCustomerFlywheel {
+  step_1: FlywheelStep;
+  step_2: FlywheelStep;
+  step_3: FlywheelStep;
+  step_4: FlywheelStep;
+  flywheel_note: string;
+}
+
+export interface WeeklyAcquisitionRhythm {
+  monday: string | null;
+  tuesday: string | null;
+  wednesday: string | null;
+  thursday: string | null;
+  friday: string | null;
+  saturday: string | null;
+  sunday: string | null;
+  total_hours: string;
+}
+
+export interface First30DayTargets {
+  followers_or_audience: string;
+  leads_or_inquiries: string;
+  sales_or_clients: string;
+  revenue: string;
+}
+
+export interface ClientPlaybookData {
+  acquisition_overview: AcquisitionOverview;
+  channels: AcquisitionChannel[];
+  outreach_scripts: OutreachScript[];
+  content_to_customer_flywheel: ContentToCustomerFlywheel;
+  weekly_acquisition_rhythm: WeeklyAcquisitionRhythm;
+  first_30_day_targets: First30DayTargets;
+  personal_note: string;
 }
 
 // ── Asset Config ───────────────────────────────
