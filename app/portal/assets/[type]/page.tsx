@@ -4,11 +4,13 @@ import { useParams } from 'next/navigation'
 import { Suspense, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PortalUserContext } from '@/app/portal/layout'
-import { ASSET_CONFIG, AssetType, SessionNotesData, RoadmapData, BrandBlueprintData, ClientPlaybookData } from '@/lib/accelerator-data'
+import { ASSET_CONFIG, AssetType, SessionNotesData, RoadmapData, BrandBlueprintData, ClientPlaybookData, BusinessPlanData, OfferStrategyData } from '@/lib/accelerator-data'
 import SessionNotesRenderer from '@/app/portal/assets/renderers/SessionNotes'
 import RoadmapRenderer from '@/app/portal/assets/renderers/Roadmap'
 import BrandBlueprintRenderer from '@/app/portal/assets/renderers/BrandBlueprint'
 import ClientPlaybookRenderer from '@/app/portal/assets/renderers/ClientPlaybook'
+import BusinessPlanRenderer from '@/app/portal/assets/renderers/BusinessPlan'
+import OfferStrategyRenderer from '@/app/portal/assets/renderers/OfferStrategy'
 
 // ─────────────────────────────────────────────
 // Back link
@@ -405,6 +407,14 @@ function AssetPageInner() {
 
     if (type === 'client_playbook') {
       return <ClientPlaybookRenderer data={assetContent as ClientPlaybookData} />
+    }
+
+    if (type === 'business_plan') {
+      return <BusinessPlanRenderer data={assetContent as BusinessPlanData} />
+    }
+
+    if (type === 'offer_strategy') {
+      return <OfferStrategyRenderer data={assetContent as OfferStrategyData} />
     }
 
     // Other asset types — coming soon until renderers are built

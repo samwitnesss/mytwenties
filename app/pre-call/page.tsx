@@ -172,21 +172,17 @@ export default function PreCallThirdPath() {
 
           {/* Video placeholder */}
           <div style={{ paddingLeft: '50px' }}>
-            <div style={{
-              width: '100%', aspectRatio: '16/9', borderRadius: '14px',
-              background: 'linear-gradient(135deg, rgba(37,99,235,0.04), rgba(6,182,212,0.06))',
-              border: '1px solid rgba(6,182,212,0.15)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              overflow: 'hidden',
-              boxShadow: '0 2px 12px rgba(6,182,212,0.06)'
-            }}>
-              {/* Replace this div with an iframe or video element when the URL is ready */}
-              <p style={{
-                fontSize: '0.85rem', color: 'var(--brand-text-subtle)', fontWeight: 500
-              }}>
-                Video coming soon
-              </p>
-            </div>
+            <iframe
+              width="100%"
+              style={{
+                aspectRatio: '16/9', borderRadius: '14px', border: 'none',
+                boxShadow: '0 2px 12px rgba(6,182,212,0.06)'
+              }}
+              src="https://www.youtube.com/embed/z6TCkIanx7o"
+              title="Watch before our call"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
 

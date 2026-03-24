@@ -258,6 +258,126 @@ export interface ClientPlaybookData {
   personal_note: string;
 }
 
+// ── Business Plan ─────────────────────────────────
+
+export interface RevenueStream {
+  stream: string;
+  description: string;
+  average_price: string;
+  estimated_volume: string;
+  monthly_revenue_potential: string;
+}
+
+export interface CostStructure {
+  fixed_costs: string;
+  variable_costs: string;
+  estimated_monthly_expenses: string;
+  break_even: string;
+}
+
+export interface RevenueModel {
+  revenue_streams: RevenueStream[];
+  total_monthly_target: string;
+  cost_structure: CostStructure;
+  pricing_rationale: string;
+}
+
+export interface ToolPlatform {
+  tool: string;
+  purpose: string;
+  cost: string;
+  priority: string;
+}
+
+export interface KeyProcess {
+  process: string;
+  frequency: string;
+  time_required: string;
+  steps: string[];
+}
+
+export interface Operations {
+  weekly_workflow: string;
+  tools_and_platforms: ToolPlatform[];
+  key_processes: KeyProcess[];
+}
+
+export interface RiskEntry {
+  risk: string;
+  likelihood: string;
+  mitigation: string;
+  sam_note: string;
+}
+
+export interface Milestone {
+  month: number;
+  target: string;
+  key_metric: string;
+}
+
+export interface BusinessPlanData {
+  business_overview: {
+    business_name: string;
+    one_liner: string;
+    business_model: string;
+    stage: string;
+    what_makes_this_different: string;
+  };
+  target_customer: {
+    who: string;
+    where_they_hang_out: string;
+    what_they_want: string;
+    why_this_member: string;
+  };
+  revenue_model: RevenueModel;
+  operations: Operations;
+  risks_and_reality_checks: RiskEntry[];
+  three_month_milestones: Milestone[];
+  personal_note: string;
+}
+
+// ── Offer Strategy ────────────────────────────────
+
+export interface Offer {
+  offer_name: string;
+  description: string;
+  price: string;
+  pricing_model: string;
+  cost_to_deliver: string;
+  margin: string;
+  ideal_volume: string;
+  positioning: string;
+  proof_points: string;
+  evolution_path: string;
+}
+
+export interface OfferStrategyData {
+  offer_overview: {
+    what_you_sell: string;
+    who_its_for: string;
+    the_transformation: string;
+    offer_type: string;
+  };
+  offers: Offer[];
+  pricing_psychology: {
+    anchoring_strategy: string;
+    common_mistakes: string;
+    when_to_raise_prices: string;
+  };
+  testing_plan: {
+    what_to_test_first: string;
+    how_to_test: string;
+    success_signals: string;
+    pivot_triggers: string;
+  };
+  competitive_context: {
+    who_else_does_this: string;
+    their_edge: string;
+    price_benchmarks: string;
+  };
+  personal_note: string;
+}
+
 // ── Asset Config ───────────────────────────────
 
 export interface AssetConfig {
