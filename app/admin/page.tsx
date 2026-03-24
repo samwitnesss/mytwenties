@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
@@ -18,6 +18,34 @@ interface UserReport {
   primaryArchetype: string
 }
 
+function getUserTier(u: UserReport): 'accelerator' | 'paid' | 'free' {
+  if (u.tier === 'accelerator') return 'accelerator'
+  if (u.reportType === 'paid') return 'paid'
+  return 'free'
+}
+
+function formatAEDT(dateStr: string): string {
+  const d = new Date(dateStr)
+  return d.toLocaleString('en-AU', {
+    day: 'numeric', month: 'short', year: 'numeric',
+    hour: 'numeric', minute: '2-digit', hour12: true,
+    timeZone: 'Australia/Sydney',
+  })
+}
+
+const tierOrder = { accelerator: 0, paid: 1, free: 2 }
+
+type TierFilter = 'all' | 'accelerator' | 'paid' | 'free'
+
+const filterBtnStyle = (active: boolean): React.CSSProperties => ({
+  padding: '6px 14px', borderRadius: '8px', border: 'none',
+  background: active ? 'rgba(37,99,235,0.1)' : 'transparent',
+  color: active ? '#2563eb' : 'var(--brand-text-mid)',
+  fontSize: '0.82rem', fontWeight: active ? 600 : 500,
+  cursor: 'pointer', fontFamily: 'inherit',
+  transition: 'all 0.15s',
+})
+
 export default function AdminPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,6 +54,9 @@ export default function AdminPage() {
   const [error, setError] = useState('')
   const [users, setUsers] = useState<UserReport[]>([])
   const [search, setSearch] = useState('')
+  const [tierFilter, setTierFilter] = useState<TierFilter>('all')
+  const [sortBy, setSortBy] = useState<'date' | 'tier'>('date')
+  const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc')
   const [activeTab, setActiveTab] = useState<'reports' | 'analytics'>('reports')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [analytics, setAnalytics] = useState<any>(null)
@@ -36,7 +67,6 @@ export default function AdminPage() {
   const [authEmail, setAuthEmail] = useState('')
   const [authPassword, setAuthPassword] = useState('')
 
-  // Restore session on mount
   useEffect(() => {
     const savedEmail = sessionStorage.getItem('mt_admin_email')
     const savedPassword = sessionStorage.getItem('mt_admin_password')
@@ -60,7 +90,6 @@ export default function AdminPage() {
       const data = await res.json()
 
       if (!res.ok) {
-        // If saved session is invalid, clear it
         sessionStorage.removeItem('mt_admin_email')
         sessionStorage.removeItem('mt_admin_password')
         setError(data.error === 'Unauthorized' ? 'Invalid credentials.' : data.error)
@@ -114,11 +143,55 @@ export default function AdminPage() {
     setAnalyticsLoading(false)
   }, [authEmail, authPassword])
 
-  const filtered = users.filter(u => {
-    if (!search.trim()) return true
-    const q = search.toLowerCase()
-    return u.firstName.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
+  const filtered = useMemo(() => {
+    let result = users
+
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      result = result.filter(u =>
+        u.firstName.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
+      )
+    }
+
+    if (tierFilter !== 'all') {
+      result = result.filter(u => getUserTier(u) === tierFilter)
+    }
+
+    result = [...result].sort((a, b) => {
+      if (sortBy === 'tier') {
+        const diff = tierOrder[getUserTier(a)] - tierOrder[getUserTier(b)]
+        if (diff !== 0) return sortDir === 'asc' ? diff : -diff
+        return new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+      }
+      const diff = new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
+      return sortDir === 'asc' ? diff : -diff
+    })
+
+    return result
+  }, [users, search, tierFilter, sortBy, sortDir])
+
+  function handleSortClick(col: 'date' | 'tier') {
+    if (sortBy === col) {
+      setSortDir(d => d === 'desc' ? 'asc' : 'desc')
+    } else {
+      setSortBy(col)
+      setSortDir('desc')
+    }
+  }
+
+  const thStyle: React.CSSProperties = {
+    textAlign: 'left', padding: '12px 16px', color: 'var(--brand-text-mid)',
+    fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em'
+  }
+
+  const sortableThStyle = (col: 'date' | 'tier'): React.CSSProperties => ({
+    ...thStyle,
+    cursor: 'pointer', userSelect: 'none',
+    color: sortBy === col ? '#2563eb' : 'var(--brand-text-mid)',
   })
+
+  const sortArrow = (col: 'date' | 'tier') =>
+    sortBy === col ? (sortDir === 'desc' ? ' \u2193' : ' \u2191') : ''
 
   if (!authed) {
     return (
@@ -205,7 +278,7 @@ export default function AdminPage() {
                 opacity: loading ? 0.7 : 1, fontFamily: 'inherit'
               }}
             >
-              {loading ? 'Loading...' : 'Sign In →'}
+              {loading ? 'Loading...' : 'Sign In \u2192'}
             </button>
           </form>
         </div>
@@ -219,7 +292,6 @@ export default function AdminPage() {
       color: 'var(--brand-text)', fontFamily: 'inherit'
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0, color: 'var(--brand-text)' }}>
@@ -230,11 +302,10 @@ export default function AdminPage() {
             </p>
           </div>
           <Link href="/" style={{ color: 'var(--brand-text-mid)', fontSize: '0.85rem', textDecoration: 'none' }}>
-            ← Back to site
+            &larr; Back to site
           </Link>
         </div>
 
-        {/* Tab Bar */}
         <div style={{ display: 'flex', borderBottom: '1px solid var(--brand-border)', marginBottom: '1.5rem' }}>
           <button
             onClick={() => setActiveTab('reports')}
@@ -321,8 +392,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === 'reports' && (<>
-        {/* Search + Refresh */}
-        <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ marginBottom: '1rem', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
           <input
             type="text"
             value={search}
@@ -352,12 +422,25 @@ export default function AdminPage() {
               display: 'flex', alignItems: 'center', gap: '6px',
             }}
           >
-            <span style={{ display: 'inline-block', transition: 'transform 0.3s', transform: refreshing ? 'rotate(360deg)' : 'none' }}>↻</span>
+            <span style={{ display: 'inline-block', transition: 'transform 0.3s', transform: refreshing ? 'rotate(360deg)' : 'none' }}>{'\u21BB'}</span>
             {refreshing ? 'Refreshing...' : 'Refresh'}
           </button>
         </div>
 
-        {/* Table */}
+        <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '4px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.78rem', color: 'var(--brand-text-subtle)', marginRight: '6px', fontWeight: 500 }}>Filter:</span>
+          {(['all', 'accelerator', 'paid', 'free'] as TierFilter[]).map(t => (
+            <button key={t} onClick={() => setTierFilter(t)} style={filterBtnStyle(tierFilter === t)}>
+              {t === 'all' ? 'All' : t.charAt(0).toUpperCase() + t.slice(1)}
+              {t !== 'all' && (
+                <span style={{ marginLeft: '4px', opacity: 0.6 }}>
+                  ({users.filter(u => getUserTier(u) === t).length})
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+
         <div style={{
           overflowX: 'auto', borderRadius: '14px',
           border: '1px solid var(--brand-border)',
@@ -366,11 +449,15 @@ export default function AdminPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid var(--brand-border)' }}>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</th>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</th>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Archetype</th>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Tier</th>
-                <th style={{ textAlign: 'left', padding: '12px 16px', color: 'var(--brand-text-mid)', fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Completed</th>
+                <th style={thStyle}>Name</th>
+                <th style={thStyle}>Email</th>
+                <th style={thStyle}>Archetype</th>
+                <th style={sortableThStyle('tier')} onClick={() => handleSortClick('tier')}>
+                  Tier{sortArrow('tier')}
+                </th>
+                <th style={sortableThStyle('date')} onClick={() => handleSortClick('date')}>
+                  Completed{sortArrow('date')}
+                </th>
                 <th style={{ textAlign: 'right', padding: '12px 16px' }}></th>
               </tr>
             </thead>
@@ -378,7 +465,7 @@ export default function AdminPage() {
               {filtered.length === 0 ? (
                 <tr>
                   <td colSpan={6} style={{ padding: '2rem 16px', textAlign: 'center', color: 'var(--brand-text-subtle)' }}>
-                    {search ? 'No results found.' : 'No completed assessments yet.'}
+                    {search || tierFilter !== 'all' ? 'No results found.' : 'No completed assessments yet.'}
                   </td>
                 </tr>
               ) : (
@@ -418,8 +505,8 @@ export default function AdminPage() {
                         {u.tier === 'accelerator' ? 'Accelerator' : u.reportType === 'paid' ? 'Paid' : 'Free'}
                       </span>
                     </td>
-                    <td style={{ padding: '14px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem' }}>
-                      {new Date(u.completedAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    <td style={{ padding: '14px 16px', color: 'var(--brand-text-mid)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
+                      {formatAEDT(u.completedAt)}
                     </td>
                     <td style={{ padding: '14px 16px', textAlign: 'right', whiteSpace: 'nowrap' }}>
                       {u.tier === 'accelerator' && (

@@ -77,7 +77,33 @@ export default function AssessmentPage() {
     if (!uid) { router.push('/start'); return }
     setUserId(uid)
     if (fn) setFirstName(fn)
+
+    // Restore saved progress
+    try {
+      const saved = localStorage.getItem('mt_assessment_progress')
+      if (saved) {
+        const { responses: savedResponses, section, questionIndex } = JSON.parse(saved)
+        if (savedResponses && typeof savedResponses === 'object') {
+          setResponses(savedResponses)
+          setCurrentSection(section ?? 0)
+          setCurrentQuestionIndex(questionIndex ?? 0)
+          if (section > 0 || questionIndex > 0) setShowWelcomeIntro(false)
+        }
+      }
+    } catch { /* ignore corrupt data */ }
   }, [router])
+
+  // Save progress to localStorage
+  useEffect(() => {
+    if (!userId) return
+    try {
+      localStorage.setItem('mt_assessment_progress', JSON.stringify({
+        responses,
+        section: currentSection,
+        questionIndex: currentQuestionIndex,
+      }))
+    } catch { /* storage full or unavailable */ }
+  }, [responses, currentSection, currentQuestionIndex, userId])
 
   // Intercept browser back button — keep a history entry pushed so that
   // pressing back triggers goBack() (previous question) instead of leaving the page
@@ -188,6 +214,7 @@ export default function AssessmentPage() {
       setShowSectionIntro(true)
       setTimeout(() => setShowSectionIntro(false), 1800)
     } else {
+      localStorage.removeItem('mt_assessment_progress')
       router.push('/generating')
     }
   }
