@@ -26,6 +26,7 @@ export interface PortalUser {
   programWeek: number;
   programStartDate?: string;
   previewUserId?: string | null;
+  seededAssetTypes?: string[];
 }
 
 // ── Session Notes ──────────────────────────────

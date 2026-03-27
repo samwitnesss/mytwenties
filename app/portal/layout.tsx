@@ -449,6 +449,7 @@ function PortalLayoutInner({ children }: { children: React.ReactNode }) {
           return
         }
 
+        const assetTypes = (data.assets ?? []).map((a: { asset_type: string }) => a.asset_type)
         setUser({
           id: data.id,
           firstName: data.firstName,
@@ -456,6 +457,7 @@ function PortalLayoutInner({ children }: { children: React.ReactNode }) {
           programWeek: data.programWeek,
           programStartDate: data.programStartDate,
           previewUserId: previewUserId || null,
+          seededAssetTypes: [...new Set(assetTypes)] as string[],
         })
         setLoading(false)
       })

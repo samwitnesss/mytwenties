@@ -22,7 +22,7 @@ interface AssetEntry {
 // Asset Card
 // ─────────────────────────────────────────────
 
-function AssetCard({ asset, programWeek, previewUser }: { asset: AssetEntry; programWeek: number; previewUser?: string | null }) {
+function AssetCard({ asset, programWeek, previewUser, hasData }: { asset: AssetEntry; programWeek: number; previewUser?: string | null; hasData: boolean }) {
   const unlocked = asset.weekUnlock <= programWeek
 
   return (
@@ -95,7 +95,7 @@ function AssetCard({ asset, programWeek, previewUser }: { asset: AssetEntry; pro
       </p>
 
       {/* Action */}
-      {unlocked ? (
+      {unlocked && hasData ? (
         <Link href={`/portal/assets/${asset.type}${previewUser ? `?preview_user=${previewUser}` : ''}`} style={{
           display: 'inline-block',
           marginTop: 4,
@@ -112,6 +112,16 @@ function AssetCard({ asset, programWeek, previewUser }: { asset: AssetEntry; pro
         }}>
           Open
         </Link>
+      ) : unlocked ? (
+        <p style={{
+          margin: 0,
+          marginTop: 4,
+          fontSize: 12,
+          color: '#94a3b8',
+          fontStyle: 'italic',
+        }}>
+          We haven&apos;t covered this yet — coming soon
+        </p>
       ) : (
         <p style={{
           margin: 0,
@@ -256,8 +266,9 @@ function PortalPageInner() {
   // Layout handles loading; if user is null after load, show nothing meaningful
   if (!user) return null
 
-  const { firstName, programWeek, previewUserId } = user
+  const { firstName, programWeek, previewUserId, seededAssetTypes } = user
   const previewUser = previewUserId || null
+  const seeded = new Set(seededAssetTypes ?? [])
 
   const assets: AssetEntry[] = Object.entries(ASSET_CONFIG).map(([type, config]) => ({
     type: type as AssetType,
@@ -347,7 +358,7 @@ function PortalPageInner() {
             gap: 16,
           }}>
             {assets.map(asset => (
-              <AssetCard key={asset.type} asset={asset} programWeek={programWeek} previewUser={previewUser} />
+              <AssetCard key={asset.type} asset={asset} programWeek={programWeek} previewUser={previewUser} hasData={seeded.has(asset.type)} />
             ))}
           </div>
         </section>
