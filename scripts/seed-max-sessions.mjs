@@ -14,9 +14,12 @@ import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const SUPABASE_URL = 'https://pwizfvmnixdwtzbsllui.supabase.co'
-const SERVICE_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3aXpmdm1uaXhkd3R6YnNsbHVpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzA3MjE5MiwiZXhwIjoyMDg4NjQ4MTkyfQ.NhCuAMsDN1emFlKUdslZKXmTjepDpYbbx6vejb3qDLM'
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pwizfvmnixdwtzbsllui.supabase.co'
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+if (!SERVICE_KEY) {
+  console.error('Error: SUPABASE_SERVICE_ROLE_KEY env var is required.\nRun: SUPABASE_SERVICE_ROLE_KEY=<key> node scripts/seed-max-sessions.mjs')
+  process.exit(1)
+}
 
 const MAX_USER_ID = 'aa286639-8f07-48d0-ac88-0816888dc7dd'
 const EXISTING_ROW_ID = '443711f3-34e0-4d9d-ba34-1e85d15e6091'
