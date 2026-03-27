@@ -42,16 +42,18 @@ export async function GET(req: NextRequest) {
     const admin = createAdminClient()
     const { data: existing } = await admin
       .from('mytwenties_users')
-      .select('id, first_name')
+      .select('id, first_name, phone')
       .eq('email', email.toLowerCase())
       .single()
 
     let userId: string
     let resolvedName: string
+    let needsPhone = false
 
     if (existing) {
       userId = existing.id
       resolvedName = existing.first_name
+      if (!existing.phone) needsPhone = true
     } else {
       const { data: newUser, error: insertError } = await admin
         .from('mytwenties_users')
@@ -65,10 +67,12 @@ export async function GET(req: NextRequest) {
 
       userId = newUser.id
       resolvedName = newUser.first_name
+      needsPhone = true
     }
 
     // Redirect to client page to set localStorage
     const params = new URLSearchParams({ userId, firstName: resolvedName, email })
+    if (needsPhone) params.set('needsPhone', '1')
     return NextResponse.redirect(`${origin}/auth/complete?${params}`)
 
   } catch {

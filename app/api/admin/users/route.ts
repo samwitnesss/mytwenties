@@ -39,10 +39,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to fetch users.' }, { status: 500 })
     }
 
-    // Merge users with their reports
-    const userMap = new Map(users?.map(u => [u.id, u]) ?? [])
+    // Build a map of user_id → report for quick lookup
+    const reportMap = new Map((reports ?? []).map(r => [r.user_id, r]))
+
+    // Start with all users who have reports
     const results = (reports ?? []).map(report => {
-      const user = userMap.get(report.user_id)
+      const user = (users ?? []).find(u => u.id === report.user_id)
       const reportData = report.report_data as Record<string, unknown> | null
       return {
         reportId: report.id,
@@ -56,6 +58,23 @@ export async function POST(req: NextRequest) {
         primaryArchetype: ((reportData?.archetype as Record<string, unknown>)?.primary as Record<string, unknown>)?.name as string ?? '',
       }
     })
+
+    // Add accelerator users who don't have a report yet
+    for (const user of users ?? []) {
+      if (user.tier === 'accelerator' && !reportMap.has(user.id)) {
+        results.push({
+          reportId: '',
+          userId: user.id,
+          firstName: user.first_name ?? 'Unknown',
+          email: user.email ?? 'Unknown',
+          tier: 'accelerator',
+          reportType: null as unknown as string,
+          completedAt: user.created_at,
+          headline: '',
+          primaryArchetype: '',
+        })
+      }
+    }
 
     return NextResponse.json({ users: results })
   } catch (err) {

@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation'
 import { Suspense, useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PortalUserContext } from '@/app/portal/layout'
-import { ASSET_CONFIG, AssetType, SessionNotesData, RoadmapData, BrandBlueprintData, ClientPlaybookData, BusinessPlanData, OfferStrategyData } from '@/lib/accelerator-data'
+import { ASSET_CONFIG, AssetType, SessionNotesData, SessionNotesRow, RoadmapData, BrandBlueprintData, ClientPlaybookData, BusinessPlanData, OfferStrategyData } from '@/lib/accelerator-data'
 import SessionNotesRenderer from '@/app/portal/assets/renderers/SessionNotes'
 import RoadmapRenderer from '@/app/portal/assets/renderers/Roadmap'
 import BrandBlueprintRenderer from '@/app/portal/assets/renderers/BrandBlueprint'
@@ -322,6 +322,70 @@ function NotFound() {
 }
 
 // ─────────────────────────────────────────────
+// Multi-session notes view with call selector
+// ─────────────────────────────────────────────
+
+function SessionNotesMultiView({ sessions }: { sessions: SessionNotesRow[] }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  if (sessions.length === 1) {
+    return <SessionNotesRenderer data={sessions[0] as SessionNotesData} />
+  }
+
+  const active = sessions[activeIndex]
+
+  return (
+    <div>
+      {/* Call selector pills */}
+      <div
+        style={{
+          display: 'flex',
+          gap: '8px',
+          flexWrap: 'wrap',
+          marginBottom: '28px',
+          padding: '4px',
+          backgroundColor: '#f1f5f9',
+          borderRadius: '12px',
+          width: 'fit-content',
+        }}
+      >
+        {sessions.map((s, i) => {
+          const isActive = i === activeIndex
+          const label =
+            s.call_number === 0 || s.call_number == null
+              ? 'Building Session'
+              : `Call ${s.call_number}`
+          return (
+            <button
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              style={{
+                padding: '8px 18px',
+                borderRadius: '9px',
+                border: 'none',
+                fontSize: '0.8125rem',
+                fontWeight: isActive ? 700 : 500,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                backgroundColor: isActive ? '#ffffff' : 'transparent',
+                color: isActive ? '#0f172a' : '#64748b',
+                boxShadow: isActive
+                  ? '0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06)'
+                  : 'none',
+              }}
+            >
+              {label}
+            </button>
+          )
+        })}
+      </div>
+
+      <SessionNotesRenderer data={active as SessionNotesData} />
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────
 // Page
 // ─────────────────────────────────────────────
 
@@ -394,6 +458,11 @@ function AssetPageInner() {
     }
 
     if (type === 'session_notes') {
+      const sessions = assetContent as SessionNotesRow[]
+      if (Array.isArray(sessions)) {
+        return <SessionNotesMultiView sessions={sessions} />
+      }
+      // Fallback for legacy single-object format
       return <SessionNotesRenderer data={assetContent as SessionNotesData} />
     }
 

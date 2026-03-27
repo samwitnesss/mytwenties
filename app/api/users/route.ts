@@ -3,6 +3,43 @@ import { createAdminClient } from '@/lib/supabase/server'
 import { rateLimit } from '@/lib/rate-limit'
 import { notifyGHL } from '@/lib/ghl'
 
+export async function PATCH(req: NextRequest) {
+  try {
+    const { userId, phone } = await req.json()
+
+    if (!userId || !phone?.trim()) {
+      return NextResponse.json({ error: 'User ID and phone number are required.' }, { status: 400 })
+    }
+
+    const supabase = createAdminClient()
+    const { error } = await supabase
+      .from('mytwenties_users')
+      .update({ phone: phone.trim() })
+      .eq('id', userId)
+
+    if (error) {
+      console.error('Error updating phone:', error)
+      return NextResponse.json({ error: 'Failed to update phone number.' }, { status: 500 })
+    }
+
+    // Fetch user for GHL notification
+    const { data: user } = await supabase
+      .from('mytwenties_users')
+      .select('email, first_name')
+      .eq('id', userId)
+      .single()
+
+    if (user) {
+      notifyGHL('started', user.email, user.first_name, phone.trim())
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (err) {
+    console.error('Unexpected error:', err)
+    return NextResponse.json({ error: 'Internal server error.' }, { status: 500 })
+  }
+}
+
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, 'signup', 10, 60) // 10 signups per minute
   if (limited) return limited

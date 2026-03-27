@@ -58,6 +58,11 @@ export interface SessionNotesData {
   next_steps: NextStep[];
 }
 
+/** A single session notes row as returned by the multi-session API */
+export interface SessionNotesRow extends SessionNotesData {
+  call_number: number | null;
+}
+
 // ── Roadmap ────────────────────────────────────
 
 export interface Resource {

@@ -12,7 +12,7 @@ interface UserReport {
   firstName: string
   email: string
   tier: string
-  reportType: string
+  reportType: string | null
   completedAt: string
   headline: string
   primaryArchetype: string
@@ -470,7 +470,7 @@ export default function AdminPage() {
                 </tr>
               ) : (
                 filtered.map(u => (
-                  <tr key={u.reportId} style={{ borderBottom: '1px solid var(--brand-border)' }}>
+                  <tr key={u.reportId || u.userId} style={{ borderBottom: '1px solid var(--brand-border)' }}>
                     <td style={{ padding: '14px 16px' }}>
                       <div style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--brand-text)' }}>{u.firstName}</div>
                       {u.headline && (
@@ -527,20 +527,22 @@ export default function AdminPage() {
                           View Portal
                         </a>
                       )}
-                      <a
-                        href={'/report/' + u.reportId + '?unlocked=1'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="gradient-btn"
-                        style={{
-                          display: 'inline-block', padding: '8px 16px',
-                          color: '#ffffff', borderRadius: '8px',
-                          fontSize: '0.85rem', fontWeight: 600,
-                          textDecoration: 'none', whiteSpace: 'nowrap'
-                        }}
-                      >
-                        View Report
-                      </a>
+                      {u.reportId && (
+                        <a
+                          href={'/report/' + u.reportId + '?unlocked=1'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="gradient-btn"
+                          style={{
+                            display: 'inline-block', padding: '8px 16px',
+                            color: '#ffffff', borderRadius: '8px',
+                            fontSize: '0.85rem', fontWeight: 600,
+                            textDecoration: 'none', whiteSpace: 'nowrap'
+                          }}
+                        >
+                          View Report
+                        </a>
+                      )}
                     </td>
                   </tr>
                 ))
