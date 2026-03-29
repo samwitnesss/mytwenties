@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/server'
 import { SECTIONS } from '@/lib/questions'
 import { rateLimit } from '@/lib/rate-limit'
-import { notifyGHL } from '@/lib/ghl'
+import { notifyGHL, sendSettingTextToGHL } from '@/lib/ghl'
 
 export const maxDuration = 300
 
@@ -223,16 +223,95 @@ Remember: be specific to their exact answers. Reference what they actually said.
       }
 
       if (userData?.email) notifyGHL('completed', userData.email, firstName || 'Unknown', userData.phone)
+      generateSettingText(anthropic, reportData, firstName, freshReport.id, admin, userData?.email, userData?.phone)
       return NextResponse.json({ reportId: freshReport.id })
     }
 
     // Notify GHL — report completed
     if (userData?.email) notifyGHL('completed', userData.email, firstName || 'Unknown', userData.phone)
 
+    // Generate personalised setting text (non-blocking — don't let this fail the report)
+    generateSettingText(anthropic, reportData, firstName, updatedReport.id, admin, userData?.email, userData?.phone)
+
     return NextResponse.json({ reportId: updatedReport.id })
 
   } catch (err) {
     console.error('Generate error:', err)
     return NextResponse.json({ error: 'Generation failed' }, { status: 500 })
+  }
+}
+
+/**
+ * Generate a personalised setting text based on the report, save to Supabase,
+ * and push to GHL as a task. Runs async — must not block the report response.
+ */
+async function generateSettingText(
+  anthropic: Anthropic,
+  reportData: Record<string, unknown>,
+  firstName: string,
+  reportId: string,
+  admin: ReturnType<typeof createAdminClient>,
+  email?: string | null,
+  phone?: string | null
+): Promise<void> {
+  try {
+    const archetype = reportData.archetype as { primary?: { name?: string } } | undefined
+    const strengths = reportData.strengths as Array<{ name?: string; description?: string }> | undefined
+    const directions = reportData.directions as Array<{ title?: string; type?: string }> | undefined
+    const mirror = reportData.the_mirror as { headline?: string } | undefined
+    const identity = reportData.identity_profile as { headline?: string; summary?: string } | undefined
+
+    const settingPrompt = `You are Sam, a 24-year-old Australian life coach who runs MyTwenties — a program helping young people find direction. You're writing a short, warm, personalised text message to someone who just completed the MyTwenties assessment and got their report.
+
+Your goal: make them feel genuinely seen, reference something specific from their report that will surprise them, and open a conversation — NOT sell. You want them to reply.
+
+THEIR REPORT SUMMARY:
+- Name: ${firstName || 'there'}
+- Primary archetype: ${archetype?.primary?.name || 'Unknown'}
+- Top strength: ${strengths?.[0]?.name || 'Unknown'}
+- Top direction: ${directions?.[0]?.title || 'Unknown'} (${directions?.[0]?.type || 'unknown'})
+- Mirror headline: ${mirror?.headline || 'N/A'}
+- Identity headline: ${identity?.headline || 'N/A'}
+- Identity summary: ${identity?.summary || 'N/A'}
+
+RULES:
+1. Keep it under 40 words. This is a text message, not an email.
+2. Sound like a real person texting — casual, warm, no corporate speak.
+3. Reference ONE specific thing from their report that shows you've read it.
+4. End with an open question that invites a reply.
+5. Don't mention the program, pricing, or anything salesy.
+6. Don't use emojis excessively — one max, or none.
+7. Return ONLY the text message. No quotes, no preamble, no explanation.`
+
+    const settingMessage = await anthropic.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 150,
+      messages: [{ role: 'user', content: settingPrompt }],
+    })
+
+    const settingText = settingMessage.content.length > 0 && settingMessage.content[0].type === 'text'
+      ? settingMessage.content[0].text.trim()
+      : ''
+
+    if (!settingText) {
+      console.error('Setting text generation returned empty')
+      return
+    }
+
+    // Save to Supabase
+    await admin
+      .from('mytwenties_reports')
+      .update({ setting_text: settingText })
+      .eq('id', reportId)
+
+    // Push to GHL as a task
+    if (email) {
+      await sendSettingTextToGHL(email, firstName || 'Unknown', settingText, phone)
+    }
+
+    console.log('Setting text generated and sent for', firstName, ':', settingText.slice(0, 80))
+  } catch (err) {
+    // Never let setting text generation break anything
+    console.error('Setting text generation failed:', err)
   }
 }
