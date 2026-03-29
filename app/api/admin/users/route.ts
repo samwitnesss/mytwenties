@@ -9,9 +9,9 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
 
-    const adminEmail = process.env.ADMIN_EMAIL || 'sam@samwitness.com'
+    const adminEmails = (process.env.ADMIN_EMAIL || 'sam@samwitness.com').split(',').map(e => e.trim().toLowerCase())
     const adminPassword = process.env.ADMIN_SECRET
-    if (!adminPassword || email !== adminEmail || password !== adminPassword) {
+    if (!adminPassword || !adminEmails.includes(email?.toLowerCase()) || password !== adminPassword) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
